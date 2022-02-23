@@ -1,0 +1,4 @@
+### THIS DOCUMENT WILL SERVE AS A LOG FOR NON-CODE CONTRIBUTTIONS ###
+### SAMPLE FORMAT IS BELOW:
+Micah Bowonthamachakr [2/23/22]: Researched and updated hardware requirements for watch. 
+### ENTRIES BELOW
