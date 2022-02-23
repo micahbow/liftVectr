@@ -2,3 +2,4 @@
 ### SAMPLE FORMAT IS BELOW:
 Micah Bowonthamachakr [2/23/22]: Researched and updated hardware requirements for watch. 
 ### ENTRIES BELOW
+Micah Bowonthamachakr [2/23/22]: Added "Draft Schematics" section of project mockup document.
