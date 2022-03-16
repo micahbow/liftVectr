@@ -7,12 +7,15 @@ Micah Bowonthamachakr [2/07/22]: Added Design and Development Plan Teamwork Dist
 Micah Bowonthamachakr [2/17/22]: Added "Hardware and Software Dependencies", "Team Member Responsibilities" to Design and Development Plan
 Micah Bowonthamachakr [2/17/22]: Added Mockup Plan Teamwork Dist. Plan Image.
 Praveen Anbu	      [2/18/22]: Added "Deliverable Artifacts" section of Design and Development Plan.
+Timothy Krause	      [2/18/22]: Added to "Introduction" section of Design and Development Plan.
 Micah Bowonthamachakr [2/21/22]: Completed Peer Evaluation 1
 Micah Bowonthamachakr [2/22/22]: Researched documentation and product features of SeeedStudio XIAO BLE SENSE
 Micah Bowonthamachakr [2/23/22]: Added "Draft Schematics" section of project mockup document.
 Cole Fisher           [2/23/22]: Added "Networking" section of project mockup document.
 Praveen Anbu          [2/23/22]: Completed Peer Evaluation
+Timothy Krause	      [2/23/22]: Completed Peer Evaluation 1
 Praveen Anbu          [2/24/22]: Added "Storyboards" section of project mockup document.
+Timothy Krause	      [2/24/22]: Added "Interfaces" section of Design Mockup document.
 Praveen Anbu          [3/8/22]: Contacted Seeed Studio via email for shipping clarification.
 Praveen Anbu          [3/9/22]: Contacted Seeed Studio via email for import tax clarification.
 Praveen Anbu	      [3/10/22]: Utilized US Harmonized Tarrif Schedule to calculate import tax on Seeed chip.
