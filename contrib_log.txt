@@ -6,7 +6,7 @@ Micah Bowonthamachakr [2/06/22]: Added project BOM and budget; submitted request
 Micah Bowonthamachakr [2/07/22]: Added Design and Development Plan Teamwork Dist. Plan Image.
 Micah Bowonthamachakr [2/17/22]: Added "Hardware and Software Dependencies", "Team Member Responsibilities" to Design and Development Plan
 Micah Bowonthamachakr [2/17/22]: Added Mockup Plan Teamwork Dist. Plan Image.
-Praveen Anbu	       [2/18/22]: Added "Deliverable Artifacts" section of Design and Development Plan.
+Praveen Anbu	      [2/18/22]: Added "Deliverable Artifacts" section of Design and Development Plan.
 Micah Bowonthamachakr [2/21/22]: Completed Peer Evaluation 1
 Micah Bowonthamachakr [2/22/22]: Researched documentation and product features of SeeedStudio XIAO BLE SENSE
 Micah Bowonthamachakr [2/23/22]: Added "Draft Schematics" section of project mockup document.
@@ -15,7 +15,7 @@ Praveen Anbu          [2/23/22]: Completed Peer Evaluation
 Praveen Anbu          [2/24/22]: Added "Storyboards" section of project mockup document.
 Praveen Anbu          [3/8/22]: Contacted Seeed Studio via email for shipping clarification.
 Praveen Anbu          [3/9/22]: Contacted Seeed Studio via email for import tax clarification.
-Praveen Anbu	       [3/10/22]: Utilized US Harmonized Tarrif Schedule to calculate import tax on Seeed chip.
+Praveen Anbu	      [3/10/22]: Utilized US Harmonized Tarrif Schedule to calculate import tax on Seeed chip.
 Micah Bowonthamachakr [3/10/22]: Secured funding ($165.75 budget) for the team from ECE Dept.
 Micah Bowonthamachakr [3/10/22]: Ordered Arduino Nano 33 BLE and SeeedStudio XIAO BLE Sense
 Micah Bowonthamachakr [3/10/22]: Added Pre-Alpha Build Teamwork Dist. Plan Image.
