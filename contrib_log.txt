@@ -31,4 +31,4 @@ Micah Bowonthamachakr [3/14/22]: Ordered Arduino Nano 33 BLE and SeeedStudio XIA
 Micah Bowonthamachakr [3/14/22]: Added Pre-Alpha Build Teamwork Dist. Plan Image.
 Cole Fisher           [3/16/22]: Researched Android Room Local Database Library and began designing classes for 
                                      the database, exercise data access object, and exercise entity
-
+Cole Fisher           [3/16/22]: Completed Peer Evaluation 2
