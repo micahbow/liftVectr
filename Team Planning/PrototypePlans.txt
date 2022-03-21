@@ -1,0 +1,7 @@
+Meeting Notes/Work Distribution, aiming for 3/24/22
+
+Micah - Arduino Board Assembly/PC-Serial IMU Reading/Push Arduino Project Files to Github
+Cole - Build Basic UI Elements/Push Android Project Files to Github
+Antoine - Research bluetooth connection for Android Studio
+Praveen - Research bluetooth connection for Arduino Nano 33 BLE
+Timothy - Research The Room local filesystem for Android Studio
