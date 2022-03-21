@@ -10,6 +10,7 @@ Micah Bowonthamachakr [2/17/22]: Added "Hardware and Software Dependencies", "Te
 Micah Bowonthamachakr [2/17/22]: Added Mockup Plan Teamwork Dist. Plan Image.
 Antoine Ferguson      [2/17/22]: Added deadline chart for Design & Development Plan.
 Praveen Anbu	      [2/18/22]: Added "Deliverable Artifacts" section of Design and Development Plan.
+Timothy Krause	      [2/18/22]: Added to "Introduction" section of Design and Development Plan.
 Cole Fisher           [2/17/22]: Added Design and Development Plan "Domain" and "Impact on Society" to Introduction, and wrote the 
                                      "Performance Expectations" section. Researched the Chaquopy python SDK for Android.
 Micah Bowonthamachakr [2/21/22]: Completed Peer Evaluation 1
@@ -20,7 +21,10 @@ Cole Fisher           [2/23/22]: Added "Networking" section of project mockup do
                                      database as a likely choice
 Cole Fisher           [2/23/22]: Added bluetooth flowchart to the "Networking" section
 Praveen Anbu          [2/23/22]: Completed Peer Evaluation
+Timothy Krause	      [2/23/22]: Completed Peer Evaluation 1
+Antoine Ferguson      [2/23/22]: Completed Peer Evaluation 1
 Praveen Anbu          [2/24/22]: Added "Storyboards" section of project mockup document.
+Timothy Krause	      [2/24/22]: Added "Interfaces" section of Design Mockup document.
 Antoine Ferguson      [2/24/22]: Added "System" section of project mockup document.
 WHOLE TEAM            [2/25/22]: Mockup Meeting from 6:00pm-6:30pm
 Praveen Anbu          [3/08/22]: Contacted Seeed Studio via email for shipping clarification.
@@ -33,5 +37,7 @@ Micah Bowonthamachakr [3/14/22]: Added Pre-Alpha Build Teamwork Dist. Plan Image
 WHOLE TEAM            [3/16/22]: Pre-Alpha meeting from 6:00pm-6:45pm
 Cole Fisher           [3/16/22]: Researched Android Room Local Database Library and began designing classes for 
                                      the database, exercise data access object, and exercise entity
+Cole Fisher           [3/16/22]: Completed Peer Evaluation 2
+Antoine Ferguson      [3/17/22]: Completed Peer Evaluation 2
 WHOLE TEAM            [3/21/22]: Prototype meeting from 6:00pm-6:45pm
 
