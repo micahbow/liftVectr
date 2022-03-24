@@ -1,0 +1,7 @@
+3/24/22 Meeting Work Distribution
+
+-Praveen: Arduino Bluetooth Data Sending (3 to 6 different float values) (modular)
+-Antoine: Android Studio Bluetooth Data Recieving (3 to 6 different float values) (modular)
+-Micah: Arduino Position Transform Math
+-Timothy: Android Studio ROOM Database Implementation
+-Cole: Android Studio Data Plotting Window
