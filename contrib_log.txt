@@ -40,4 +40,5 @@ Cole Fisher           [3/16/22]: Researched Android Room Local Database Library 
 Cole Fisher           [3/16/22]: Completed Peer Evaluation 2
 Antoine Ferguson      [3/17/22]: Completed Peer Evaluation 2
 WHOLE TEAM            [3/21/22]: Prototype meeting from 6:00pm-6:45pm
+Micah Bowonthamachakr [3/24/22]: Assembled board, modified/tested libraries with IMU and local plot/read data. Note: Next goal is bluetooth.
 
