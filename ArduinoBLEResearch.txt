@@ -14,9 +14,9 @@ Service and Characteristic Name (16-bit/128-bit UUID)
 Characteristic Value (512 bytes maximum)
 Can combine characteristic values as a set to be output through one characteristic.
 UIUDs may need to contain '-' between every 2 digits. (i.e. AT+GATTADDCHAR=UUID128=00-00-00-05-62-7E-47-E5-A3-FC-DD-AB-D9-7A-A9-66)
-
 Use:
 #include <ArduinoBLE.h>
-
+Examples:
+https://github.com/arduino-libraries/ArduinoBLE/tree/master/examples
 
 
