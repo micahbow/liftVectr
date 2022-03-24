@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">liftVectr</string>
+    <string-array name="exercises_array">
+        <item>Bench Press</item>
+        <item>Squat</item>
+        <item>Deadlift</item>
+    </string-array>
+</resources>
