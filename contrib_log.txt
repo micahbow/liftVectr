@@ -47,4 +47,5 @@ Micah Bowonthamachakr [3/24/22]: Added Prototype plans 2 team work distribution.
 WHOLE TEAM	          [3/24/22]: Prototype 1 meeting from 4:00pm to 4:15pm
 Cole Fisher           [3/24/22]: Learned to use Android Studio (textviews, spinners, buttons, activities). Created app with initial UI that displays fake IMU data.
                                      Added Exercise and IMU data classes.
-Praveen Anbu
+Cole Fisher           [3/25/22]: Incorporated MPAndroidChart library into the Android app. Dealt with dependency issues. Created ChartDisplay Activity with initial UI.
+Cole Fisher           [3/26/22]: Linked ChartDisplay with MainActivity, passing serializable exercise/config data via intents. Learned to use MPAndroidChart styling functions.
