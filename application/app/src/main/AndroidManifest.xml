@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LiftVectr">
         <activity
+            android:name=".ChartDisplay"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
