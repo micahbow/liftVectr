@@ -1,7 +1,5 @@
 package com.example.liftvectr;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,12 +7,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button exerciseBtn;
     private Button viewChartBtn;
+    private Button ConnectDeviceBtBtn;
+    private Button PairDeviceBtBtn;
     private Spinner exerciseSpinner;
     private TextView x_accel, y_accel, z_accel;
     private TextView x_gyro, y_gyro, z_gyro;
@@ -28,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ConnectDeviceBtBtn = (Button) findViewById(R.id.connect_device_button);
+        PairDeviceBtBtn = (Button) findViewById(R.id.pair_device_button);
         exerciseBtn = (Button) findViewById(R.id.button);
         viewChartBtn = (Button) findViewById(R.id.view_chart_button);
         x_accel = (TextView) findViewById(R.id.x_a);
@@ -87,6 +92,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String chartConfig = "default";
                 transitionToChartDisplayActivity(chartConfig);
+            }
+        });
+
+        ConnectDeviceBtBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        PairDeviceBtBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
