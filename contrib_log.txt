@@ -50,3 +50,4 @@ Cole Fisher           [3/24/22]: Learned to use Android Studio (textviews, spinn
                                      Added Exercise and IMU data classes.
 Cole Fisher           [3/25/22]: Incorporated MPAndroidChart library into the Android app. Dealt with dependency issues. Created ChartDisplay Activity with initial UI.
 Cole Fisher           [3/26/22]: Linked ChartDisplay with MainActivity, passing serializable exercise/config data via intents. Learned to use MPAndroidChart styling functions.
+Micah Bowonthamachakr [3/30/22]: Researched Arduino BLE/Android BLE cross-communication with Praveen. Determined sampling rate and dataframe format methods.
