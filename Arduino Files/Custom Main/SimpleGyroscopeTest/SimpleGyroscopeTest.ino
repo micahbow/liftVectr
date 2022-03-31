@@ -18,7 +18,7 @@
 
 #define GYRO_THRESH 1.7
 
-float gyropos[3];
+double gyropos[3];
 bool firstRun = true;
 unsigned long oldmicros;
 
@@ -52,7 +52,7 @@ void loop() {
   if (IMU.gyroscopeAvailable()) {
     unsigned long newmicros = micros();
     IMU.readGyroscope(x, y, z);
-    float deltaUseconds = (newmicros-oldmicros);
+    unsigned long deltaUseconds = (newmicros-oldmicros);
     oldmicros = newmicros;
 
     if(abs(x) > GYRO_THRESH) { gyropos[0] += (x*deltaUseconds)/1000000.0; }
