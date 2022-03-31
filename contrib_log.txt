@@ -47,3 +47,5 @@ Micah Bowonthamachakr [3/24/22]: Added Prototype plans 2 team work distribution.
 WHOLE TEAM	          [3/24/22]: Prototype 1 meeting from 4:00pm to 4:15pm
 Cole Fisher           [3/24/22]: Learned to use Android Studio (textviews, spinners, buttons, activities). Created app with initial UI that displays fake IMU data.
                                      Added Exercise and IMU data classes.
+Micah Bowonthamachakr [3/30/22]: Researched Arduino BLE/Android BLE cross-communication with Praveen. Determined sampling rate and dataframe format methods.
+
