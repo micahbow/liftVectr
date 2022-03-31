@@ -56,3 +56,4 @@ Micah Bowonthamachakr [3/30/22]: Researched Arduino BLE/Android BLE cross-commun
 Praveen Anbu	    [3/30/22]: Research Arduino BLE library, sampling rate, and functions with Micah.
 Praveen Anbu	    [3/30/22]: Added bluetooth peripheral test code; incomplete.
 Micah Bowonthamachakr [3/30/22]: Added gyroscope/accelerometer absolute position test code; incomplete. Need to add filtering of some sort.
+WHOLE TEAM	      [3/31/22]: Prototype Design meeting from 4:00pm to 4:20pm. Pushed teamwork distrbution to Git.
