@@ -1,9 +1,10 @@
 package com.example.liftvectr;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Exercise {
+public class Exercise implements Serializable {
 
     private String type;
     private Date date;
@@ -12,6 +13,7 @@ public class Exercise {
     public Exercise(String _type, Date _date) {
         this.type = _type;
         this.date = _date;
+        this.data = new ArrayList<>();
     }
 
     public void setType(String _type) {
@@ -31,11 +33,10 @@ public class Exercise {
     }
 
     public void addDataSample(IMUData sample) {
-        data.add(sample);
+        this.data.add(sample);
     }
 
     public ArrayList<IMUData> getExerciseData() {
         return this.data;
     }
-
 }
