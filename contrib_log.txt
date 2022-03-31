@@ -9,8 +9,8 @@ WHOLE TEAM            [2/17/22]: Design and Development Plan meeting II from 6:0
 Micah Bowonthamachakr [2/17/22]: Added "Hardware and Software Dependencies", "Team Member Responsibilities" to Design and Development Plan
 Micah Bowonthamachakr [2/17/22]: Added Mockup Plan Teamwork Dist. Plan Image.
 Antoine Ferguson      [2/17/22]: Added deadline chart for Design & Development Plan.
-Praveen Anbu	      [2/18/22]: Added "Deliverable Artifacts" section of Design and Development Plan.
-Timothy Krause	      [2/18/22]: Added to "Introduction" section of Design and Development Plan.
+Praveen Anbu	    [2/18/22]: Added "Deliverable Artifacts" section of Design and Development Plan.
+Timothy Krause	    [2/18/22]: Added to "Introduction" section of Design and Development Plan.
 Cole Fisher           [2/17/22]: Added Design and Development Plan "Domain" and "Impact on Society" to Introduction, and wrote the 
                                      "Performance Expectations" section. Researched the Chaquopy python SDK for Android.
 Micah Bowonthamachakr [2/21/22]: Completed Peer Evaluation 1
@@ -21,15 +21,15 @@ Cole Fisher           [2/23/22]: Added "Networking" section of project mockup do
                                      database as a likely choice
 Cole Fisher           [2/23/22]: Added bluetooth flowchart to the "Networking" section
 Praveen Anbu          [2/23/22]: Completed Peer Evaluation
-Timothy Krause	      [2/23/22]: Completed Peer Evaluation 1
+Timothy Krause	    [2/23/22]: Completed Peer Evaluation 1
 Antoine Ferguson      [2/23/22]: Completed Peer Evaluation 1
 Praveen Anbu          [2/24/22]: Added "Storyboards" section of project mockup document.
-Timothy Krause	      [2/24/22]: Added "Interfaces" section of Design Mockup document.
+Timothy Krause	    [2/24/22]: Added "Interfaces" section of Design Mockup document.
 Antoine Ferguson      [2/24/22]: Added "System" section of project mockup document.
 WHOLE TEAM            [2/25/22]: Mockup Meeting from 6:00pm-6:30pm
 Praveen Anbu          [3/08/22]: Contacted Seeed Studio via email for shipping clarification.
 Praveen Anbu          [3/09/22]: Contacted Seeed Studio via email for import tax clarification.
-Praveen Anbu	      [3/10/22]: Utilized US Harmonized Tarrif Schedule to calculate import tax on Seeed chip.
+Praveen Anbu	    [3/10/22]: Utilized US Harmonized Tarrif Schedule to calculate import tax on Seeed chip.
 Micah Bowonthamachakr [3/10/22]: Secured funding ($165.75 budget) for the team from ECE Dept.
 WHOLE TEAM            [3/14/22]: Project Materials/Pre-Alpha Meeting from 6:00pm-7:15pm
 Micah Bowonthamachakr [3/14/22]: Ordered Arduino Nano 33 BLE and SeeedStudio XIAO BLE Sense
@@ -39,16 +39,20 @@ Cole Fisher           [3/16/22]: Researched Android Room Local Database Library 
                                      the database, exercise data access object, and exercise entity
 Cole Fisher           [3/16/22]: Completed Peer Evaluation 2
 Antoine Ferguson      [3/17/22]: Completed Peer Evaluation 2
+Praveen Anbu          [3/17/22]: Completed Peer Evaluation 2
 WHOLE TEAM            [3/21/22]: Prototype meeting from 6:00pm-6:45pm
 Micah Bowonthamachakr [3/24/22]: Assembled board, modified/tested libraries with IMU and local plot/read data. Note: Next goal is bluetooth.
-Timothy Krause 	      [3/24/22]: Researched Room local database for Android Studio; examined basic overview of setup of database and accompanying objects and methods
+Timothy Krause 	    [3/24/22]: Researched Room local database for Android Studio; examined basic overview of setup of database and accompanying objects and methods
 Praveen Anbu          [3/24/22]: Researched ArduinoBLE library and GATT services and characteristics for connecting Arduino to Android Studio app
 Antoine Ferguson      [3/24/22]: Researched Bluetooth permissions needed when creating apps with Android Studio
 Micah Bowonthamachakr [3/24/22]: Added Prototype plans 2 team work distribution.
 WHOLE TEAM	          [3/24/22]: Prototype 1 meeting from 4:00pm to 4:15pm
 Cole Fisher           [3/24/22]: Learned to use Android Studio (textviews, spinners, buttons, activities). Created app with initial UI that displays fake IMU data.
                                      Added Exercise and IMU data classes.
+Praveen Anbu	    [3/24/22]: Worked on testing the Andriod Studio app on my computer
 Cole Fisher           [3/25/22]: Incorporated MPAndroidChart library into the Android app. Dealt with dependency issues. Created ChartDisplay Activity with initial UI.
 Cole Fisher           [3/26/22]: Linked ChartDisplay with MainActivity, passing serializable exercise/config data via intents. Learned to use MPAndroidChart styling functions.
 Micah Bowonthamachakr [3/30/22]: Researched Arduino BLE/Android BLE cross-communication with Praveen. Determined sampling rate and dataframe format methods.
+Praveen Anbu	    [3/30/22]: Research Arduino BLE library, sampling rate, and functions with Micah.
+Praveen Anbu	    [3/30/22]: Added bluetooth peripheral test code; incomplete.
 Micah Bowonthamachakr [3/30/22]: Added gyroscope/accelerometer absolute position test code; incomplete. Need to add filtering of some sort.
