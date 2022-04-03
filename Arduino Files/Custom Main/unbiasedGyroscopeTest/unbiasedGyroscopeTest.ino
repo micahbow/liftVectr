@@ -56,6 +56,8 @@ void getUnbiasedGyro(double & gx, double & gy, double & gz) {
   gy=gyt-yOff;
   gz=gzt-zOff;
 
+  gy = 0; //TEST
+
   if(abs(gx) < G_THRESH) {gx = 0;}
   if(abs(gy) < G_THRESH) {gy = 0;}
   if(abs(gz) < G_THRESH) {gz = 0;}
