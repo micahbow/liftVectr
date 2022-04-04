@@ -58,19 +58,19 @@ public class MainActivity extends AppCompatActivity {
                     newExercise = new Exercise(exerciseSpinner.getSelectedItem().toString(), Calendar.getInstance().getTime());
 
                     // Fill exercise with fake bluetooth data
-                    newExercise.addDataSample(new IMUData(0.2f, 1.0f, 0.43f, 0.0f, 0.0f, 0.0f, 1));
-                    newExercise.addDataSample(new IMUData(0.23f, 0.95f, 0.41f, 0.0f, 0.0f, 0.0f, 2));
-                    newExercise.addDataSample(new IMUData(0.28f, 1.10f, 0.39f, 0.0f, 0.0f, 0.0f, 3));
-                    newExercise.addDataSample(new IMUData(0.25f, 1.03f, 0.43f, 0.0f, 0.0f, 0.0f, 4));
-                    newExercise.addDataSample(new IMUData(0.29f, 0.93f, 0.45f, 0.0f, 0.0f, 0.0f, 5));
-                    newExercise.addDataSample(new IMUData(0.24f, 0.98f, 0.49f, 0.0f, 0.0f, 0.0f, 6));
-                    newExercise.addDataSample(new IMUData(0.22f, 1.01f, 0.46f, 0.0f, 0.0f, 0.0f, 7));
-                    newExercise.addDataSample(new IMUData(0.21f, 1.03f, 0.42f, 0.0f, 0.0f, 0.0f, 8));
-                    newExercise.addDataSample(new IMUData(0.24f, 0.94f, 0.40f, 0.0f, 0.0f, 0.0f, 9));
-                    newExercise.addDataSample(new IMUData(0.26f, 0.99f, 0.43f, 0.0f, 0.0f, 0.0f, 10));
+                    newExercise.addDataSample(new IMUData(0.2f, 1.0f, 0.43f, 0.0f, 0.1f, 0.0f, -9.0f, -1.0f, -1.0f, 1));
+                    newExercise.addDataSample(new IMUData(0.23f, 0.95f, 0.41f, 0.3f, 0.2f, 0.3f, -8.4f,-1.0f, -0.8f, 2));
+                    newExercise.addDataSample(new IMUData(0.28f, 1.10f, 0.39f, 0.5f, 0.1f, 0.5f, -9.3f,-0.9f, -1.0f, 3));
+                    newExercise.addDataSample(new IMUData(0.25f, 1.03f, 0.43f, 0.3f, 0.3f, 0.9f, -7.2f,-1.0f, -0.9f, 4));
+                    newExercise.addDataSample(new IMUData(0.29f, 0.93f, 0.45f, 0.0f, 0.2f, 1.1f, -6.3f,-0.9f, -1.0f, 5));
+                    newExercise.addDataSample(new IMUData(0.24f, 0.98f, 0.49f, 0.3f, 0.1f, 3.3f, -6.8f,-1.0f, -1.3f, 6));
+                    newExercise.addDataSample(new IMUData(0.22f, 1.01f, 0.46f, 0.5f, 0.0f, 3.0f, -9.5f,-0.8f, -1.0f, 7));
+                    newExercise.addDataSample(new IMUData(0.21f, 1.03f, 0.42f, 0.3f, 0.0f, 2.1f, -10.0f,-1.0f, -1.2f, 8));
+                    newExercise.addDataSample(new IMUData(0.24f, 0.94f, 0.40f, 0.0f, 0.1f, 1.2f, -9.1f, -0.9f, -1.0f, 9));
+                    newExercise.addDataSample(new IMUData(0.26f, 0.99f, 0.43f, 0.3f, 0.2f, 0.4f, -9.3f,-1.2f, -1.1f, 10));
 
                     // We'd display live data within the UI's table using this function
-                    displayData(new IMUData(1.215f, 3.983f, 0.015f, 3.947f, 5.543f, 0.132f, 1));
+                    displayData(new IMUData(1.215f, 3.983f, 0.015f, 3.947f, 5.543f, 0.132f, -1.0f, -3.2f, -9.3f, 1));
 
                 }
                 else {
