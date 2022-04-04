@@ -25,9 +25,15 @@ public class ChartDisplay extends AppCompatActivity {
     private TextView exerciseType;
 
     private LineChart mpLineChart;
-    private LineDataSet xLinAccLine;
-    private LineDataSet yLinAccLine;
-    private LineDataSet zLinAccLine;
+    private LineDataSet xAccLine;
+    private LineDataSet yAccLine;
+    private LineDataSet zAccLine;
+    private LineDataSet xGyroLine;
+    private LineDataSet yGyroLine;
+    private LineDataSet zGyroLine;
+    private LineDataSet xMagnLine;
+    private LineDataSet yMagnLine;
+    private LineDataSet zMagnLine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +64,35 @@ public class ChartDisplay extends AppCompatActivity {
         ArrayList<Entry> xLinAcc_ms = new ArrayList<>();
         ArrayList<Entry> yLinAcc_ms = new ArrayList<>();
         ArrayList<Entry> zLinAcc_ms = new ArrayList<>();
+        ArrayList<Entry> xAngVel_ms = new ArrayList<>();
+        ArrayList<Entry> yAngVel_ms = new ArrayList<>();
+        ArrayList<Entry> zAngVel_ms = new ArrayList<>();
+        ArrayList<Entry> xMagField_ms = new ArrayList<>();
+        ArrayList<Entry> yMagField_ms = new ArrayList<>();
+        ArrayList<Entry> zMagField_ms = new ArrayList<>();
 
         ArrayList<IMUData> data = exercise.getExerciseData();
         for (int i = 0; i < data.size(); i++) {
             xLinAcc_ms.add(new Entry(data.get(i).millisec, data.get(i).x_lin_acc));
             yLinAcc_ms.add(new Entry(data.get(i).millisec, data.get(i).y_lin_acc));
             zLinAcc_ms.add(new Entry(data.get(i).millisec, data.get(i).z_lin_acc));
+            xAngVel_ms.add(new Entry(data.get(i).millisec, data.get(i).x_ang_vel));
+            yAngVel_ms.add(new Entry(data.get(i).millisec, data.get(i).y_ang_vel));
+            zAngVel_ms.add(new Entry(data.get(i).millisec, data.get(i).z_ang_vel));
+            xMagField_ms.add(new Entry(data.get(i).millisec, data.get(i).x_mag_field));
+            yMagField_ms.add(new Entry(data.get(i).millisec, data.get(i).y_mag_field));
+            zMagField_ms.add(new Entry(data.get(i).millisec, data.get(i).z_mag_field));
         }
 
-        xLinAccLine = new LineDataSet(xLinAcc_ms, "X Linear Acceleration");
-        yLinAccLine = new LineDataSet(yLinAcc_ms, "Y Linear Acceleration");
-        zLinAccLine = new LineDataSet(zLinAcc_ms, "Z Linear Acceleration");
+        xAccLine = new LineDataSet(xLinAcc_ms, "X_A");
+        yAccLine = new LineDataSet(yLinAcc_ms, "Y_A");
+        zAccLine = new LineDataSet(zLinAcc_ms, "Z_A");
+        xGyroLine = new LineDataSet(xAngVel_ms, "X_G");
+        yGyroLine = new LineDataSet(yAngVel_ms, "Y_G");
+        zGyroLine = new LineDataSet(zAngVel_ms, "Z_G");
+        xMagnLine = new LineDataSet(xMagField_ms, "X_M");
+        yMagnLine = new LineDataSet(yMagField_ms, "Y_M");
+        zMagnLine = new LineDataSet(zMagField_ms, "Z_M");
     }
 
     public void setPlotStyling(String config) {
@@ -76,17 +100,36 @@ public class ChartDisplay extends AppCompatActivity {
         // Y-Axis(left), X-Axis(bottom), No gridlines, No labeled data values/circles, RGB Colors
         if (config.equals("default")) {
 
-            xLinAccLine.setDrawCircles(false);
-            yLinAccLine.setDrawCircles(false);
-            zLinAccLine.setDrawCircles(false);
+            xAccLine.setDrawCircles(false);
+            yAccLine.setDrawCircles(false);
+            zAccLine.setDrawCircles(false);
+            xGyroLine.setDrawCircles(false);
+            yGyroLine.setDrawCircles(false);
+            zGyroLine.setDrawCircles(false);
+            xMagnLine.setDrawCircles(false);
+            yMagnLine.setDrawCircles(false);
+            zMagnLine.setDrawCircles(false);
 
-            xLinAccLine.setDrawValues(false);
-            yLinAccLine.setDrawValues(false);
-            zLinAccLine.setDrawValues(false);
 
-            xLinAccLine.setColor(Color.RED);
-            yLinAccLine.setColor(Color.GREEN);
-            zLinAccLine.setColor(Color.BLUE);
+            xAccLine.setDrawValues(false);
+            yAccLine.setDrawValues(false);
+            zAccLine.setDrawValues(false);
+            xGyroLine.setDrawValues(false);
+            yGyroLine.setDrawValues(false);
+            zGyroLine.setDrawValues(false);
+            xMagnLine.setDrawValues(false);
+            yMagnLine.setDrawValues(false);
+            zMagnLine.setDrawValues(false);
+
+            xAccLine.setColor(Color.rgb(153, 0, 0));
+            yAccLine.setColor(Color.rgb(255, 0, 0));
+            zAccLine.setColor(Color.rgb(255, 102, 102));
+            xGyroLine.setColor(Color.rgb(0, 153, 0));
+            yGyroLine.setColor(Color.rgb(0, 255, 0));
+            zGyroLine.setColor(Color.rgb(102, 255, 102));
+            xMagnLine.setColor(Color.rgb(0, 0, 153));
+            yMagnLine.setColor(Color.rgb(0, 0, 255));
+            zMagnLine.setColor(Color.rgb(102, 102, 255));
 
             mpLineChart.getAxisRight().setDrawGridLines(false);
             mpLineChart.getAxisRight().setEnabled(false);
@@ -109,9 +152,16 @@ public class ChartDisplay extends AppCompatActivity {
         setPlotStyling(config);
 
         ArrayList<ILineDataSet> lines = new ArrayList<>();
-        lines.add(xLinAccLine);
-        lines.add(yLinAccLine);
-        lines.add(zLinAccLine);
+        lines.add(xAccLine);
+        lines.add(yAccLine);
+        lines.add(zAccLine);
+        lines.add(xGyroLine);
+        lines.add(yGyroLine);
+        lines.add(zGyroLine);
+        lines.add(xMagnLine);
+        lines.add(yMagnLine);
+        lines.add(zMagnLine);
+
 
         LineData data = new LineData(lines);
         mpLineChart.setData(data);
