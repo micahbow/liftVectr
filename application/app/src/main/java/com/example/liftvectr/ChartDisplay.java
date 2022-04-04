@@ -110,7 +110,6 @@ public class ChartDisplay extends AppCompatActivity {
             yMagnLine.setDrawCircles(false);
             zMagnLine.setDrawCircles(false);
 
-
             xAccLine.setDrawValues(false);
             yAccLine.setDrawValues(false);
             zAccLine.setDrawValues(false);
@@ -161,7 +160,6 @@ public class ChartDisplay extends AppCompatActivity {
         lines.add(xMagnLine);
         lines.add(yMagnLine);
         lines.add(zMagnLine);
-
 
         LineData data = new LineData(lines);
         mpLineChart.setData(data);
