@@ -1,6 +1,7 @@
 package com.example.liftvectr;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.*;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.example.liftvectr.database.ExerciseEntry;
+import com.example.liftvectr.database.ExerciseEntryDao;
+import com.example.liftvectr.database.ExerciseEntryDatabase;
+
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         exerciseSpinner.setAdapter(adapter);
 
+        ExerciseEntryDatabase db = Room.databaseBuilder(getApplicationContext(),
+                ExerciseEntryDatabase.class, "database-name").allowMainThreadQueries().build();
+
+        ExerciseEntryDao exerciseDao = db.exerciseEntryDao();
+
+
         exerciseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +83,11 @@ public class MainActivity extends AppCompatActivity {
 
                     // We'd display live data within the UI's table using this function
                     displayData(new IMUData(1.215f, 3.983f, 0.015f, 3.947f, 5.543f, 0.132f, 1));
+
+                    ExerciseEntry entry = new ExerciseEntry(newExercise);
+                    exerciseDao.insert(entry);
+                    System.out.println(exerciseDao.getAll());
+                    //System.out.println("Hello World");
 
                 }
                 else {

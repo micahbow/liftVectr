@@ -19,12 +19,16 @@ public class ExerciseEntry {
     public String exerciseName;
 
     @ColumnInfo(name = "exerciseData")
-    public ArrayList<IMUData> exerciseData;
+    //public ArrayList<IMUData> exerciseData;
+    public String exerciseData;
+
+    public ExerciseEntry() {}
 
     public ExerciseEntry(Exercise exercise) {
         this.date = exercise.getDate();
         this.exerciseName = exercise.getType();
-        this.exerciseData = exercise.getExerciseData();
+        //this.exerciseData = exercise.getExerciseData();
+        this.exerciseData = Converters.fromArrayList(exercise.getExerciseData());
     }
     public Date getDate() {
         return date;

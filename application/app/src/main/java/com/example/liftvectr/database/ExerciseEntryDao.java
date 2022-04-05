@@ -8,6 +8,9 @@ public interface ExerciseEntryDao {
     @Insert
     void insertAll(ExerciseEntry... exerciseEntries);
 
+    @Insert
+    void insert(ExerciseEntry exerciseEntry);
+
     @Delete
     void delete(ExerciseEntry exerciseEntry);
 
