@@ -55,8 +55,8 @@ void loop() {
 
   if (IMU.accelerationAvailable()) {
     IMU.readAcceleration(x, y, z);
-
-    Serial.print(x);
+    //WE CAN FIX THE X AXIS
+    Serial.print(0);
     Serial.print('\t');
     Serial.print(y);
     Serial.print('\t');
