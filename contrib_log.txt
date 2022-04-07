@@ -60,3 +60,4 @@ WHOLE TEAM	      [3/31/22]: Prototype Design meeting from 4:00pm to 4:20pm. Push
 Cole Fisher           [4/03/22]: Modified IMUData class to hold 9-axis IMU data and adjusted ChartDisplay activity to display all 9 line datasets.
 Cole Fisher           [4/04/22]: Added Installation/Usage sections to README. Detailed how to install/build/emulate the liftVectr Android app. Removed file duplicates from repo.
 Micah Bowonthamachakr [4/06/22]: Added working BLE hardware test code to test using LightBlue app.
+WHOLE TEAM 	      [4/07/22]: Development Presentation meeting. Added slides work distro. to team planning.
