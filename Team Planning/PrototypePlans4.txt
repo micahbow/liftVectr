@@ -1,0 +1,10 @@
+Prototype Presentation Slide Distribution
+1. Title Slide (name and intros)
+2. Project State
+	I. Completed Features - COLE
+	II. In-prog. features and next planned feautures - TIM
+3. Deliverable Plan (timeline and specific tasks to complete by next sem) - MICAH
+4. Demos
+	I. b. Hardware feature list on left half of slide - PRAVEEN?
+	   a. Software feature list on right half of slide - ANTOINE
+	II. Actually do the demo
