@@ -1,23 +1,52 @@
 package com.example.liftvectr;
 
+import static android.Manifest.permission.BLUETOOTH;
+import static android.Manifest.permission.BLUETOOTH_ADMIN;
+import static android.Manifest.permission.BLUETOOTH_CONNECT;
+
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_BLUETOOTH_ID = 1;
+    private static final int REQUEST_BLUETOOTH_ADMIN_ID = 2;
+    private static final int REQUEST_BLUETOOTH_CONNECT_ID = 3;
+    private static final int REQUEST_BLUETOOTH_SCAN_ID = 4;
 
+    private BluetoothAdapter bluetoothAdapter;
+    private static final String TAG = "MainActivity";
+    //private BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
+    //private LeDeviceListAdapter leDeviceListAdapter = new LeDeviceListAdapter();
+
+    private boolean scanning;
+    private Handler handler = new Handler();
+
+    // Stops scanning after 10 seconds.
+    private static final long SCAN_PERIOD = 10000;
     private Button exerciseBtn;
     private Button viewChartBtn;
-    private Button ConnectDeviceBtBtn;
-    private Button PairDeviceBtBtn;
+    private Button ConnectBTDeviceBtn;
+    private Button PairNewDeviceBtn;
+    private Button TurnBluetoothOn;
     private Spinner exerciseSpinner;
     private TextView x_accel, y_accel, z_accel;
     private TextView x_gyro, y_gyro, z_gyro;
@@ -31,8 +60,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ConnectDeviceBtBtn = (Button) findViewById(R.id.connect_device_button);
-        PairDeviceBtBtn = (Button) findViewById(R.id.pair_device_button);
+        ConnectBTDeviceBtn = (Button) findViewById(R.id.connect_device_button);
+        PairNewDeviceBtn = (Button) findViewById(R.id.pair_device_button);
+        TurnBluetoothOn = (Button) findViewById(R.id.turn_bluetooth_on);
         exerciseBtn = (Button) findViewById(R.id.button);
         viewChartBtn = (Button) findViewById(R.id.view_chart_button);
         x_accel = (TextView) findViewById(R.id.x_a);
@@ -51,11 +81,18 @@ public class MainActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         exerciseSpinner.setAdapter(adapter);
 
+        //Bluetooth initialization
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            // Bluetooth permission has not been granted.
+            bluetoothPermissionCheck(REQUEST_BLUETOOTH_CONNECT_ID);
+        }
+
         exerciseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(exerciseBtn.getText().equals("Start Exercise")) {
+                if (exerciseBtn.getText().equals("Start Exercise")) {
                     exerciseBtn.setText("Stop Exercise");
                     viewChartBtn.setVisibility(View.INVISIBLE);
                     exerciseOngoing = true;
@@ -77,8 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     // We'd display live data within the UI's table using this function
                     displayData(new IMUData(1.215f, 3.983f, 0.015f, 3.947f, 5.543f, 0.132f, 1));
 
-                }
-                else {
+                } else {
                     exerciseBtn.setText("Start Exercise");
                     viewChartBtn.setVisibility(View.VISIBLE);
                     exerciseOngoing = false;
@@ -95,19 +131,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ConnectDeviceBtBtn.setOnClickListener(new View.OnClickListener() {
+        ConnectBTDeviceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            }
+        });
+
+        PairNewDeviceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //startBleScan();
+
 
             }
         });
 
-        PairDeviceBtBtn.setOnClickListener(new View.OnClickListener() {
+        TurnBluetoothOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                /*
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    // Bluetooth permission has not been granted.
+                    bluetoothPermissionCheck(REQUEST_BLUETOOTH_CONNECT_ID);
+                    return;
+                }
+*/
+                if (!bluetoothAdapter.isEnabled()) {
+                    Intent enableBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    bluetoothActivityResultLauncher.launch(enableBT);
+                }
+                else {
+                    Log.d(TAG, "Bluetooth already enabled");
+                }
             }
         });
+
     }
 
     public void transitionToChartDisplayActivity(String config)
@@ -126,4 +184,82 @@ public class MainActivity extends AppCompatActivity {
         y_gyro.setText(Float.toString(sample.y_ang_vel));
         z_gyro.setText(Float.toString(sample.z_ang_vel));
     }
+
+    private ActivityResultLauncher<Intent> bluetoothActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Log.d(TAG,"Action completed.");
+
+                    }else {
+                        Log.d(TAG,"Cancelled...");
+                    }
+                }
+            }
+    );
+
+    private void bluetoothPermissionCheck(int requestedID) {
+
+        switch(requestedID) {
+            case REQUEST_BLUETOOTH_ID:
+                ActivityCompat.requestPermissions(this, new String[]{BLUETOOTH}, REQUEST_BLUETOOTH_ID);
+                break;
+            case REQUEST_BLUETOOTH_ADMIN_ID:
+                 ActivityCompat.requestPermissions(this, new String[]{BLUETOOTH_ADMIN}, REQUEST_BLUETOOTH_ADMIN_ID);
+                break;
+            case REQUEST_BLUETOOTH_CONNECT_ID:
+                ActivityCompat.requestPermissions(this, new String[]{BLUETOOTH_CONNECT}, REQUEST_BLUETOOTH_CONNECT_ID);
+                break;
+            default:
+                Log.d("Invalid Permission", "Invalid Permission ID Provided");
+                break;
+        }
+
+    }
+/*
+    private void startBleScan() {
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Bluetooth permission has not been granted.
+            bluetoothPermissionCheck(RE);
+            return;
+        }
+        else if (bluetoothLeScanner == null) {
+            Log.d(TAG, "Invalid BLE scanner.");
+            return;
+        }
+
+        if (!scanning) {
+            // Stops scanning after a predefined scan period.
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    scanning = false;
+                    bluetoothLeScanner.stopScan(leScanCallback);
+                }
+            }, SCAN_PERIOD);
+
+            scanning = true;
+
+            bluetoothLeScanner.startScan(leScanCallback);
+        } else {
+            scanning = false;
+            bluetoothLeScanner.stopScan(leScanCallback);
+        }
+
+    }
+    // Device scan callback.
+    private ScanCallback leScanCallback =
+            new ScanCallback() {
+                @Override
+                public void onScanResult(int callbackType, ScanResult result) {
+                    super.onScanResult(callbackType, result);
+                    leDeviceListAdapter.addDevice(result.getDevice());
+                    leDeviceListAdapter.notifyDataSetChanged();
+                }
+            };
+
+*/
 }
+

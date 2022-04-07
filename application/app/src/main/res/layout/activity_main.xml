@@ -232,7 +232,7 @@
         android:layout_width="168dp"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="20dp"
         android:text="Connect Device"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_chart_button" />
@@ -241,10 +241,20 @@
         android:id="@+id/pair_device_button"
         android:layout_width="168dp"
         android:layout_height="60dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:text="Pair New Device"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_chart_button" />
+
+    <Button
+        android:id="@+id/turn_bluetooth_on"
+        android:layout_width="217dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="12dp"
+        android:text="Turn On Bluetooth"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pair_device_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
