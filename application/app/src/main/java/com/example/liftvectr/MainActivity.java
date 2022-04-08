@@ -1,5 +1,6 @@
 package com.example.liftvectr;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.BLUETOOTH;
 import static android.Manifest.permission.BLUETOOTH_ADMIN;
 import static android.Manifest.permission.BLUETOOTH_CONNECT;
@@ -9,7 +10,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -30,18 +30,12 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_BLUETOOTH_ID = 1;
     private static final int REQUEST_BLUETOOTH_ADMIN_ID = 2;
     private static final int REQUEST_BLUETOOTH_CONNECT_ID = 3;
-    private static final int REQUEST_BLUETOOTH_SCAN_ID = 4;
+    private static final int REQUEST_LOCATION_ID = 4;
+
 
     private BluetoothAdapter bluetoothAdapter;
     private static final String TAG = "MainActivity";
-    //private BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
-    //private LeDeviceListAdapter leDeviceListAdapter = new LeDeviceListAdapter();
 
-    private boolean scanning;
-    private Handler handler = new Handler();
-
-    // Stops scanning after 10 seconds.
-    private static final long SCAN_PERIOD = 10000;
     private Button exerciseBtn;
     private Button viewChartBtn;
     private Button ConnectBTDeviceBtn;
@@ -83,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Bluetooth initialization
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
         if (ActivityCompat.checkSelfPermission(MainActivity.this, BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             // Bluetooth permission has not been granted.
             bluetoothPermissionCheck(REQUEST_BLUETOOTH_CONNECT_ID);
@@ -140,8 +135,6 @@ public class MainActivity extends AppCompatActivity {
         PairNewDeviceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //startBleScan();
-
 
             }
         });
@@ -149,18 +142,11 @@ public class MainActivity extends AppCompatActivity {
         TurnBluetoothOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                if (ActivityCompat.checkSelfPermission(MainActivity.this, BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    // Bluetooth permission has not been granted.
-                    bluetoothPermissionCheck(REQUEST_BLUETOOTH_CONNECT_ID);
-                    return;
-                }
-*/
+
                 if (!bluetoothAdapter.isEnabled()) {
                     Intent enableBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                     bluetoothActivityResultLauncher.launch(enableBT);
-                }
-                else {
+                } else {
                     Log.d(TAG, "Bluetooth already enabled");
                 }
             }
@@ -168,8 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void transitionToChartDisplayActivity(String config)
-    {
+    public void transitionToChartDisplayActivity(String config) {
         Intent intent = new Intent(this, ChartDisplay.class);
         intent.putExtra("exercise", newExercise);
         intent.putExtra("config", config);
@@ -191,10 +176,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK) {
-                        Log.d(TAG,"Action completed.");
+                        Log.d(TAG, "Action completed.");
 
-                    }else {
-                        Log.d(TAG,"Cancelled...");
+                    } else {
+                        Log.d(TAG, "Cancelled...");
                     }
                 }
             }
@@ -202,15 +187,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void bluetoothPermissionCheck(int requestedID) {
 
-        switch(requestedID) {
+        switch (requestedID) {
             case REQUEST_BLUETOOTH_ID:
                 ActivityCompat.requestPermissions(this, new String[]{BLUETOOTH}, REQUEST_BLUETOOTH_ID);
                 break;
             case REQUEST_BLUETOOTH_ADMIN_ID:
-                 ActivityCompat.requestPermissions(this, new String[]{BLUETOOTH_ADMIN}, REQUEST_BLUETOOTH_ADMIN_ID);
+                ActivityCompat.requestPermissions(this, new String[]{BLUETOOTH_ADMIN}, REQUEST_BLUETOOTH_ADMIN_ID);
                 break;
             case REQUEST_BLUETOOTH_CONNECT_ID:
                 ActivityCompat.requestPermissions(this, new String[]{BLUETOOTH_CONNECT}, REQUEST_BLUETOOTH_CONNECT_ID);
+                break;
+            case REQUEST_LOCATION_ID:
+                ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, REQUEST_LOCATION_ID);
                 break;
             default:
                 Log.d("Invalid Permission", "Invalid Permission ID Provided");
@@ -218,48 +206,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-/*
-    private void startBleScan() {
-        if (ActivityCompat.checkSelfPermission(MainActivity.this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Bluetooth permission has not been granted.
-            bluetoothPermissionCheck(RE);
-            return;
-        }
-        else if (bluetoothLeScanner == null) {
-            Log.d(TAG, "Invalid BLE scanner.");
-            return;
-        }
 
-        if (!scanning) {
-            // Stops scanning after a predefined scan period.
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    scanning = false;
-                    bluetoothLeScanner.stopScan(leScanCallback);
-                }
-            }, SCAN_PERIOD);
 
-            scanning = true;
-
-            bluetoothLeScanner.startScan(leScanCallback);
-        } else {
-            scanning = false;
-            bluetoothLeScanner.stopScan(leScanCallback);
-        }
-
-    }
-    // Device scan callback.
-    private ScanCallback leScanCallback =
-            new ScanCallback() {
-                @Override
-                public void onScanResult(int callbackType, ScanResult result) {
-                    super.onScanResult(callbackType, result);
-                    leDeviceListAdapter.addDevice(result.getDevice());
-                    leDeviceListAdapter.notifyDataSetChanged();
-                }
-            };
-
-*/
 }
 
