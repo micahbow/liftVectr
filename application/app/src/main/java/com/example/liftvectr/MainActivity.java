@@ -1,17 +1,65 @@
 package com.example.liftvectr;
 
+import static android.bluetooth.BluetoothDevice.TRANSPORT_LE;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattService;
+import android.bluetooth.le.BluetoothLeScanner;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanFilter;
+import android.bluetooth.le.ScanResult;
+import android.bluetooth.le.ScanSettings;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.ParcelUuid;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
+
+    private final ScanCallback scanCallback = new ScanCallback() {
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        @Override
+        public void onScanResult(int callbackType, ScanResult result) {
+            BluetoothDevice device = result.getDevice();
+            int bondstate = device.getBondState();
+            BluetoothGatt gatt = device.connectGatt(getApplicationContext(), false, bluetoothGattCallback, TRANSPORT_LE);
+
+            final List<BluetoothGattService> services = gatt.getServices();
+            Log.i("BLEnote", String.format(Locale.ENGLISH,"discovered %d services for '%s'", services.size(), getName()));
+
+        }
+
+        @Override
+        public void onBatchScanResults(List<ScanResult> results) {
+            // Ignore for now
+            Log.e("BLEerr","Batch Result!");
+        }
+
+        @Override
+        public void onScanFailed(int errorCode) {
+            // Ignore for now
+            Log.e("BLEerr","Scan Failed!");
+        }
+    };
 
     private Button exerciseBtn;
     private Button viewChartBtn;
@@ -23,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean exerciseOngoing = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +94,43 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         exerciseSpinner.setAdapter(adapter);
+
+        //--------------------START BLUETOOTH PORTION--------------------//
+
+        //CHECK PERMS
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[] { Manifest.permission.ACCESS_COARSE_LOCATION }, ACCESS_COARSE_LOCATION_REQUEST);
+                Log.e("BLEerr","No perms!");
+                while(true); //infinite loop
+            }
+        }
+
+        //FILTER SETTINGS
+        UUID WATCH_SERVICE_UUID = UUID.fromString("0000181C-0000-1000-8000-00805f9b34fb");
+        UUID[] serviceUUIDs = new UUID[]{BLP_SERVICE_UUID};
+        List<ScanFilter> filters = null;
+        filters = new ArrayList<>();
+        ScanFilter filter = new ScanFilter.Builder()
+                .setServiceUuid(new ParcelUuid(WATCH_SERVICE_UUID))
+                .build();
+        filters.add(filter); //1-element
+
+        //SCAN SETTINGS
+        ScanSettings scanSettings = new ScanSettings.Builder()
+                .setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
+                .setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)
+                .setMatchMode(ScanSettings.MATCH_MODE_AGGRESSIVE)
+                .setNumOfMatches(ScanSettings.MATCH_NUM_ONE_ADVERTISEMENT)
+                .setReportDelay(0L)
+                .build();
+
+        BluetoothAdapter BLEadapter = BluetoothAdapter.getDefaultAdapter(); //need to check in future
+        BluetoothLeScanner scanner = BLEadapter.getBluetoothLeScanner();
+
+        if (scanner != null) {
+            scanner.startScan(filters, scanSettings, scanCallback);
+        }  else {Log.e("BLEerr","NULL SCANNER");}
 
         exerciseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,4 +193,4 @@ public class MainActivity extends AppCompatActivity {
         y_gyro.setText(Float.toString(sample.y_ang_vel));
         z_gyro.setText(Float.toString(sample.z_ang_vel));
     }
-}
+};
