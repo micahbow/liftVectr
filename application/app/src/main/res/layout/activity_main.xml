@@ -229,8 +229,8 @@
 
     <Button
         android:id="@+id/connect_device_button"
-        android:layout_width="168dp"
-        android:layout_height="60dp"
+        android:layout_width="153dp"
+        android:layout_height="51dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:text="Connect Device"
@@ -239,8 +239,8 @@
 
     <Button
         android:id="@+id/pair_device_button"
-        android:layout_width="168dp"
-        android:layout_height="60dp"
+        android:layout_width="153dp"
+        android:layout_height="51dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:text="Pair New Device"

@@ -7,6 +7,8 @@ import static android.Manifest.permission.BLUETOOTH_CONNECT;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_BLUETOOTH_ID = 1;
@@ -77,11 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Bluetooth initialization
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        if (ActivityCompat.checkSelfPermission(MainActivity.this, BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            // Bluetooth permission has not been granted.
-            bluetoothPermissionCheck(REQUEST_BLUETOOTH_CONNECT_ID);
-        }
 
         exerciseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (!bluetoothAdapter.isEnabled()) {
+                if (!isBluetoothEnabled()) {
                     Intent enableBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                     bluetoothActivityResultLauncher.launch(enableBT);
                 } else {
@@ -154,11 +152,33 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        // Requests Bluetooth perms at start
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            // Bluetooth permission has not been granted.
+            bluetoothPermissionCheck(REQUEST_BLUETOOTH_CONNECT_ID);
+        }
+
+    }
     public void transitionToChartDisplayActivity(String config) {
         Intent intent = new Intent(this, ChartDisplay.class);
         intent.putExtra("exercise", newExercise);
         intent.putExtra("config", config);
         startActivity(intent);
+    }
+
+    private BluetoothManager getBluetoothManager() {
+        return Objects.requireNonNull((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE),"cannot get BluetoothManager");
+    }
+
+    private boolean isBluetoothEnabled() {
+        bluetoothAdapter = getBluetoothManager().getAdapter();
+        if(bluetoothAdapter == null) return false;
+
+        return bluetoothAdapter.isEnabled();
     }
 
     public void displayData(IMUData sample) {
@@ -206,7 +226,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
 }
 
