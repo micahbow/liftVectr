@@ -1,0 +1,7 @@
+3/31/22 Design Prototype Work Distro.
+Theoretical Background+Prior Art: Tim
+Empirical Evidence+Usability: Micah
+Presentation+Perception: Antoine
+Component Architecture+Run Instruction Readme: Cole
+Communication Mechanisms/Resilience: Praveen
+
