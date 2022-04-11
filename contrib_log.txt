@@ -61,6 +61,7 @@ Timothy Krause        [3/30/22]: Designed some basic entities, Daos, and databas
 WHOLE TEAM	      [3/31/22]: Prototype Design meeting from 4:00pm to 4:20pm. Pushed teamwork distrbution to Git.
 Timothy Krause        [4/02/22]: Researched dependency errors that Android Studio was throwing, as well as future packages that might be needed for Room
 Cole Fisher           [4/03/22]: Modified IMUData class to hold 9-axis IMU data and adjusted ChartDisplay activity to display all 9 line datasets.
+Timothy Krause	      [4/03/22]: Researched prior art and theoretical background for the Design Prototype doc; wrote write-up regarding those subjects for the doc
 Cole Fisher           [4/04/22]: Added Installation/Usage sections to README. Detailed how to install/build/emulate the liftVectr Android app. Removed file duplicates from repo.
 Timothy Krause        [4/05/22]: Fixed dependency errors in Room implementation
 Micah Bowonthamachakr [4/06/22]: Added working BLE hardware test code to test using LightBlue app.
