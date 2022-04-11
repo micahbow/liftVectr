@@ -52,13 +52,19 @@ Cole Fisher           [3/24/22]: Learned to use Android Studio (textviews, spinn
 Praveen Anbu	      [3/24/22]: Worked on testing the Andriod Studio app on my computer
 Cole Fisher           [3/25/22]: Incorporated MPAndroidChart library into the Android app. Dealt with dependency issues. Created ChartDisplay Activity with initial UI.
 Cole Fisher           [3/26/22]: Linked ChartDisplay with MainActivity, passing serializable exercise/config data via intents. Learned to use MPAndroidChart styling functions.
+Timothy Krause        [3/26/22]: Researched Room local database and use of Daos to interact with Exercise entities (objects)
 Micah Bowonthamachakr [3/30/22]: Researched Arduino BLE/Android BLE cross-communication with Praveen. Determined sampling rate and dataframe format methods.
 Praveen Anbu	      [3/30/22]: Research Arduino BLE library, sampling rate, and functions with Micah.
 Praveen Anbu	      [3/30/22]: Added bluetooth peripheral test code; incomplete.
 Micah Bowonthamachakr [3/30/22]: Added gyroscope/accelerometer absolute position test code; incomplete. Need to add filtering of some sort.
+Timothy Krause        [3/30/22]: Designed some basic entities, Daos, and database with Room to store exericse data using sample data; dependency issues to be fixed
 WHOLE TEAM	      [3/31/22]: Prototype Design meeting from 4:00pm to 4:20pm. Pushed teamwork distrbution to Git.
+Timothy Krause        [4/02/22]: Researched dependency errors that Android Studio was throwing, as well as future packages that might be needed for Room
 Cole Fisher           [4/03/22]: Modified IMUData class to hold 9-axis IMU data and adjusted ChartDisplay activity to display all 9 line datasets.
 Cole Fisher           [4/04/22]: Added Installation/Usage sections to README. Detailed how to install/build/emulate the liftVectr Android app. Removed file duplicates from repo.
+Timothy Krause        [4/05/22]: Fixed dependency errors in Room implementation
 Micah Bowonthamachakr [4/06/22]: Added working BLE hardware test code to test using LightBlue app.
+Timothy Krause        [4/06/22]: Implemented basic Room implementation with storage of Exercise entities in my branch on GitHub; subject to change depending on future components of data and potential future need for reformatting
 WHOLE TEAM 	      [4/07/22]: Development Presentation meeting. Added slides work distro. to team planning.
 WHOLE TEAM            [4/10/22]: In-person prototype build, debug, and research session from 1:00pm-9:30pm at Marston.
+Micah Bowonthamachakr [4/11/22]: Finished presentation slides and design prototype report portion.
