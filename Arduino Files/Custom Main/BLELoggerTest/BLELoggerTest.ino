@@ -1,4 +1,4 @@
-#include <Arduino_LSM9DS1_Modified.h>
+  #include <Arduino_LSM9DS1_Modified.h>
 #include <ArduinoBLE.h>
 
 //Global BLE vars

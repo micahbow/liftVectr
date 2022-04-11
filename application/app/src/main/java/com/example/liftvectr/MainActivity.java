@@ -1,17 +1,111 @@
 package com.example.liftvectr;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.le.BluetoothLeScanner;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanFilter;
+import android.bluetooth.le.ScanResult;
+import android.bluetooth.le.ScanSettings;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.ParcelUuid;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+//BLE IMPORTS
+/*
+import android.Manifest;
+import android.app.Activity;
+import android.bluetooth.*;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanFilter;
+import android.bluetooth.le.ScanResult;
+import android.bluetooth.le.ScanSettings;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.*;
+import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import com.google.android.material.switchmaterial.SwitchMaterial;
+import java.text.SimpleDateFormat;
+import java.util.*; */
+//END BLE IMPORTS
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
+
+    /*
+    //BLE VARS
+    private final int ENABLE_BLUETOOTH_REQUEST_CODE = 1
+    private final int LOCATION_PERMISSION_REQUEST_CODE = 2
+    private final String SERVICE_UUID = "0000181C-0000-1000-8000-00805f9b34fb"
+    private final String CHAR_FOR_READ_UUID = "00002ADA-0000-1000-8000-00805f9b34fb"
+    private final String CHAR_FOR_INDICATE_UUID = "00002ADA-0000-1000-8000-00805f9b34fb"
+    private final String CCC_DESCRIPTOR_UUID = "00000000-0000-1000-8000-00805f9b34fb"
+    //END BLE VARS
+
+    public static enum BLELifecycleState {
+        Disconnected,
+        Scanning,
+        Connecting,
+        ConnectedDiscovering,
+        ConnectedSubscribing,
+        Connected
+    };*/
+
+    
+    /*
+        set(value) {
+            field = value
+            appendLog("status = $value")
+            runOnUiThread {
+                textViewLifecycleState.text = "State: ${value.name}"
+                if (value != BLELifecycleState.Connected) {
+                    textViewSubscription.text = getString(R.string.text_not_subscribed)
+                }
+            }
+        }*/
+
+    /*
+    private val switchConnect: SwitchMaterial
+    get() = findViewById<SwitchMaterial>(R.id.switchConnect)
+    private val textViewLifecycleState: TextView
+    get() = findViewById<TextView>(R.id.textViewLifecycleState)
+    private val textViewReadValue: TextView
+    get() = findViewById<TextView>(R.id.textViewReadValue)
+    private val textViewIndicateValue: TextView
+    get() = findViewById<TextView>(R.id.textViewIndicateValue)
+    private val textViewSubscription: TextView
+    get() = findViewById<TextView>(R.id.textViewSubscription)
+    private val textViewLog: TextView
+    get() = findViewById<TextView>(R.id.textViewLog)
+    private val scrollViewLog: ScrollView
+    get() = findViewById<ScrollView>(R.id.scrollViewLog)
+    */
+
 
     private Button exerciseBtn;
     private Button viewChartBtn;
@@ -22,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
     private Exercise newExercise;
 
     private boolean exerciseOngoing = false;
+
+    //BLESTUFF
+    
+    //END BLESTUFF
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +144,16 @@ public class MainActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         exerciseSpinner.setAdapter(adapter);
 
+        //-------------BLE MAIN CODE-------------//
+
+
+
+
+
+        //--------------------------------------//
+
+
+
         exerciseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +164,9 @@ public class MainActivity extends AppCompatActivity {
                     exerciseOngoing = true;
 
                     newExercise = new Exercise(exerciseSpinner.getSelectedItem().toString(), Calendar.getInstance().getTime());
+
+
+
 
                     // Fill exercise with fake bluetooth data
                     newExercise.addDataSample(new IMUData(0.2f, 1.0f, 0.43f, 0.0f, 0.1f, 0.0f, -9.0f, -1.0f, -1.0f, 1));
