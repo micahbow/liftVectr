@@ -61,3 +61,4 @@ Cole Fisher           [4/03/22]: Modified IMUData class to hold 9-axis IMU data 
 Cole Fisher           [4/04/22]: Added Installation/Usage sections to README. Detailed how to install/build/emulate the liftVectr Android app. Removed file duplicates from repo.
 Micah Bowonthamachakr [4/06/22]: Added working BLE hardware test code to test using LightBlue app.
 WHOLE TEAM 	      [4/07/22]: Development Presentation meeting. Added slides work distro. to team planning.
+WHOLE TEAM            [4/10/22]: In-person prototype build, debug, and research session from 1:00pm-9:30pm at Marston.
