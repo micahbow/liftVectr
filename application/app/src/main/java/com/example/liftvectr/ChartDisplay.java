@@ -73,15 +73,15 @@ public class ChartDisplay extends AppCompatActivity {
 
         ArrayList<IMUData> data = exercise.getExerciseData();
         for (int i = 0; i < data.size(); i++) {
-            xLinAcc_ms.add(new Entry(data.get(i).millisec, data.get(i).x_lin_acc));
-            yLinAcc_ms.add(new Entry(data.get(i).millisec, data.get(i).y_lin_acc));
-            zLinAcc_ms.add(new Entry(data.get(i).millisec, data.get(i).z_lin_acc));
-            xAngVel_ms.add(new Entry(data.get(i).millisec, data.get(i).x_ang_vel));
-            yAngVel_ms.add(new Entry(data.get(i).millisec, data.get(i).y_ang_vel));
-            zAngVel_ms.add(new Entry(data.get(i).millisec, data.get(i).z_ang_vel));
-            xMagField_ms.add(new Entry(data.get(i).millisec, data.get(i).x_mag_field));
-            yMagField_ms.add(new Entry(data.get(i).millisec, data.get(i).y_mag_field));
-            zMagField_ms.add(new Entry(data.get(i).millisec, data.get(i).z_mag_field));
+            xLinAcc_ms.add(new Entry(data.get(i).micros, data.get(i).x_lin_acc));
+            yLinAcc_ms.add(new Entry(data.get(i).micros, data.get(i).y_lin_acc));
+            zLinAcc_ms.add(new Entry(data.get(i).micros, data.get(i).z_lin_acc));
+            xAngVel_ms.add(new Entry(data.get(i).micros, data.get(i).x_ang_vel));
+            yAngVel_ms.add(new Entry(data.get(i).micros, data.get(i).y_ang_vel));
+            zAngVel_ms.add(new Entry(data.get(i).micros, data.get(i).z_ang_vel));
+            xMagField_ms.add(new Entry(data.get(i).micros, data.get(i).x_mag_field));
+            yMagField_ms.add(new Entry(data.get(i).micros, data.get(i).y_mag_field));
+            zMagField_ms.add(new Entry(data.get(i).micros, data.get(i).z_mag_field));
         }
 
         xAccLine = new LineDataSet(xLinAcc_ms, "X_A");
@@ -100,25 +100,25 @@ public class ChartDisplay extends AppCompatActivity {
         // Y-Axis(left), X-Axis(bottom), No gridlines, No labeled data values/circles, RGB Colors
         if (config.equals("default")) {
 
-            xAccLine.setDrawCircles(false);
-            yAccLine.setDrawCircles(false);
-            zAccLine.setDrawCircles(false);
-            xGyroLine.setDrawCircles(false);
-            yGyroLine.setDrawCircles(false);
-            zGyroLine.setDrawCircles(false);
-            xMagnLine.setDrawCircles(false);
-            yMagnLine.setDrawCircles(false);
-            zMagnLine.setDrawCircles(false);
+            xAccLine.setDrawCircles(true);
+            yAccLine.setDrawCircles(true);
+            zAccLine.setDrawCircles(true);
+            xGyroLine.setDrawCircles(true);
+            yGyroLine.setDrawCircles(true);
+            zGyroLine.setDrawCircles(true);
+            xMagnLine.setDrawCircles(true);
+            yMagnLine.setDrawCircles(true);
+            zMagnLine.setDrawCircles(true);
 
-            xAccLine.setDrawValues(false);
-            yAccLine.setDrawValues(false);
-            zAccLine.setDrawValues(false);
-            xGyroLine.setDrawValues(false);
-            yGyroLine.setDrawValues(false);
-            zGyroLine.setDrawValues(false);
-            xMagnLine.setDrawValues(false);
-            yMagnLine.setDrawValues(false);
-            zMagnLine.setDrawValues(false);
+            xAccLine.setDrawValues(true);
+            yAccLine.setDrawValues(true);
+            zAccLine.setDrawValues(true);
+            xGyroLine.setDrawValues(true);
+            yGyroLine.setDrawValues(true);
+            zGyroLine.setDrawValues(true);
+            xMagnLine.setDrawValues(true);
+            yMagnLine.setDrawValues(true);
+            zMagnLine.setDrawValues(true);
 
             xAccLine.setColor(Color.rgb(153, 0, 0));
             yAccLine.setColor(Color.rgb(255, 0, 0));
