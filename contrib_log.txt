@@ -62,3 +62,4 @@ Cole Fisher           [4/04/22]: Added Installation/Usage sections to README. De
 Micah Bowonthamachakr [4/06/22]: Added working BLE hardware test code to test using LightBlue app.
 WHOLE TEAM 	      [4/07/22]: Development Presentation meeting. Added slides work distro. to team planning.
 WHOLE TEAM            [4/10/22]: In-person prototype build, debug, and research session from 1:00pm-9:30pm at Marston.
+Micah Bowonthamachakr [4/11/22]: Finished presentation slides and design prototype report portion.
