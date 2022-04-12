@@ -135,8 +135,17 @@ public class MainActivity extends AppCompatActivity {
 
                     if (ble.isConnected()) {
                         System.out.println("READING!!!");
-                        for(int i = 0; i < 1000000; i++) {
+                        for(int i = 0; i < 100; i++) {
                             ble.read(SERVICE_UUID, CHAR_UUID);
+                            int g = 0;
+//                            for (int j = 0; j < 1000000; j++) {
+//                                g++;
+//                            }
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                     else {
@@ -169,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("+++++++MATCHING CODE BEGIN++++++");
         if (!ble.getListDevices().isEmpty()) {
             for (BluetoothLE item : ble.getListDevices()) {
-                if(item != null && item.getName() != null) {
+                if(item != null && item.getName() != null && item.getName().length() >= 7) {
                     System.out.println(item.getName().toString());
                     System.out.println(item.getName().substring(0, 7));
                     if (item.getName().substring(0, 7).equals("IMUData")) {
@@ -252,16 +261,19 @@ public class MainActivity extends AppCompatActivity {
                     String[] values = decoded.split(",");
                     boolean valid = true;
                     for (int i = 0; i < values.length; i++) {
-                        if(values[i].chars().filter(ch -> ch == '.').count() != 1) {
+                        if(values[i].chars().filter(ch -> ch == '.').count() != 1
+                        || values[i].chars().filter(ch -> ch == '-').count() > 1) {
+                            System.out.println("Invalid Data");
                             valid = false;
                         }
                     }
                     //System.out.println("Split: " + values.toString());
 
                     if (values != null && values.length == 10 && valid) {
+                        System.out.println("Valid");
                         IMUData parsed_data = new IMUData(values);
                         newExercise.addDataSample(parsed_data);
-                        displayData(parsed_data);
+                        //displayData(parsed_data);
                     }
 
                     runOnUiThread(() -> Toast.makeText(MainActivity.this, "onCharacteristicRead : "+Arrays.toString(characteristic.getValue()),             Toast.LENGTH_SHORT).show());
