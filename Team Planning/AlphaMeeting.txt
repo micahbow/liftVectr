@@ -1,0 +1,7 @@
+ALPHA BUILD WORK PLANNING
+08/29/2022: 1:00pm - 1:30pm
+Tim: NavBar (exercise session, view exercise session) 
+Cole: Database Class + Unit Test Class
+Micah: Refactor Android Studio Bluetooth  
+Antoine: Refactor UI Activities for Exercise Creation + view Exercise Session
+Praveen: Port Arduino Nano code to SeeedStudio
