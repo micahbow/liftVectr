@@ -95,7 +95,6 @@ public class ExerciseDaoTest {
         mockExerciseDao.deleteAllExercises();
 
         List<Exercise> allSavedExercises = LiveDataTestUtil.getValue(mockExerciseDao.getAllExercises());
-        allSavedExercises = LiveDataTestUtil.getValue(mockExerciseDao.getAllExercises());
         assertEquals(allSavedExercises.size(), 0);
     }
 
