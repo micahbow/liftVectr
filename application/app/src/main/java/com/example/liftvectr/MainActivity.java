@@ -4,6 +4,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Activity;
@@ -13,7 +15,6 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.MacAddress;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +29,9 @@ import android.widget.Toast;
 import com.ederdoski.simpleble.interfaces.BleCallback;
 import com.ederdoski.simpleble.models.BluetoothLE;
 import com.ederdoski.simpleble.utils.BluetoothLEHelper;
-import com.ederdoski.simpleble.utils.Constants;
+import com.example.liftvectr.data.Exercise;
+import com.example.liftvectr.data.IMUData;
+import com.example.liftvectr.database.ExerciseViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,12 +40,16 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private Button exerciseBtn;
     private Button viewChartBtn;
     private Spinner exerciseSpinner;
     private TextView x_accel, y_accel, z_accel;
     private TextView x_gyro, y_gyro, z_gyro;
     private TextView bluetoothConnected;
+
+    private ExerciseViewModel exerciseViewModel;
+    private List<Exercise> displayedExercises;
 
     private Exercise newExercise;
 
@@ -58,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        exerciseViewModel = new ViewModelProvider(this).get(ExerciseViewModel.class);
+
+        // To clear the database on app startup, uncomment this!
+        //exerciseViewModel.deleteAllExercises();
 
         exerciseBtn = (Button) findViewById(R.id.button);
         viewChartBtn = (Button) findViewById(R.id.view_chart_button);
@@ -122,16 +133,19 @@ public class MainActivity extends AppCompatActivity {
                     newExercise = new Exercise(exerciseSpinner.getSelectedItem().toString(), Calendar.getInstance().getTime());
 
                     // Fill exercise with fake bluetooth data
-//                    newExercise.addDataSample(new IMUData(0.2f, 1.0f, 0.43f, 0.0f, 0.1f, 0.0f, -9.0f, -1.0f, -1.0f, 1));
-//                    newExercise.addDataSample(new IMUData(0.23f, 0.95f, 0.41f, 0.3f, 0.2f, 0.3f, -8.4f,-1.0f, -0.8f, 2));
-//                    newExercise.addDataSample(new IMUData(0.28f, 1.10f, 0.39f, 0.5f, 0.1f, 0.5f, -9.3f,-0.9f, -1.0f, 3));
-//                    newExercise.addDataSample(new IMUData(0.25f, 1.03f, 0.43f, 0.3f, 0.3f, 0.9f, -7.2f,-1.0f, -0.9f, 4));
-//                    newExercise.addDataSample(new IMUData(0.29f, 0.93f, 0.45f, 0.0f, 0.2f, 1.1f, -6.3f,-0.9f, -1.0f, 5));
-//                    newExercise.addDataSample(new IMUData(0.24f, 0.98f, 0.49f, 0.3f, 0.1f, 3.3f, -6.8f,-1.0f, -1.3f, 6));
-//                    newExercise.addDataSample(new IMUData(0.22f, 1.01f, 0.46f, 0.5f, 0.0f, 3.0f, -9.5f,-0.8f, -1.0f, 7));
-//                    newExercise.addDataSample(new IMUData(0.21f, 1.03f, 0.42f, 0.3f, 0.0f, 2.1f, -10.0f,-1.0f, -1.2f, 8));
-//                    newExercise.addDataSample(new IMUData(0.24f, 0.94f, 0.40f, 0.0f, 0.1f, 1.2f, -9.1f, -0.9f, -1.0f, 9));
-//                    newExercise.addDataSample(new IMUData(0.26f, 0.99f, 0.43f, 0.3f, 0.2f, 0.4f, -9.3f,-1.2f, -1.1f, 10));
+                    newExercise.addDataSample(new IMUData(0.2f, 1.0f, 0.43f, 0.0f, 0.1f, 0.0f, -9.0f, -1.0f, -1.0f, 1));
+                    newExercise.addDataSample(new IMUData(0.23f, 0.95f, 0.41f, 0.3f, 0.2f, 0.3f, -8.4f,-1.0f, -0.8f, 2));
+                    newExercise.addDataSample(new IMUData(0.28f, 1.10f, 0.39f, 0.5f, 0.1f, 0.5f, -9.3f,-0.9f, -1.0f, 3));
+                    newExercise.addDataSample(new IMUData(0.25f, 1.03f, 0.43f, 0.3f, 0.3f, 0.9f, -7.2f,-1.0f, -0.9f, 4));
+                    newExercise.addDataSample(new IMUData(0.29f, 0.93f, 0.45f, 0.0f, 0.2f, 1.1f, -6.3f,-0.9f, -1.0f, 5));
+                    newExercise.addDataSample(new IMUData(0.24f, 0.98f, 0.49f, 0.3f, 0.1f, 3.3f, -6.8f,-1.0f, -1.3f, 6));
+                    newExercise.addDataSample(new IMUData(0.22f, 1.01f, 0.46f, 0.5f, 0.0f, 3.0f, -9.5f,-0.8f, -1.0f, 7));
+                    newExercise.addDataSample(new IMUData(0.21f, 1.03f, 0.42f, 0.3f, 0.0f, 2.1f, -10.0f,-1.0f, -1.2f, 8));
+                    newExercise.addDataSample(new IMUData(0.24f, 0.94f, 0.40f, 0.0f, 0.1f, 1.2f, -9.1f, -0.9f, -1.0f, 9));
+                    newExercise.addDataSample(new IMUData(0.26f, 0.99f, 0.43f, 0.3f, 0.2f, 0.4f, -9.3f,-1.2f, -1.1f, 10));
+
+                    // Save a new fake exercise to the db
+                    exerciseViewModel.saveExercise(newExercise);
 
                     if (ble.isConnected()) {
                         System.out.println("READING!!!");
@@ -161,6 +175,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String chartConfig = "default";
                 transitionToChartDisplayActivity(chartConfig);
+            }
+        });
+
+        exerciseViewModel.getAllExercises().observe(this, exercises -> {
+            System.out.println("An exercise has been added or deleted! Refresh the ui with the list of exercises here!");
+
+            LiveData<List<Exercise>> savedExercises = exerciseViewModel.getAllExercises();
+            System.out.println("Exercise List (Console Version): ");
+            for (int i = 0; i < savedExercises.getValue().size(); i++) {
+                System.out.print("Exercise Type:" + savedExercises.getValue().get(i).getType());
+                System.out.println(", Exercise Date:" + savedExercises.getValue().get(i).getDate());
             }
         });
     }
