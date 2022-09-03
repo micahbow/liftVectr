@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.liftvectr.data.Exercise;
+import com.example.liftvectr.data.IMUData;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -71,7 +73,7 @@ public class ChartDisplay extends AppCompatActivity {
         ArrayList<Entry> yMagField_ms = new ArrayList<>();
         ArrayList<Entry> zMagField_ms = new ArrayList<>();
 
-        ArrayList<IMUData> data = exercise.getExerciseData();
+        ArrayList<IMUData> data = exercise.getData();
         for (int i = 0; i < data.size(); i++) {
             xLinAcc_ms.add(new Entry(data.get(i).micros, data.get(i).x_lin_acc));
             yLinAcc_ms.add(new Entry(data.get(i).micros, data.get(i).y_lin_acc));
