@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/create_exercise"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:id="@+id/create"/>
+
+    <item android:title="@string/view_exercise"
+        android:icon="@drawable/ic_baseline_scatter_plot_24"
+        android:id="@+id/view"/>
+</menu>
