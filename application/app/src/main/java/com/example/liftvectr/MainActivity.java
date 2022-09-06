@@ -1,5 +1,6 @@
 package com.example.liftvectr;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -19,51 +20,79 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ederdoski.simpleble.interfaces.BleCallback;
 import com.ederdoski.simpleble.models.BluetoothLE;
-import com.ederdoski.simpleble.utils.BluetoothLEHelper;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.liftvectr.data.Exercise;
 import com.example.liftvectr.data.IMUData;
 import com.example.liftvectr.database.ExerciseViewModel;
+import com.example.liftvectr.util.BluetoothController;
+import com.example.liftvectr.util.PermissionsHandler;
+import com.example.liftvectr.util.ReadRunnable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String placeholderPair = "Please select a device to pair to";
+    public static final String scanPair = "Select to rescan";
 
     private Button exerciseBtn;
     private Button viewChartBtn;
     private Spinner exerciseSpinner;
+    private Spinner deviceListSpinner;
     private TextView x_accel, y_accel, z_accel;
     private TextView x_gyro, y_gyro, z_gyro;
     private TextView bluetoothConnected;
+
+    private ArrayList<BluetoothLE> listDevices;
+    private BluetoothController BLEController;
 
     private ExerciseViewModel exerciseViewModel;
     private List<Exercise> displayedExercises;
 
     private Exercise newExercise;
 
-    private final String SERVICE_UUID = "0000181C-0000-1000-8000-00805f9b34fb";
-    private final String CHAR_UUID = "00002ADA-0000-1000-8000-00805f9b34fb";
-
-    BluetoothLEHelper ble;
-   // private MacAddress MAC_ADDRESS = new MacAddress("1C:35:7E:C5:F9:3B");
     private boolean exerciseOngoing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize and Assign Variable
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        // Set Create Exercise Selected
+        bottomNavigationView.setSelectedItemId(R.id.create);
+
+        // Perform ItemSelectedListener
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()) {
+                    case R.id.create:
+                        return true;
+                    case R.id.view:
+                        startActivity(new Intent(getApplicationContext()
+                            , ViewExerciseTest.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                }
+                return false;
+            }
+        });
 
         exerciseViewModel = new ViewModelProvider(this).get(ExerciseViewModel.class);
 
@@ -81,58 +110,77 @@ public class MainActivity extends AppCompatActivity {
         bluetoothConnected = (TextView) findViewById(R.id.bluetooth_status);
 
         exerciseSpinner = (Spinner) findViewById(R.id.spinner);
+        deviceListSpinner = (Spinner) findViewById(R.id.spinner2);
+
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.exercises_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
+        // Apply the adapter to the spinners
+
         exerciseSpinner.setAdapter(adapter);
 
         bluetoothConnected.setText("Not Connected");
-        // ============ BLUETOOTH =============
-        ble = new BluetoothLEHelper(this);
-        boolean scanFinished = false;
 
+        // Reuqest Permissions
+        PermissionsHandler.askForPermissions(this);
 
-        //while (!deviceFound) {
-            //System.out.println("WAITING FOR DEVICE");
-        askForPermissions(this);
-            if (ble.isReadyForScan()) {
-                    Handler mHandler = new Handler();
-                    ble.scanLeDevice(true);
+        // Initialize bluetooth controller
+        BLEController = new BluetoothController(this);
 
-//                  System.out.println("Scan period: " + ble.getScanPeriod());
-//
-                    mHandler.postDelayed(() -> {
-                        //--The scan is over, you should recover the found devices.
-                        Log.v("Devices found: ", String.valueOf(ble.getListDevices()));
-                        findMatchingDevice();
-                    }, ble.getScanPeriod());
+        //Scan for devices and populate dropdown
+        try {
+            BLEController.scanDevices();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-                    //findMatchingDevice();
+        deviceListSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i("deviceListSpinner: ", (String) deviceListSpinner.getSelectedItem());
+
+                // For placeholder, do not try to pair
+                if (deviceListSpinner.getSelectedItem() == MainActivity.placeholderPair || deviceListSpinner.getSelectedItem() == "" || deviceListSpinner.getSelectedItem() == null) {return;}
+                else if (deviceListSpinner.getSelectedItem() == MainActivity.scanPair) {
+                    try {
+                        BLEController.scanDevices();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return;
+                }
+                BLEController.findAndPairMatchingDevice((String) deviceListSpinner.getSelectedItem());
 
             }
-            else {
-                System.out.println("PERMISSIONS!!!");
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Log.i("deviceListSpinner", "Nothing selected.");
             }
-
-
-
-        //}
+        });
 
         exerciseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if(exerciseBtn.getText().equals("Start Exercise")) {
+                    if(!BLEController.getPairedStatus()) {
+                        setToastText("Need to pair to IMU first!");
+                        return;
+                    }
                     exerciseBtn.setText("Stop Exercise");
                     viewChartBtn.setVisibility(View.INVISIBLE);
                     exerciseOngoing = true;
 
                     newExercise = new Exercise(exerciseSpinner.getSelectedItem().toString(), Calendar.getInstance().getTime());
 
-                    // Fill exercise with fake bluetooth data
+                    Runnable r = new ReadRunnable(BLEController, exerciseBtn);
+                    Thread t = new Thread(r);
+                    t.start();
+
+                    /*// Fill exercise with fake bluetooth data
                     newExercise.addDataSample(new IMUData(0.2f, 1.0f, 0.43f, 0.0f, 0.1f, 0.0f, -9.0f, -1.0f, -1.0f, 1));
                     newExercise.addDataSample(new IMUData(0.23f, 0.95f, 0.41f, 0.3f, 0.2f, 0.3f, -8.4f,-1.0f, -0.8f, 2));
                     newExercise.addDataSample(new IMUData(0.28f, 1.10f, 0.39f, 0.5f, 0.1f, 0.5f, -9.3f,-0.9f, -1.0f, 3));
@@ -142,26 +190,11 @@ public class MainActivity extends AppCompatActivity {
                     newExercise.addDataSample(new IMUData(0.22f, 1.01f, 0.46f, 0.5f, 0.0f, 3.0f, -9.5f,-0.8f, -1.0f, 7));
                     newExercise.addDataSample(new IMUData(0.21f, 1.03f, 0.42f, 0.3f, 0.0f, 2.1f, -10.0f,-1.0f, -1.2f, 8));
                     newExercise.addDataSample(new IMUData(0.24f, 0.94f, 0.40f, 0.0f, 0.1f, 1.2f, -9.1f, -0.9f, -1.0f, 9));
-                    newExercise.addDataSample(new IMUData(0.26f, 0.99f, 0.43f, 0.3f, 0.2f, 0.4f, -9.3f,-1.2f, -1.1f, 10));
-
-                    // Save a new fake exercise to the db
-                    exerciseViewModel.saveExercise(newExercise);
-
-                    if (ble.isConnected()) {
-                        System.out.println("READING!!!");
-                        for(int i = 0; i < 1000000; i++) {
-                            ble.read(SERVICE_UUID, CHAR_UUID);
-                        }
-                    }
-                    else {
-                        System.out.println("BLUETOOTH NOT CONNECTED");
-                    }
-
-                    // We'd display live data within the UI's table using this function
-                    //displayData(new IMUData(1.215f, 3.983f, 0.015f, 3.947f, 5.543f, 0.132f, -1.0f, -3.2f, -9.3f, 1));
-
+                    newExercise.addDataSample(new IMUData(0.26f, 0.99f, 0.43f, 0.3f, 0.2f, 0.4f, -9.3f,-1.2f, -1.1f, 10));*/
                 }
                 else {
+                    // Save the exercise to the db
+                    exerciseViewModel.saveExercise(newExercise);
                     exerciseBtn.setText("Start Exercise");
                     viewChartBtn.setVisibility(View.VISIBLE);
                     exerciseOngoing = false;
@@ -190,24 +223,50 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void findMatchingDevice() {
-        System.out.println("+++++++MATCHING CODE BEGIN++++++");
-        if (!ble.getListDevices().isEmpty()) {
-            for (BluetoothLE item : ble.getListDevices()) {
-                if(item != null && item.getName() != null) {
-                    System.out.println(item.getName().toString());
-                    System.out.println(item.getName().substring(0, 7));
-                    if (item.getName().substring(0, 7).equals("IMUData")) {
-                        System.out.println("DEVICE FOUND!!");
-                        BluetoothDevice device = item.getDevice();
-                        ble.connect(device, bleCallbacks());
-                        bluetoothConnected.setText("Connected");
-                        System.out.println("DEVICE CONNECTED!!");
-                    }
+    public void setBluetoothConnected(boolean value) {
+        if(value) {
+            this.bluetoothConnected.setText("Connected");
+        }
+        else {
+           this.bluetoothConnected.setText("Not Connected");
+        }
+    }
+
+    public void addDataToExercise(IMUData data) {
+        if(this.newExercise != null) {
+            newExercise.addDataSample(data);
+        }
+        else {
+            Log.e("addDataToExercise", "Null newExercise.");
+        }
+    }
+
+    public void setToastText(String Text) {
+        runOnUiThread(() -> Toast.makeText(MainActivity.this, Text, Toast.LENGTH_SHORT).show());
+    }
+
+    public void setListDevices(ArrayList<BluetoothLE> list) {
+        // This function should only be used by the BLE controller to maintain sync.
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, android.R.id.text1);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        deviceListSpinner.setAdapter(spinnerAdapter);
+
+        // Add first placeholder button and rescan button
+        spinnerAdapter.add(MainActivity.placeholderPair);
+        spinnerAdapter.add(MainActivity.scanPair);
+        // Could be null if we are resetting
+        if (list != null) {
+            for (BluetoothLE item : list) {
+                if (item != null && item.getName() != null) {
+                    spinnerAdapter.add(item.getName());
+                } else {
+                    Log.e("setListDevices", "null item name");
                 }
             }
         }
-        System.out.println("+++++++MATCHING CODE END++++++");
+
+        // Might be unnecessary;
+        this.listDevices = list;
     }
 
     public void transitionToChartDisplayActivity(String config)
@@ -229,126 +288,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        ble.disconnect();
         super.onDestroy();
     }
 
-    private BleCallback bleCallbacks(){
-        return new BleCallback(){
-
-            @Override
-            public void onBleConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-                super.onBleConnectionStateChange(gatt, status, newState);
-
-                if (newState == BluetoothProfile.STATE_CONNECTED) {
-                    runOnUiThread(() -> Toast.makeText(MainActivity.this, "Connected to GATT server.", Toast.LENGTH_SHORT).show());
-                }
-
-                if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                    runOnUiThread(() -> Toast.makeText(MainActivity.this, "Disconnected from GATT server.", Toast.LENGTH_SHORT).show());
-                }
-            }
-
-            @Override
-            public void onBleServiceDiscovered(BluetoothGatt gatt, int status) {
-                super.onBleServiceDiscovered(gatt, status);
-                if (status != BluetoothGatt.GATT_SUCCESS) {
-                    Log.e("Ble ServiceDiscovered","onServicesDiscovered received: " + status);
-                }
-            }
-
-            @Override
-            public void onBleCharacteristicChange(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-                super.onBleCharacteristicChange(gatt, characteristic);
-                Log.i("BluetoothLEHelper","onCharacteristicChanged Value: " + Arrays.toString(characteristic.getValue()));
-            }
-
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onBleRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                super.onBleRead(gatt, characteristic, status);
-
-                if (status == BluetoothGatt.GATT_SUCCESS) {
-                    byte[] raw_data = characteristic.getValue();
-                    //Log.i("TAG", Arrays.toString(raw_data));
-                    String decoded = new String(raw_data);
-                    //System.out.println("Decoded: " + decoded);
-
-                    String[] values = decoded.split(",");
-                    boolean valid = true;
-                    for (int i = 0; i < values.length; i++) {
-                        if(values[i].chars().filter(ch -> ch == '.').count() != 1) {
-                            valid = false;
-                        }
-                    }
-                    //System.out.println("Split: " + values.toString());
-
-                    if (values != null && values.length == 10 && valid) {
-                        IMUData parsed_data = new IMUData(values);
-                        newExercise.addDataSample(parsed_data);
-                        displayData(parsed_data);
-                    }
-
-                    runOnUiThread(() -> Toast.makeText(MainActivity.this, "onCharacteristicRead : "+Arrays.toString(characteristic.getValue()),             Toast.LENGTH_SHORT).show());
-                }
-            }
-
-            @Override
-            public void onBleWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                super.onBleWrite(gatt, characteristic, status);
-                runOnUiThread(() -> Toast.makeText(MainActivity.this, "onCharacteristicWrite Status : " + status, Toast.LENGTH_SHORT).show());
-            }
-        };
-    }
-
-    public static void askForPermissions(Activity activity) {
-        List<String> permissionsToAsk = new ArrayList<>();
-        int requestResult = 0;
-
-        if (ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
-            // Ask for permission
-            permissionsToAsk.add(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-
-        if (ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
-            // Ask for permission
-            permissionsToAsk.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
-        }
-
-        if (ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
-            // Ask for permission
-            permissionsToAsk.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-        }
-
-        if (ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-                PackageManager.PERMISSION_GRANTED) {
-            // Ask for permission
-            permissionsToAsk.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-
-        if (ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.BLUETOOTH) !=
-                PackageManager.PERMISSION_GRANTED) {
-            // Ask for permission
-            permissionsToAsk.add(Manifest.permission.BLUETOOTH);
-        }
-        if (ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.BLUETOOTH_ADMIN) !=
-                PackageManager.PERMISSION_GRANTED) {
-            // Ask for permission
-            permissionsToAsk.add(Manifest.permission.BLUETOOTH_ADMIN);
-        }
-        if (ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.BLUETOOTH_PRIVILEGED) !=
-                PackageManager.PERMISSION_GRANTED) {
-            // Ask for permission
-            permissionsToAsk.add(Manifest.permission.BLUETOOTH_PRIVILEGED);
-        }
-
-        if (permissionsToAsk.size() > 0) {
-            ActivityCompat.requestPermissions(activity, permissionsToAsk.toArray(new String[permissionsToAsk.size()]), requestResult);
-        }
-
-        System.out.println("Permissions function has been called");
-    }
 }
