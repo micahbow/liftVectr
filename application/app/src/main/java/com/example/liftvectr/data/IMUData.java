@@ -1,4 +1,6 @@
-package com.example.liftvectr;
+package com.example.liftvectr.data;
+
+import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 
@@ -34,6 +36,20 @@ public class IMUData implements Serializable {
         this.y_mag_field = Float.parseFloat(raw_data[7]);
         this.z_mag_field = Float.parseFloat(raw_data[8]);
         this.micros = Float.parseFloat(raw_data[9]);
+    }
 
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        IMUData data = (IMUData) obj;
+        return this.x_lin_acc == data.x_lin_acc &&
+                this.y_lin_acc == data.y_lin_acc &&
+                this.z_lin_acc == data.z_lin_acc &&
+                this.x_ang_vel == data.x_ang_vel &&
+                this.y_ang_vel == data.y_ang_vel &&
+                this.z_ang_vel == data.z_ang_vel &&
+                this.x_mag_field == data.x_mag_field &&
+                this.y_mag_field == data.y_mag_field &&
+                this.z_mag_field == data.z_mag_field &&
+                this.micros == data.micros;
     }
 }
