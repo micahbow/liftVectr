@@ -72,9 +72,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.create:
                         return true;
                     case R.id.view:
-                        // change to exercisehistory for testing
                         startActivity(new Intent(getApplicationContext()
-                            , ViewExerciseTest.class));
+                            , ExerciseHistory.class));
                         overridePendingTransition(0, 0);
                         return true;
                 }
