@@ -14,15 +14,25 @@
   This example code is in the public domain.
 */
 
-#include <Arduino_LSM9DS1_Modified.h>
+#include "LSM6DS3.h"
+#include "Wire.h"
 
 #define GYRO_THRESH 1.7
+
+//Create a instance of class LSM6DS3
+LSM6DS3 IMU(I2C_MODE, 0x6A);    //I2C device address 0x6A
 
 double gyropos[3];
 bool firstRun = true;
 unsigned long oldmicros;
 
 void setup() {
+
+  uint8_t gModification;
+  IMU.readRegister(&gModification, LSM6DS3_ACC_GYRO_CTRL1_XL);
+  gModification = (gModification & 0xF3) | LSM6DS3_ACC_GYRO_FS_XL_16g;
+  IMU.writeRegister(LSM6DS3_ACC_GYRO_CTRL1_XL, gModification);
+
   Serial.begin(9600);
   while (!Serial);
   Serial.println("Started");
@@ -32,7 +42,7 @@ void setup() {
     while (1);
   }
   Serial.print("Gyroscope sample rate = ");
-  Serial.print(IMU.gyroscopeSampleRate());
+  Serial.print(104.0F);
   Serial.println(" Hz");
   Serial.println();
   Serial.println("Gyroscope in degrees/second");
@@ -48,10 +58,14 @@ void loop() {
     oldmicros = micros();
   }
   float x, y, z;
-  
-  if (IMU.gyroscopeAvailable()) {
+
+  uint8_t gyroscopeAvailable;
+  IMU.readRegister(&gyroscopeAvailable, LSM6DS3_ACC_GYRO_STATUS_REG);
+  if ((gyroscopeAvailable & 0x02) != 0x00) {
     unsigned long newmicros = micros();
-    IMU.readGyroscope(x, y, z);
+    x = IMU.readFloatGyroX();
+    y = IMU.readFloatGyroY();
+    z = IMU.readFloatGyroZ();
     unsigned long deltaUseconds = (newmicros-oldmicros);
     oldmicros = newmicros;
 
