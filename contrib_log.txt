@@ -72,3 +72,4 @@ WHOLE TEAM            [4/10/22]: In-person prototype build, debug, and research 
 Micah Bowonthamachakr [4/11/22]: Finished presentation slides and design prototype report portion.
 ### FALL 2022 ###
 WHOLE TEAM            [8/29/22]: First Alpha Check-in meeting plus work planning for upcoming weeks from 1:00pm-2:00pm
+Micah Bowonthamachakr [9/6/22]: Refactored Bluetooth functionality into separate utility classes with unit tests.
