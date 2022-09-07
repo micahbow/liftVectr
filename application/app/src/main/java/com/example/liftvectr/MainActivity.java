@@ -1,24 +1,7 @@
 package com.example.liftvectr;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.Manifest;
-import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,15 +12,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ederdoski.simpleble.models.BluetoothLE;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ederdoski.simpleble.models.BluetoothLE;
 import com.example.liftvectr.data.Exercise;
 import com.example.liftvectr.data.IMUData;
 import com.example.liftvectr.database.ExerciseViewModel;
 import com.example.liftvectr.util.BluetoothController;
 import com.example.liftvectr.util.PermissionsHandler;
 import com.example.liftvectr.util.ReadRunnable;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -85,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.create:
                         return true;
                     case R.id.view:
+                        // change to exercisehistory for testing
                         startActivity(new Intent(getApplicationContext()
                             , ViewExerciseTest.class));
                         overridePendingTransition(0, 0);
@@ -123,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         bluetoothConnected.setText("Not Connected");
 
-        // Reuqest Permissions
+        // Request Permissions
         PermissionsHandler.askForPermissions(this);
 
         // Initialize bluetooth controller

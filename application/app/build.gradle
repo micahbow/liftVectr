@@ -53,6 +53,8 @@ dependencies {
 
     // Room DB
     implementation 'androidx.room:room-runtime:2.4.3'
+    implementation 'androidx.navigation:navigation-fragment:2.3.5'
+    implementation 'androidx.navigation:navigation-ui:2.3.5'
     annotationProcessor 'androidx.room:room-compiler:2.4.3'
     testImplementation 'androidx.room:room-testing:2.4.3'
 
