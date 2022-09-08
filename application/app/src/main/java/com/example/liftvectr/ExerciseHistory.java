@@ -30,7 +30,6 @@ public class ExerciseHistory extends AppCompatActivity {
         setContentView(R.layout.activity_exercise_history);
         //exerciseListSpinner = (Spinner) findViewById(R.id.spinner3);
         exerciseList = (ListView) findViewById(R.id.exerciseList);
-        //exerciseList.addHeaderView("Exercise History");
 
         //Nav Bar
         // Initialize and Assign Variable
