@@ -27,20 +27,20 @@ bool firstRun = true;
 unsigned long oldmicros;
 
 void setup() {
+  Serial.begin(9600);
+  while (!Serial);
+  Serial.println("Started");
+
+  if (IMU.begin() != 0) {
+    Serial.println("Failed to initialize IMU!");
+    while (1);
+  }
 
   uint8_t gModification;
   IMU.readRegister(&gModification, LSM6DS3_ACC_GYRO_CTRL1_XL);
   gModification = (gModification & 0xF3) | LSM6DS3_ACC_GYRO_FS_XL_16g;
   IMU.writeRegister(LSM6DS3_ACC_GYRO_CTRL1_XL, gModification);
 
-  Serial.begin(9600);
-  while (!Serial);
-  Serial.println("Started");
-
-  if (!IMU.begin()) {
-    Serial.println("Failed to initialize IMU!");
-    while (1);
-  }
   Serial.print("Gyroscope sample rate = ");
   Serial.print(104.0F);
   Serial.println(" Hz");

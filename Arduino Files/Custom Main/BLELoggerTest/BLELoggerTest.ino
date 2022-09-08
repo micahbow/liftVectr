@@ -24,12 +24,6 @@ void readIMU();
 void updateIMUDataArr();
 
 void setup() {
-
-  uint8_t gModification;
-  IMU.readRegister(&gModification, LSM6DS3_ACC_GYRO_CTRL1_XL);
-  gModification = (gModification & 0xF3) | LSM6DS3_ACC_GYRO_FS_XL_16g;
-  IMU.writeRegister(LSM6DS3_ACC_GYRO_CTRL1_XL, gModification);
-
   calibrateSerial();
 
   calibrateBLE();
@@ -119,10 +113,15 @@ void readIMU() {
 
 void calibrateIMU() {
   //SETUP IMU
-  if (!IMU.begin()) {
+  if (IMU.begin() != 0) {
     Serial.println("Failed to initialize IMU!");
     while (1); //stall indefinitely if fail
   }
+
+  uint8_t gModification;
+  IMU.readRegister(&gModification, LSM6DS3_ACC_GYRO_CTRL1_XL);
+  gModification = (gModification & 0xF3) | LSM6DS3_ACC_GYRO_FS_XL_16g;
+  IMU.writeRegister(LSM6DS3_ACC_GYRO_CTRL1_XL, gModification);
 
   //Any module calibration here
   calibrateGyro(xOff,yOff,zOff);
