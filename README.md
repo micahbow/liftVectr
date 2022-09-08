@@ -1,6 +1,7 @@
 # liftVectr
+"A wristwatch made for lifters, by lifters."
 
-liftVectr is a wrist device and mobile app pairing that provides measurement, analysis, and tracking tools to weightlifters.
+liftVectr is a wrist device and mobile app pairing that provides motion measurement, analysis, and tracking tools for "one-rep max" powerlifting style lifts.
 
 ## Installation
 
