@@ -30,3 +30,20 @@ Install [Android Studio](https://developer.android.com/studio) and the [Arduino 
 4. Press the Upload (arrow) button to compile and upload to the board, ensuring it is plugged in and recognized under the correct COM port in Tools->Port
 5. Restart the board by pressing the on-board reset button once.
 6. Start the main program under debug mode by opening the Serial Terminal in Tools->Serial Monitor. The device is now advertising to pair.
+
+## Project Specification
+
+The liftVectr project includes a hardware portion, consisting of the IMU and Bluetooth Low Energy (BLE) functionalities within a microcontroller chip, and a software portion which consists of an Android app.
+
+### Hardware Overview
+
+The microcontroller used for the project originally was the Arduino Nano 33 BLE, but it is in the process of being replaced with the Seeed Studio XIAO nRF52840 Sense, which has a much smaller chip size than the Arduino. Regardless of hardware chip, the hardware functions involve idling until paired to a BLE receiver, and continually reading the IMU and publishing the measurements (X,Y,Z dimensions of gyroscope in degrees/second and accelerometer in gs/second) while connected. Case housing for the chip and other hardware features such as rechargeable battery will be implemented for the Beta build when the parts arrive and a means for 3D printing is secured.
+
+### Software Overview
+
+The Android app provides a visually flowing and aesthetic multi-page UI (EXTERNAL INTERFACE) for recording a new exercise session, listing previously recorded exercise sessions, and displaying selected exercise sessions with charted data. A simple two-option NavBar allows users intuitive ease of access with the application's features. The backend functions involve handling and recording communications with the hardware over BLE (EXTERNAL INTERFACE), reading and writing exercise data with a local Room database (PERSISTENCE), and performing processing and chart display of exercise data (INTERNAL SYSTEMS).
+
+### Test Plans
+
+A test plan document in the repository outlines key features present for the liftVectr Alpha build, and includes plans and provisions in place to test for acceptable functionality with respect to user interactions and visuals, data recording consistency and reliability, graceful error handling for exceptional user use cases, and accurate measurement and polling from the hardware to the software devices - and IMU + Bluetooth Low Energy (BLE) equipped microcontroller chip, and an Android app.
+
