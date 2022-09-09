@@ -1,5 +1,9 @@
-#include <Arduino_LSM9DS1_Modified.h>
+#include "LSM6DS3.h"
+#include "Wire.h"
 #include <ArduinoBLE.h>
+
+//Create a instance of class LSM6DS3
+LSM6DS3 IMU(I2C_MODE, 0x6A);    //I2C device address 0x6A
 
 //Global BLE vars
 BLEService IMUService("181C"); //BLE SERVICE "0x181C" = User Data
@@ -20,12 +24,11 @@ void readIMU();
 void updateIMUDataArr();
 
 void setup() {
-
   calibrateSerial();
-
-  calibrateBLE();
   
   calibrateIMU();
+
+  calibrateBLE();
 }
 
 void loop() {
@@ -91,11 +94,18 @@ void updateIMUDataArr() {
 
 void readIMU() {
   //wait for all IMU readings 
-  while(!IMU.gyroscopeAvailable() || !IMU.accelerationAvailable() || !IMU.magneticFieldAvailable()) {}
+  uint8_t gyroscopeAvailable;
+  uint8_t accelerometerAvailable;
+  IMU.readRegister(&gyroscopeAvailable, LSM6DS3_ACC_GYRO_STATUS_REG);
+  IMU.readRegister(&accelerometerAvailable, LSM6DS3_ACC_GYRO_STATUS_REG);
+  while((gyroscopeAvailable & 0x02) == 0x00 || (accelerometerAvailable & 0x01) == 0x00) {}
   t=micros();
-  IMU.readGyroscope(gx, gy, gz);
-  IMU.readAcceleration(ax, ay, az);
-  IMU.readMagneticField(mx,my,mz);
+  gx = IMU.readFloatGyroX();
+  gy = IMU.readFloatGyroY();
+  gz = IMU.readFloatGyroZ();
+  ax = IMU.readFloatAccelX();
+  ay = IMU.readFloatAccelY();
+  az = IMU.readFloatAccelZ();
   gx=gx-xOff;
   gy=gy-yOff;
   gz=gz-zOff;
@@ -103,10 +113,15 @@ void readIMU() {
 
 void calibrateIMU() {
   //SETUP IMU
-  if (!IMU.begin()) {
+  if (IMU.begin() != 0) {
     Serial.println("Failed to initialize IMU!");
     while (1); //stall indefinitely if fail
   }
+
+  uint8_t gModification;
+  IMU.readRegister(&gModification, LSM6DS3_ACC_GYRO_CTRL1_XL);
+  gModification = (gModification & 0xF3) | LSM6DS3_ACC_GYRO_FS_XL_16g;
+  IMU.writeRegister(LSM6DS3_ACC_GYRO_CTRL1_XL, gModification);
 
   //Any module calibration here
   calibrateGyro(xOff,yOff,zOff);
@@ -154,14 +169,16 @@ void calibrateGyro(float & offsetx, float & offsety, float & offsetz) {
   double sumZ = 0;
   //disregard the first 100 points, highly inaccurate!
   for(int i = 0; i < 100; i++) {
-    while(!IMU.gyroscopeAvailable()) {}
     float xd, yd, zd;
-    IMU.readGyroscope(xd, yd, zd);
+    xd = IMU.readFloatGyroX();
+    yd = IMU.readFloatGyroY();
+    zd = IMU.readFloatGyroZ();
   }
   for(int i = 0; i < 100; i++) {
-    while(!IMU.gyroscopeAvailable()) {}
     float xc, yc, zc;
-    IMU.readGyroscope(xc, yc, zc);
+    xc = IMU.readFloatGyroX();
+    yc = IMU.readFloatGyroY();
+    zc = IMU.readFloatGyroZ();
     sumX += xc;
     sumY += yc;
     sumZ += zc;   

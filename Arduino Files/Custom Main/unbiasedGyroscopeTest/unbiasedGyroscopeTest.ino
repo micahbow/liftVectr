@@ -1,5 +1,9 @@
-#include <Arduino_LSM9DS1_Modified.h>
+#include "LSM6DS3.h"
+#include "Wire.h"
 #define G_THRESH 2
+
+//Create a instance of class LSM6DS3
+LSM6DS3 IMU(I2C_MODE, 0x6A);    //I2C device address 0x6A
 
 //NOTE: THIS CODE DOES NOT ACCOUNT FOR GIMBAL LOCK.
 
@@ -13,19 +17,27 @@ void calibrateGyro(double & offsetx, double & offsety, double & offsetz) {
 
   Serial.println("CALIBRATING GYRO:");  
   Serial.print("Gyroscope sample rate = ");
-  Serial.print(IMU.gyroscopeSampleRate());
+  Serial.print(104.0F);
   Serial.println(" Hz");
   Serial.println();
   //disregard the first 100 points, highly inaccurate!
   for(int i = 0; i < 100; i++) {
-    while(!IMU.gyroscopeAvailable()) {}
+    uint8_t gyroscopeAvailable;
+    IMU.readRegister(&gyroscopeAvailable, LSM6DS3_ACC_GYRO_STATUS_REG);
+    while((gyroscopeAvailable & 0x02) == 0x00) {}
     float xd, yd, zd;
-    IMU.readGyroscope(xd, yd, zd);
+    xd = IMU.readFloatGyroX();
+    yd = IMU.readFloatGyroY();
+    zd = IMU.readFloatGyroZ();
   }
   for(int i = 0; i < 100; i++) {
-    while(!IMU.gyroscopeAvailable()) {}
+    uint8_t gyroscopeAvailable;
+    IMU.readRegister(&gyroscopeAvailable, LSM6DS3_ACC_GYRO_STATUS_REG);
+    while((gyroscopeAvailable & 0x02) == 0x00) {}
     float xc, yc, zc;
-    IMU.readGyroscope(xc, yc, zc);
+    xc = IMU.readFloatGyroX();
+    yc = IMU.readFloatGyroY();
+    zc = IMU.readFloatGyroZ();
     Serial.print(xc);
     Serial.print('\t');
     Serial.print(yc);
@@ -49,9 +61,13 @@ void calibrateGyro(double & offsetx, double & offsety, double & offsetz) {
 }
 
 void getUnbiasedGyro(double & gx, double & gy, double & gz) {
-  while(!IMU.gyroscopeAvailable()) {}
+  uint8_t gyroscopeAvailable;
+  IMU.readRegister(&gyroscopeAvailable, LSM6DS3_ACC_GYRO_STATUS_REG);
+  while((gyroscopeAvailable & 0x02) == 0x00) {}
   float gxt,gyt,gzt;
-  IMU.readGyroscope(gxt, gyt, gzt);
+  gxt = IMU.readFloatGyroX();
+  gyt = IMU.readFloatGyroY();
+  gzt = IMU.readFloatGyroZ();
   gx=gxt-xOff;
   gy=gyt-yOff;
   gz=gzt-zOff;
@@ -68,10 +84,16 @@ void setup() {
   while (!Serial);
   Serial.println("Started");
 
-  if (!IMU.begin()) {
+  if (IMU.begin() != 0) {
     Serial.println("Failed to initialize IMU!");
     while (1);
   }
+
+  uint8_t gModification;
+  IMU.readRegister(&gModification, LSM6DS3_ACC_GYRO_CTRL1_XL);
+  gModification = (gModification & 0xF3) | LSM6DS3_ACC_GYRO_FS_XL_16g;
+  IMU.writeRegister(LSM6DS3_ACC_GYRO_CTRL1_XL, gModification);
+
   calibrateGyro(xOff,yOff,zOff);
 
   Serial.println("Gyroscope in degrees/second");

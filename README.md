@@ -26,9 +26,9 @@ Install [Android Studio](https://developer.android.com/studio) and the [Arduino 
 
 1. Open BLELoggerTest.ino within the Arduino IDE.
 2. Install the ArduinoBLE library in Tools->Library Manager->Search:"ArduinoBLE" and click install for the latest version.
-3. Install the Arduino Mbed OS Nano Boards package in Tools->Board->Boards Manager->Search: "Arduino Mbed OS Nano" and click install.
-4. Press the Upload (arrow) button to compile and upload to the board, ensuring it is plugged in and recognized under the correct COM port in Tools->Port
-5. Restart the board by pressing the on-board reset button once.
+3. Install the ArduinoBLE library in Tools->Library Manager->Search:"Seeed Arduino LSM6DS3" and click install for the latest version.
+4. Install the Seeed nRF52 mbed-enabled Boards package in Tools->Board->Boards Manager->Search: "Seeed nRF52 mbed-enabled" and click install.
+5. Press the Upload (arrow) button to compile and upload to the board, ensuring it is plugged in and recognized under the correct COM port in Tools->Port
 6. Start the main program under debug mode by opening the Serial Terminal in Tools->Serial Monitor. The device is now advertising to pair.
 
 ## Project Specification
@@ -46,4 +46,3 @@ The Android app provides a visually flowing and aesthetic multi-page UI (EXTERNA
 ### Test Plans
 
 A test plan document in the repository outlines key features present for the liftVectr Alpha build, and includes plans and provisions in place to test for acceptable functionality with respect to user interactions and visuals, data recording consistency and reliability, graceful error handling for exceptional user use cases, and accurate measurement and polling from the hardware to the software devices - and IMU + Bluetooth Low Energy (BLE) equipped microcontroller chip, and an Android app.
-
