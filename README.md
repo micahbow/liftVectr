@@ -26,7 +26,7 @@ Install [Android Studio](https://developer.android.com/studio) and the [Arduino 
 
 1. Open BLELoggerTest.ino within the Arduino IDE.
 2. Install the ArduinoBLE library in Tools->Library Manager->Search:"ArduinoBLE" and click install for the latest version.
-3. Install the ArduinoBLE library in Tools->Library Manager->Search:"Seeed Arduino LSM6DS3" and click install for the latest version.
+3. Install the Seeed Arduino LSM6DS3 library in Tools->Library Manager->Search:"Seeed Arduino LSM6DS3" and click install for the latest version.
 4. Install the Seeed nRF52 mbed-enabled Boards package in Tools->Board->Boards Manager->Search: "Seeed nRF52 mbed-enabled" and click install.
 5. Press the Upload (arrow) button to compile and upload to the board, ensuring it is plugged in and recognized under the correct COM port in Tools->Port
 6. Start the main program under debug mode by opening the Serial Terminal in Tools->Serial Monitor. The device is now advertising to pair.
