@@ -25,10 +25,10 @@ void updateIMUDataArr();
 
 void setup() {
   calibrateSerial();
-
-  calibrateBLE();
   
   calibrateIMU();
+
+  calibrateBLE();
 }
 
 void loop() {
@@ -169,18 +169,12 @@ void calibrateGyro(float & offsetx, float & offsety, float & offsetz) {
   double sumZ = 0;
   //disregard the first 100 points, highly inaccurate!
   for(int i = 0; i < 100; i++) {
-    uint8_t gyroscopeAvailable;
-    IMU.readRegister(&gyroscopeAvailable, LSM6DS3_ACC_GYRO_STATUS_REG);
-    while((gyroscopeAvailable & 0x02) == 0x00) {}
     float xd, yd, zd;
     xd = IMU.readFloatGyroX();
     yd = IMU.readFloatGyroY();
     zd = IMU.readFloatGyroZ();
   }
   for(int i = 0; i < 100; i++) {
-    uint8_t gyroscopeAvailable;
-    IMU.readRegister(&gyroscopeAvailable, LSM6DS3_ACC_GYRO_STATUS_REG);
-    while((gyroscopeAvailable & 0x02) == 0x00) {}
     float xc, yc, zc;
     xc = IMU.readFloatGyroX();
     yc = IMU.readFloatGyroY();
