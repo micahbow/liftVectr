@@ -1,0 +1,105 @@
+name: liftVectr CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  # Job for building the Android app
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 1.11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      # Need to make sure gradlew is executable
+      - name: Set up Gradle
+        run: chmod +x ./application/gradlew 
+        
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build
+          build-root-directory: application
+    
+  # Job to run unit and instrumented tests
+  test:
+    runs-on: macos-latest
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 1.11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      # Need to make sure gradlew is executable
+      - name: Set up Gradle
+        run: chmod +x ./application/gradlew 
+        
+      - name: Run Unit Tests
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: testDebugUnitTest
+          build-root-directory: application
+        
+      - name: Upload Unit Test Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: unit-test-results
+          path: application/app/build/reports/tests/testDebugUnitTest
+        if: always()
+        
+      - name: Run Instrumented Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 27
+          script: ./application/gradlew -p application connectedCheck --stacktrace
+        
+      - name: Upload Instrumented Test Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: instrumented-test-results
+          path: application/app/build/reports/androidTests/connected
+        if: always()
+        
+  # Job to generate the test report
+  report:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    if: always()
+    steps:
+      - name: Download Unit Test Results
+        uses: actions/download-artifact@v2
+        with:
+          name: unit-test-results
+          
+      - name: Download Instrumented Test Results
+        uses: actions/download-artifact@v2
+        with:
+          name: instrumented-test-results
+
+      - name: Generate Test Report
+        uses: asadmansr/android-test-report-action@v1.2.0
