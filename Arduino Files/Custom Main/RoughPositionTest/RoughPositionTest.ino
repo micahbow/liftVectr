@@ -18,10 +18,14 @@
 
 */
 
-#include <Arduino_LSM9DS1_Modified.h>
+#include "LSM6DS3.h"
+#include "Wire.h"
 
 #define GYRO_THRESHOLD 1.7 //minimum degrees per second to consider
 #define ACCEL_THRESHOLD 5 //minimum g to consider
+
+//Create a instance of class LSM6DS3
+LSM6DS3 IMU(I2C_MODE, 0x6A);    //I2C device address 0x6A
 
 //1. Calibrate sensor on a flat surface (0,0,0 angular position)
 float xyzPosition[3]; //considering starting position as origin. UNITS: METERS
@@ -36,18 +40,23 @@ void setup() {
   while (!Serial);
   Serial.println("Started");
 
-  if (!IMU.begin()) {
+  if (IMU.begin() != 0) {
     Serial.println("Failed to initialize IMU!");
     while (1);
   }
 
+  uint8_t gModification;
+  IMU.readRegister(&gModification, LSM6DS3_ACC_GYRO_CTRL1_XL);
+  gModification = (gModification & 0xF3) | LSM6DS3_ACC_GYRO_FS_XL_16g;
+  IMU.writeRegister(LSM6DS3_ACC_GYRO_CTRL1_XL, gModification);
+
   Serial.print("Accelerometer sample rate = ");
-  Serial.print(IMU.accelerationSampleRate());
+  Serial.print(104.0F);
   Serial.println(" Hz");
   Serial.println();
 
   Serial.print("Gyroscope sample rate = ");
-  Serial.print(IMU.gyroscopeSampleRate());
+  Serial.print(104.0F);
   Serial.println(" Hz");
 
   Serial.println("World Space Displacement in Meters:");
@@ -98,10 +107,14 @@ void loop() {
   */
 
   //update velocity/position blocks
-  if (IMU.accelerationAvailable()) {
+  uint8_t accelerometerAvailable;
+  IMU.readRegister(&accelerometerAvailable, LSM6DS3_ACC_GYRO_STATUS_REG);
+  if ((accelerometerAvailable & 0x01) != 0x00) {
     float x_local_accel, y_local_accel, z_local_accel; //UNITS: G/SEC
     unsigned long accelCurrTime = micros();
-    IMU.readAcceleration(x_local_accel, y_local_accel, z_local_accel);
+    x_local_accel = IMU.readFloatAccelX();
+    y_local_accel = IMU.readFloatAccelY();
+    z_local_accel = IMU.readFloatAccelZ();
 
     /* hiding for now, want to see performance without gyro
     
