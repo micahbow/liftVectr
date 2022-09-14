@@ -56,7 +56,7 @@ public class ChartDisplay extends AppCompatActivity {
         returnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transitionToMainActivity();
+                transitionToExerciseHistoryActivity();
             }
         });
     }
@@ -168,9 +168,9 @@ public class ChartDisplay extends AppCompatActivity {
         mpLineChart.invalidate(); // Re-draw the chart
     }
 
-    public void transitionToMainActivity()
+    public void transitionToExerciseHistoryActivity()
     {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, ExerciseHistory.class);
         startActivity(intent);
     }
 }
