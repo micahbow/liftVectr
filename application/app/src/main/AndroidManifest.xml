@@ -25,6 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LiftVectr">
         <activity
+            android:name=".ExerciseHistory"
+            android:exported="false" />
+        <activity
             android:name=".ViewExerciseTest"
             android:exported="false" />
         <activity

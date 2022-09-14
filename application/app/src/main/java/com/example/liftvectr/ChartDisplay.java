@@ -1,13 +1,13 @@
 package com.example.liftvectr;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.liftvectr.data.Exercise;
 import com.example.liftvectr.data.IMUData;
@@ -56,7 +56,7 @@ public class ChartDisplay extends AppCompatActivity {
         returnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transitionToMainActivity();
+                transitionToExerciseHistoryActivity();
             }
         });
     }
@@ -168,9 +168,9 @@ public class ChartDisplay extends AppCompatActivity {
         mpLineChart.invalidate(); // Re-draw the chart
     }
 
-    public void transitionToMainActivity()
+    public void transitionToExerciseHistoryActivity()
     {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, ExerciseHistory.class);
         startActivity(intent);
     }
 }

@@ -5,7 +5,7 @@
         android:icon="@drawable/ic_baseline_home_24"
         android:id="@+id/create"/>
 
-    <item android:title="@string/view_exercise"
+    <item android:title="Exercise History"
         android:icon="@drawable/ic_baseline_scatter_plot_24"
         android:id="@+id/view"/>
 </menu>
