@@ -2,7 +2,10 @@ package com.example.liftvectr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -17,20 +20,21 @@ import com.example.liftvectr.database.ExerciseViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ExerciseHistory extends AppCompatActivity {
-    private Spinner exerciseListSpinner;
     private ExerciseViewModel exerciseViewModel;
     private ListView exerciseList;
+    private List<Exercise> savedExercises;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_history);
-        //exerciseListSpinner = (Spinner) findViewById(R.id.spinner3);
+
         exerciseList = (ListView) findViewById(R.id.exerciseList);
-        //exerciseList.addHeaderView("Exercise History");
 
         //Nav Bar
         // Initialize and Assign Variable
@@ -54,53 +58,40 @@ public class ExerciseHistory extends AppCompatActivity {
             }
         });
 
-        /*
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.exercises_array,
-                android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        exerciseListSpinner.setAdapter(adapter);
-
-        exerciseListSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-                String selectedExercise = (String) exerciseListSpinner.getSelectedItem();
-                Log.i("ExerciseHistory: ", selectedExercise);
-
-                switch (selectedExercise) {
-                    case "Bench Press":
-                        break;
-                    case "Squat":
-                        break;
-                    case "Deadlift":
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                Log.i("ExerciseHistory: ", "Nothing is selected.");
-            }
-        });
-         */
-
         //Populating Exercises
         exerciseViewModel = new ViewModelProvider(this).get(ExerciseViewModel.class);
+
         exerciseViewModel.getAllExercises().observe(this, exercises -> {
-            System.out.println("An exercise has been added or deleted! Refresh the ui with the list of exercises here!");
-
-            LiveData<List<Exercise>> savedExercises = exerciseViewModel.getAllExercises();
-            List<String> exerciseData = new ArrayList<String>();
-            for (int i =0; i < savedExercises.getValue().size(); i++) {
-                exerciseData.add( (String) savedExercises.getValue().get(i).getType()
-                        + " " + (String) savedExercises.getValue().get(i).getDate().toString() );
-            }
-
+            savedExercises = exerciseViewModel.getAllExercises().getValue();
             ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1
-            , exerciseData);
+                    , generateExerciseHistoryListHeaders(savedExercises));
             exerciseList.setAdapter(adapter2);
-
         });
+
+        exerciseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String config = "default";
+                Exercise selectedExercise = savedExercises.get(position);
+                transitionToChartDisplayActivity(config, selectedExercise);
+            }
+        });
+    }
+
+    public List<String> generateExerciseHistoryListHeaders(List<Exercise> exercises) {
+        List<String> exerciseListHeaders = new ArrayList<String>();
+        for (int i =0; i < exercises.size(); i++) {
+            exerciseListHeaders.add( (String) exercises.get(i).getType()
+                    + " " + (String) exercises.get(i).getDate().toString());
+        }
+        return exerciseListHeaders;
+    }
+
+    public void transitionToChartDisplayActivity(String config, Exercise selectedExercise)
+    {
+        Intent intent = new Intent(this, ChartDisplay.class);
+        intent.putExtra("exercise", selectedExercise);
+        intent.putExtra("config", config);
+        startActivity(intent);
     }
 }
