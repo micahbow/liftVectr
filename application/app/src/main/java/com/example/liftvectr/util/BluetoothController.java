@@ -20,13 +20,15 @@ import com.example.liftvectr.data.IMUData;
 
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class BluetoothController {
 
     private final String SERVICE_UUID = "0000181C-0000-1000-8000-00805f9b34fb";
     private final String CHAR_UUID = "00002ADA-0000-1000-8000-00805f9b34fb";
+    private static final String READ_STRING = "READ";
     // private MacAddress MAC_ADDRESS = new MacAddress("1C:35:7E:C5:F9:3B"); (currently not in use)
-
+    private boolean openRead = true;
     private BluetoothLEHelper ble;
     private boolean paired = false;
     private Activity parentActivity;
@@ -52,19 +54,36 @@ public class BluetoothController {
         this.ble.disconnect();
     }
 
-    public void readBLE(int messages, long delay) {
+    public boolean getOpenRead() {
+        return this.openRead;
+    }
+
+    public void writeBLE() {
+        // Confirmation handshake to sync with hardware
         if (ble.isConnected()) {
-            System.out.println("READING!!!");
-            for(int i = 0; i < messages; i++) {
-                try {
-                    Thread.sleep(delay);
-                } catch (InterruptedException e) {
-                    Log.e("readBLE", "Read delay error.");
-                    e.printStackTrace();
-                }
-                Log.i("readBLE", "Calling BLE read.");
-                ble.read(SERVICE_UUID, CHAR_UUID);
+            ble.write(SERVICE_UUID,CHAR_UUID,BluetoothController.READ_STRING);
+        }
+        else {
+            Log.e("writeBLE", "Bluetooth not connected.");
+        }
+    }
+
+    public void readBLE() {
+        if (ble.isConnected()) {
+            if(!this.openRead) {
+                Log.e("readBLE","Out of sync with runnable");
+                return;
             }
+            openRead = false;
+            System.out.println("READING!!!");
+            /* try {
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                Log.e("readBLE", "Read delay error.");
+                e.printStackTrace();
+            } */
+            // Log.i("readBLE", "Calling BLE read.");
+            ble.read(SERVICE_UUID, CHAR_UUID);
         }
         else {
             Log.e("readBLE", "Bluetooth not connected.");
@@ -163,14 +182,14 @@ public class BluetoothController {
             @Override
             public void onBleCharacteristicChange(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
                 super.onBleCharacteristicChange(gatt, characteristic);
-                Log.i("BluetoothLEHelper","onCharacteristicChanged Value: " + Arrays.toString(characteristic.getValue()));
+                Log.i("BluetoothLEHelper", "Characteristic Changed");
             }
 
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onBleRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+                System.out.println("READ CALLBACK!");
                 super.onBleRead(gatt, characteristic, status);
-
                 if (status == BluetoothGatt.GATT_SUCCESS) {
                     Log.i("onBleRead STATUS", "SUCCESS");
                     byte[] raw_data = characteristic.getValue();
@@ -182,8 +201,10 @@ public class BluetoothController {
                     String[] values = decoded.split(",");
                     // Checking for transmission issues in which a value may have multiple or no decimals
                     boolean valid = true;
+                    Pattern validFloat = Pattern.compile("-?[0-9]+.[0-9]+");
+
                     for (int i = 0; i < values.length; i++) {
-                        if(values[i].chars().filter(ch -> ch == '.').count() != 1) {
+                        if(!validFloat.matcher(values[i]).matches()) {
                             valid = false;
                         }
                     }
@@ -198,20 +219,31 @@ public class BluetoothController {
                     else {
                         Log.e("onBleRead", "Invalid transmission!");
                     }
-
-                    // Handle oncharacteristicread here
+                    writeBLE();
                 }
                 else {
-                    Log.e("onBleRead STATUS", "FAILURE");
-                    // Add error handling here
+                    System.out.println("bruh");
+//                    String failVal = new String(characteristic.getValue());
+//                    if(failVal != BluetoothController.READ_STRING) {
+//                        disconnect();
+//                        Log.e("onBleRead STATUS", "FAILURE");
+//                    }
                 }
             }
 
             @Override
-            // Not used for app
             public void onBleWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
                 super.onBleWrite(gatt, characteristic, status);
-                Log.i("onBleWrite", "Write callback called (unexpected).");
+                Log.i("onBleWrite", "Write callback called.");
+                if(status == BluetoothGatt.GATT_SUCCESS) {
+                    try {
+                        Thread.sleep(1);
+                    } catch(InterruptedException E) {E.printStackTrace();}
+                    openRead = true;
+                }
+                else {
+                    Log.e("onBleWrite", "Write callback failed status bad.");
+                }
             }
         };
     }

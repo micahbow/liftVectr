@@ -17,7 +17,8 @@ public class ReadRunnable implements Runnable {
     @Override
     public void run() {
         while (controller.getPairedStatus() && button.getText() != "Start Exercise") {
-            controller.readBLE(1, 10);
+            while(!controller.getOpenRead());
+            controller.readBLE();
         }
         controller.childParentToastText("Read stopped.");
     }

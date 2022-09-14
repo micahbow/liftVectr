@@ -271,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void transitionToChartDisplayActivity(String config)
     {
+        BLEController.disconnect();
         Intent intent = new Intent(this, ChartDisplay.class);
         intent.putExtra("exercise", newExercise);
         intent.putExtra("config", config);
@@ -288,6 +289,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        BLEController.disconnect();
         super.onDestroy();
     }
 
