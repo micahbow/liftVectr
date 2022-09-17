@@ -73,7 +73,7 @@ public class ExerciseHistoryActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 String config = "default";
                 Exercise selectedExercise = savedExercises.get(position);
-                transitionToChartDisplayActivity(config, selectedExercise);
+                transitionToExerciseStatisticsActivity(config, selectedExercise);
             }
         });
     }
@@ -87,11 +87,10 @@ public class ExerciseHistoryActivity extends AppCompatActivity {
         return exerciseListHeaders;
     }
 
-    public void transitionToChartDisplayActivity(String config, Exercise selectedExercise)
+    public void transitionToExerciseStatisticsActivity(String config, Exercise selectedExercise)
     {
-        Intent intent = new Intent(this, ChartDisplay.class);
+        Intent intent = new Intent(this, ExerciseStatisticsActivity.class);
         intent.putExtra("exercise", selectedExercise);
-        intent.putExtra("config", config);
         startActivity(intent);
     }
 }

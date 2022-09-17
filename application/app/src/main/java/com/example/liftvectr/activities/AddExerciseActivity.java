@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.ederdoski.simpleble.models.BluetoothLE;
@@ -37,7 +36,6 @@ public class AddExerciseActivity extends AppCompatActivity {
     public static final String scanPair = "Select to rescan";
 
     private Button exerciseBtn;
-    private Button viewChartBtn;
     private Spinner exerciseSpinner;
     private Spinner deviceListSpinner;
     private TextView x_accel, y_accel, z_accel;
@@ -53,6 +51,11 @@ public class AddExerciseActivity extends AppCompatActivity {
     private Exercise newExercise;
 
     private boolean exerciseOngoing = false;
+
+    // For emulating ONLY
+    // MODIFY this to true to allow start/stop exercise to be pressed, creating a fake exercise and transitioning
+    // to CropExerciseActivity during emulation
+    private boolean emulationMode = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +94,6 @@ public class AddExerciseActivity extends AppCompatActivity {
         //exerciseViewModel.deleteAllExercises();
 
         exerciseBtn = (Button) findViewById(R.id.button);
-        viewChartBtn = (Button) findViewById(R.id.view_chart_button);
         x_accel = (TextView) findViewById(R.id.x_a);
         y_accel = (TextView) findViewById(R.id.y_a);
         z_accel = (TextView) findViewById(R.id.z_a);
@@ -157,59 +159,36 @@ public class AddExerciseActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(exerciseBtn.getText().equals("Start Exercise")) {
-                    if(!BLEController.getPairedStatus()) {
+                    if(!emulationMode && !BLEController.getPairedStatus()) {
                         setToastText("Need to pair to IMU first!");
                         return;
                     }
                     exerciseBtn.setText("Stop Exercise");
-                    viewChartBtn.setVisibility(View.INVISIBLE);
-                    exerciseOngoing = true;
 
-                    newExercise = new Exercise(exerciseSpinner.getSelectedItem().toString(), Calendar.getInstance().getTime());
+                    newExercise = new Exercise(exerciseSpinner.getSelectedItem().toString(), 150, Calendar.getInstance().getTime());
 
                     Runnable r = new ReadRunnable(BLEController, exerciseBtn);
                     Thread t = new Thread(r);
                     t.start();
 
-                    /*// Fill exercise with fake bluetooth data
-                    newExercise.addDataSample(new IMUData(0.2f, 1.0f, 0.43f, 0.0f, 0.1f, 0.0f, -9.0f, -1.0f, -1.0f, 1));
-                    newExercise.addDataSample(new IMUData(0.23f, 0.95f, 0.41f, 0.3f, 0.2f, 0.3f, -8.4f,-1.0f, -0.8f, 2));
-                    newExercise.addDataSample(new IMUData(0.28f, 1.10f, 0.39f, 0.5f, 0.1f, 0.5f, -9.3f,-0.9f, -1.0f, 3));
-                    newExercise.addDataSample(new IMUData(0.25f, 1.03f, 0.43f, 0.3f, 0.3f, 0.9f, -7.2f,-1.0f, -0.9f, 4));
-                    newExercise.addDataSample(new IMUData(0.29f, 0.93f, 0.45f, 0.0f, 0.2f, 1.1f, -6.3f,-0.9f, -1.0f, 5));
-                    newExercise.addDataSample(new IMUData(0.24f, 0.98f, 0.49f, 0.3f, 0.1f, 3.3f, -6.8f,-1.0f, -1.3f, 6));
-                    newExercise.addDataSample(new IMUData(0.22f, 1.01f, 0.46f, 0.5f, 0.0f, 3.0f, -9.5f,-0.8f, -1.0f, 7));
-                    newExercise.addDataSample(new IMUData(0.21f, 1.03f, 0.42f, 0.3f, 0.0f, 2.1f, -10.0f,-1.0f, -1.2f, 8));
-                    newExercise.addDataSample(new IMUData(0.24f, 0.94f, 0.40f, 0.0f, 0.1f, 1.2f, -9.1f, -0.9f, -1.0f, 9));
-                    newExercise.addDataSample(new IMUData(0.26f, 0.99f, 0.43f, 0.3f, 0.2f, 0.4f, -9.3f,-1.2f, -1.1f, 10));*/
+                    if(emulationMode) {
+                        // Fill exercise with fake bluetooth data
+                        newExercise.addDataSample(new IMUData(0.2f, 1.0f, 0.43f, 0.0f, 0.1f, 0.0f, 1));
+                        newExercise.addDataSample(new IMUData(0.23f, 0.95f, 0.41f, 0.3f, 0.2f, 0.3f,  2));
+                        newExercise.addDataSample(new IMUData(0.28f, 1.10f, 0.39f, 0.5f, 0.1f, 0.5f, 3));
+                        newExercise.addDataSample(new IMUData(0.25f, 1.03f, 0.43f, 0.3f, 0.3f, 0.9f, 4));
+                        newExercise.addDataSample(new IMUData(0.29f, 0.93f, 0.45f, 0.0f, 0.2f, 1.1f, 5));
+                        newExercise.addDataSample(new IMUData(0.24f, 0.98f, 0.49f, 0.3f, 0.1f, 3.3f, 6));
+                        newExercise.addDataSample(new IMUData(0.22f, 1.01f, 0.46f, 0.5f, 0.0f, 3.0f, 7));
+                        newExercise.addDataSample(new IMUData(0.21f, 1.03f, 0.42f, 0.3f, 0.0f, 2.1f, 8));
+                        newExercise.addDataSample(new IMUData(0.24f, 0.94f, 0.40f, 0.0f, 0.1f, 1.2f, 9));
+                        newExercise.addDataSample(new IMUData(0.26f, 0.99f, 0.43f, 0.3f, 0.2f, 0.4f, 10));
+                    }
                 }
                 else {
-                    // Save the exercise to the db
-                    exerciseViewModel.saveExercise(newExercise);
                     exerciseBtn.setText("Start Exercise");
-                    viewChartBtn.setVisibility(View.VISIBLE);
-                    exerciseOngoing = false;
+                    transitionToCropExerciseActivity();
                 }
-            }
-
-        });
-
-        viewChartBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String chartConfig = "default";
-                transitionToChartDisplayActivity(chartConfig);
-            }
-        });
-
-        exerciseViewModel.getAllExercises().observe(this, exercises -> {
-            System.out.println("An exercise has been added or deleted! Refresh the ui with the list of exercises here!");
-
-            LiveData<List<Exercise>> savedExercises = exerciseViewModel.getAllExercises();
-            System.out.println("Exercise List (Console Version): ");
-            for (int i = 0; i < savedExercises.getValue().size(); i++) {
-                System.out.print("Exercise Type:" + savedExercises.getValue().get(i).getType());
-                System.out.println(", Exercise Date:" + savedExercises.getValue().get(i).getDate());
             }
         });
     }
@@ -260,11 +239,10 @@ public class AddExerciseActivity extends AppCompatActivity {
         this.listDevices = list;
     }
 
-    public void transitionToChartDisplayActivity(String config)
+    public void transitionToCropExerciseActivity()
     {
-        Intent intent = new Intent(this, ChartDisplay.class);
+        Intent intent = new Intent(this, CropExerciseActivity.class);
         intent.putExtra("exercise", newExercise);
-        intent.putExtra("config", config);
         startActivity(intent);
     }
 

@@ -45,9 +45,6 @@
         <activity
             android:name=".activities.AllTimeStatisticsActivity"
             android:exported="true" />
-        <activity
-            android:name=".activities.ChartDisplay"
-            android:exported="true" />
     </application>
 
 </manifest>

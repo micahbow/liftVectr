@@ -20,8 +20,17 @@ import java.util.Random;
 
 public class ChartDisplay {
 
+    // -------------------- Public Utility Functions --------------------
+
     public static void displaySingleLineChart(LineChart chart, List<Float> xValues, List<Float> yValues,
                                               String lineLabel, String chartDescription) {
+        if (chart == null) {
+            throw new IllegalArgumentException("Error: LineChart is null");
+        }
+        if (xValues.size() == 0 || yValues.size() == 0) {
+            throw new IllegalArgumentException("An inputted coordinate array is empty");
+        }
+
         setChartStyling(chart, chartDescription);
         LineDataSet line = createLine(xValues, yValues, lineLabel, Color.BLUE);
 
@@ -35,6 +44,13 @@ public class ChartDisplay {
                                              List<List<Float>> yValues,
                                              List<String> lineLabels,
                                              String chartDescription) {
+        if (chart == null) {
+            throw new IllegalArgumentException("Error: LineChart is null");
+        }
+        if (xValues.size() == 0 || yValues.size() == 0) {
+            throw new IllegalArgumentException("An inputted coordinate array is empty");
+        }
+
         setChartStyling(chart, chartDescription);
         List<ILineDataSet> lines = createMultipleLines(xValues, yValues, lineLabels);
 
@@ -53,6 +69,9 @@ public class ChartDisplay {
         chart.setData(data);
         chart.invalidate();
     }
+
+
+    // -------------------- Private Helpers - Do not use --------------------
 
     private static LineDataSet createLine(List<Float> xValues, List<Float> yValues, String lineLabel, int color) {
         if (xValues.size() != yValues.size()) {
@@ -145,6 +164,4 @@ public class ChartDisplay {
         float luminance = 1.0f;
         return Color.HSVToColor(new float[]{hue, saturation, luminance});
     }
-
-
 }
