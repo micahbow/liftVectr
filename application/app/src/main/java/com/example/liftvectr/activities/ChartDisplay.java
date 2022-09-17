@@ -1,4 +1,6 @@
-package com.example.liftvectr;
+package com.example.liftvectr.activities;
+
+import static com.example.liftvectr.util.ChartDisplay.displayIMUDataChart;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.liftvectr.R;
 import com.example.liftvectr.data.Exercise;
 import com.example.liftvectr.data.IMUData;
 import com.github.mikephil.charting.charts.LineChart;
@@ -51,8 +54,8 @@ public class ChartDisplay extends AppCompatActivity {
         Exercise exercise = (Exercise) intent.getSerializableExtra("exercise");
         String config = (String) intent.getSerializableExtra("config");
 
-        plotExercise(exercise, config);
-
+        //plotExercise(exercise, config);
+        displayIMUDataChart(exercise, mpLineChart, "Recorded IMU Data");
         returnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,7 +173,7 @@ public class ChartDisplay extends AppCompatActivity {
 
     public void transitionToExerciseHistoryActivity()
     {
-        Intent intent = new Intent(this, ExerciseHistory.class);
+        Intent intent = new Intent(this, ExerciseHistoryActivity.class);
         startActivity(intent);
     }
 }

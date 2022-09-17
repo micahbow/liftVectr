@@ -1,4 +1,4 @@
-package com.example.liftvectr;
+package com.example.liftvectr.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.ederdoski.simpleble.models.BluetoothLE;
+import com.example.liftvectr.R;
 import com.example.liftvectr.data.Exercise;
 import com.example.liftvectr.data.IMUData;
 import com.example.liftvectr.database.ExerciseViewModel;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class AddExerciseActivity extends AppCompatActivity {
 
     public static final String placeholderPair = "Please select a device to pair to";
     public static final String scanPair = "Select to rescan";
@@ -62,18 +63,21 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         // Set Create Exercise Selected
-        bottomNavigationView.setSelectedItemId(R.id.create);
+        bottomNavigationView.setSelectedItemId(R.id.create_exercise_page);
 
         // Perform ItemSelectedListener
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()) {
-                    case R.id.create:
+                    case R.id.create_exercise_page:
                         return true;
-                    case R.id.view:
-                        startActivity(new Intent(getApplicationContext()
-                            , ExerciseHistory.class));
+                    case R.id.exercise_history_page:
+                        startActivity(new Intent(getApplicationContext(), ExerciseHistoryActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.all_time_statistics_page:
+                        startActivity(new Intent(getApplicationContext(), AllTimeStatisticsActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                 }
@@ -129,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("deviceListSpinner: ", (String) deviceListSpinner.getSelectedItem());
 
                 // For placeholder, do not try to pair
-                if (deviceListSpinner.getSelectedItem() == MainActivity.placeholderPair || deviceListSpinner.getSelectedItem() == "" || deviceListSpinner.getSelectedItem() == null) {return;}
-                else if (deviceListSpinner.getSelectedItem() == MainActivity.scanPair) {
+                if (deviceListSpinner.getSelectedItem() == AddExerciseActivity.placeholderPair || deviceListSpinner.getSelectedItem() == "" || deviceListSpinner.getSelectedItem() == null) {return;}
+                else if (deviceListSpinner.getSelectedItem() == AddExerciseActivity.scanPair) {
                     try {
                         BLEController.scanDevices();
                     } catch (Exception e) {
@@ -229,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setToastText(String Text) {
-        runOnUiThread(() -> Toast.makeText(MainActivity.this, Text, Toast.LENGTH_SHORT).show());
+        runOnUiThread(() -> Toast.makeText(AddExerciseActivity.this, Text, Toast.LENGTH_SHORT).show());
     }
 
     public void setListDevices(ArrayList<BluetoothLE> list) {
@@ -239,8 +243,8 @@ public class MainActivity extends AppCompatActivity {
         deviceListSpinner.setAdapter(spinnerAdapter);
 
         // Add first placeholder button and rescan button
-        spinnerAdapter.add(MainActivity.placeholderPair);
-        spinnerAdapter.add(MainActivity.scanPair);
+        spinnerAdapter.add(AddExerciseActivity.placeholderPair);
+        spinnerAdapter.add(AddExerciseActivity.scanPair);
         // Could be null if we are resetting
         if (list != null) {
             for (BluetoothLE item : list) {
