@@ -1,30 +1,26 @@
-package com.example.liftvectr;
+package com.example.liftvectr.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.liftvectr.R;
 import com.example.liftvectr.data.Exercise;
 import com.example.liftvectr.database.ExerciseViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class ExerciseHistory extends AppCompatActivity {
+public class ExerciseHistoryActivity extends AppCompatActivity {
     private ExerciseViewModel exerciseViewModel;
     private ListView exerciseList;
     private List<Exercise> savedExercises;
@@ -36,22 +32,26 @@ public class ExerciseHistory extends AppCompatActivity {
 
         exerciseList = (ListView) findViewById(R.id.exerciseList);
 
-        //Nav Bar
         // Initialize and Assign Variable
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
         // Set Create Exercise Selected
-        bottomNavigationView.setSelectedItemId(R.id.view);
+        bottomNavigationView.setSelectedItemId(R.id.exercise_history_page);
+
         // Perform ItemSelectedListener
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()) {
-                    case R.id.create:
-                        startActivity(new Intent(getApplicationContext()
-                                , MainActivity.class));
+                    case R.id.create_exercise_page:
+                        startActivity(new Intent(getApplicationContext(), AddExerciseActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
-                    case R.id.view:
+                    case R.id.exercise_history_page:
+                        return true;
+                    case R.id.all_time_statistics_page:
+                        startActivity(new Intent(getApplicationContext(), AllTimeStatisticsActivity.class));
+                        overridePendingTransition(0, 0);
                         return true;
                 }
                 return false;
@@ -73,7 +73,7 @@ public class ExerciseHistory extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 String config = "default";
                 Exercise selectedExercise = savedExercises.get(position);
-                transitionToChartDisplayActivity(config, selectedExercise);
+                transitionToExerciseStatisticsActivity(config, selectedExercise);
             }
         });
     }
@@ -87,11 +87,10 @@ public class ExerciseHistory extends AppCompatActivity {
         return exerciseListHeaders;
     }
 
-    public void transitionToChartDisplayActivity(String config, Exercise selectedExercise)
+    public void transitionToExerciseStatisticsActivity(String config, Exercise selectedExercise)
     {
-        Intent intent = new Intent(this, ChartDisplay.class);
+        Intent intent = new Intent(this, ExerciseStatisticsActivity.class);
         intent.putExtra("exercise", selectedExercise);
-        intent.putExtra("config", config);
         startActivity(intent);
     }
 }

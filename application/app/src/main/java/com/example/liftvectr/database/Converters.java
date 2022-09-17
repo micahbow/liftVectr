@@ -25,7 +25,7 @@ public class Converters {
     }
 
     @TypeConverter
-    public static ArrayList<IMUData> jsonToArrayList(String json) {
+    public static ArrayList<IMUData> jsonToIMUDataArrayList(String json) {
         if (json == null) {
             return null;
         }
@@ -34,12 +34,41 @@ public class Converters {
     }
 
     @TypeConverter
-    public static String arrayListToJson(ArrayList<IMUData> list) {
+    public static String IMUDataArrayListToJson(ArrayList<IMUData> list) {
         if (list == null) {
             return null;
         }
         Gson gson = new Gson();
         Type listType = new TypeToken<ArrayList<IMUData>>() {}.getType();
+        return gson.toJson(list, listType);
+    }
+
+    @TypeConverter
+    public static String floatToString(float value) {
+        return String.valueOf(value);
+    }
+
+    @TypeConverter
+    public static float stringToFloat(String value) {
+        return Float.parseFloat(value);
+    }
+
+    @TypeConverter
+    public static ArrayList<Float> jsonToFloatArrayList(String json) {
+        if (json == null) {
+            return null;
+        }
+        Type listType = new TypeToken<ArrayList<Float>>() {}.getType();
+        return new Gson().fromJson(json, listType);
+    }
+
+    @TypeConverter
+    public static String floatArrayListToJson(ArrayList<Float> list) {
+        if (list == null) {
+            return null;
+        }
+        Gson gson = new Gson();
+        Type listType = new TypeToken<ArrayList<Float>>() {}.getType();
         return gson.toJson(list, listType);
     }
 }
