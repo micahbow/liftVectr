@@ -16,10 +16,17 @@ public class ReadRunnable implements Runnable {
 
     @Override
     public void run() {
-        while (controller.getPairedStatus() && button.getText() != "Start Exercise") {
+        if (controller.getPairedStatus() && button.getText() != "Start Exercise") {
             while(!controller.getOpenRead());
-            controller.readBLE();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            controller.setNotificationsOn();
         }
+        while(button.getText() != "Start Exercise");
         controller.childParentToastText("Read stopped.");
+        controller.disconnect();
     }
 }

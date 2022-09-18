@@ -33,9 +33,6 @@ public class ChartDisplay extends AppCompatActivity {
     private LineDataSet xGyroLine;
     private LineDataSet yGyroLine;
     private LineDataSet zGyroLine;
-    private LineDataSet xMagnLine;
-    private LineDataSet yMagnLine;
-    private LineDataSet zMagnLine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +66,6 @@ public class ChartDisplay extends AppCompatActivity {
         ArrayList<Entry> xAngVel_ms = new ArrayList<>();
         ArrayList<Entry> yAngVel_ms = new ArrayList<>();
         ArrayList<Entry> zAngVel_ms = new ArrayList<>();
-        ArrayList<Entry> xMagField_ms = new ArrayList<>();
-        ArrayList<Entry> yMagField_ms = new ArrayList<>();
-        ArrayList<Entry> zMagField_ms = new ArrayList<>();
 
         ArrayList<IMUData> data = exercise.getData();
         for (int i = 0; i < data.size(); i++) {
@@ -81,9 +75,6 @@ public class ChartDisplay extends AppCompatActivity {
             xAngVel_ms.add(new Entry(data.get(i).micros, data.get(i).x_ang_vel));
             yAngVel_ms.add(new Entry(data.get(i).micros, data.get(i).y_ang_vel));
             zAngVel_ms.add(new Entry(data.get(i).micros, data.get(i).z_ang_vel));
-            xMagField_ms.add(new Entry(data.get(i).micros, data.get(i).x_mag_field));
-            yMagField_ms.add(new Entry(data.get(i).micros, data.get(i).y_mag_field));
-            zMagField_ms.add(new Entry(data.get(i).micros, data.get(i).z_mag_field));
         }
 
         xAccLine = new LineDataSet(xLinAcc_ms, "X_A");
@@ -92,9 +83,6 @@ public class ChartDisplay extends AppCompatActivity {
         xGyroLine = new LineDataSet(xAngVel_ms, "X_G");
         yGyroLine = new LineDataSet(yAngVel_ms, "Y_G");
         zGyroLine = new LineDataSet(zAngVel_ms, "Z_G");
-        xMagnLine = new LineDataSet(xMagField_ms, "X_M");
-        yMagnLine = new LineDataSet(yMagField_ms, "Y_M");
-        zMagnLine = new LineDataSet(zMagField_ms, "Z_M");
     }
 
     public void setPlotStyling(String config) {
@@ -108,9 +96,6 @@ public class ChartDisplay extends AppCompatActivity {
             xGyroLine.setDrawCircles(true);
             yGyroLine.setDrawCircles(true);
             zGyroLine.setDrawCircles(true);
-            xMagnLine.setDrawCircles(true);
-            yMagnLine.setDrawCircles(true);
-            zMagnLine.setDrawCircles(true);
 
             xAccLine.setDrawValues(true);
             yAccLine.setDrawValues(true);
@@ -118,9 +103,6 @@ public class ChartDisplay extends AppCompatActivity {
             xGyroLine.setDrawValues(true);
             yGyroLine.setDrawValues(true);
             zGyroLine.setDrawValues(true);
-            xMagnLine.setDrawValues(true);
-            yMagnLine.setDrawValues(true);
-            zMagnLine.setDrawValues(true);
 
             xAccLine.setColor(Color.rgb(153, 0, 0));
             yAccLine.setColor(Color.rgb(255, 0, 0));
@@ -128,9 +110,6 @@ public class ChartDisplay extends AppCompatActivity {
             xGyroLine.setColor(Color.rgb(0, 153, 0));
             yGyroLine.setColor(Color.rgb(0, 255, 0));
             zGyroLine.setColor(Color.rgb(102, 255, 102));
-            xMagnLine.setColor(Color.rgb(0, 0, 153));
-            yMagnLine.setColor(Color.rgb(0, 0, 255));
-            zMagnLine.setColor(Color.rgb(102, 102, 255));
 
             mpLineChart.getAxisRight().setDrawGridLines(false);
             mpLineChart.getAxisRight().setEnabled(false);
@@ -159,9 +138,6 @@ public class ChartDisplay extends AppCompatActivity {
         lines.add(xGyroLine);
         lines.add(yGyroLine);
         lines.add(zGyroLine);
-        lines.add(xMagnLine);
-        lines.add(yMagnLine);
-        lines.add(zMagnLine);
 
         LineData data = new LineData(lines);
         mpLineChart.setData(data);

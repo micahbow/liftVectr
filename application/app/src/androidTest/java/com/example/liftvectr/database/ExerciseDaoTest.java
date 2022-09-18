@@ -47,11 +47,11 @@ public class ExerciseDaoTest {
                 .build();
         mockExerciseDao = mockExerciseDatabase.ExerciseDao();
 
-        testIMUData = new IMUData(1.23f, 4.56f, 7.89f, 1.23f, 4.56f, 7.89f, 1.23f, 4.56f, 7.89f, 1);
+        testIMUData = new IMUData(1.23f, 4.56f, 7.89f, 1.23f, 4.56f, 7.89f, 1);
         testExercise = new Exercise("Bench Press", new Date(12345678));
         testExercise.addDataSample(testIMUData);
 
-        testIMUData2 = new IMUData(9.12f, 3.87f, 11.32f, 1.30f, 3.39f, 0.01f, 0.71f, 6.13f, 8.90f, 2);
+        testIMUData2 = new IMUData(9.12f, 3.87f, 11.32f, 1.30f, 3.39f, 0.01f, 2);
         testExercise2 = new Exercise("Squat", new Date(87654321));
         testExercise.addDataSample(testIMUData2);
     }
