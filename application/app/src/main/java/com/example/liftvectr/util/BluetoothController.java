@@ -265,8 +265,8 @@ public class BluetoothController {
                         if (values != null && values.length == 1 && valid) {
                             rawDataBuffer[6] = values[0];
                             IMUData parsed_data = new IMUData(rawDataBuffer);
-                            ((MainActivity)(BLEController.parentActivity)).addDataToExercise(parsed_data);
-                            ((MainActivity)(BLEController.parentActivity)).displayData(parsed_data);
+                            ((AddExerciseActivity)(BLEController.parentActivity)).addDataToExercise(parsed_data);
+                            ((AddExerciseActivity)(BLEController.parentActivity)).displayData(parsed_data);
                             Log.i("onBleCharacteristicChange","Transmission Success");
                         }
                         else {

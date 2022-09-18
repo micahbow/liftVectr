@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.liftvectr.activities.AddExerciseActivity;
 import com.example.liftvectr.data.Exercise;
 import com.example.liftvectr.data.IMUData;
 import com.github.mikephil.charting.charts.LineChart;
@@ -146,7 +147,7 @@ public class ChartDisplay extends AppCompatActivity {
 
     public void transitionToMainActivity()
     {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, AddExerciseActivity.class);
         startActivity(intent);
     }
 }
