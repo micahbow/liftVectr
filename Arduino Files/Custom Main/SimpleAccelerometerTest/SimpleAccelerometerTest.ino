@@ -16,20 +16,29 @@
 
 */
 
-#include <Arduino_LSM9DS1_Modified.h>
+#include "LSM6DS3.h"
+#include "Wire.h"
+
+//Create a instance of class LSM6DS3
+LSM6DS3 IMU(I2C_MODE, 0x6A);    //I2C device address 0x6A
 
 void setup() {
   Serial.begin(9600);
   while (!Serial);
   Serial.println("Started");
 
-  if (!IMU.begin()) {
+  if (IMU.begin() != 0) {
     Serial.println("Failed to initialize IMU!");
     while (1);
   }
 
+  uint8_t gModification;
+  IMU.readRegister(&gModification, LSM6DS3_ACC_GYRO_CTRL1_XL);
+  gModification = (gModification & 0xF3) | LSM6DS3_ACC_GYRO_FS_XL_16g;
+  IMU.writeRegister(LSM6DS3_ACC_GYRO_CTRL1_XL, gModification);
+
   Serial.print("Accelerometer sample rate = ");
-  Serial.print(IMU.accelerationSampleRate());
+  Serial.print(104.0F);
   Serial.println(" Hz");
   Serial.println();
   Serial.println("Acceleration in G's");
@@ -53,8 +62,12 @@ void setup() {
 void loop() {
   float x, y, z;
 
-  if (IMU.accelerationAvailable()) {
-    IMU.readAcceleration(x, y, z);
+  uint8_t accelerometerAvailable;
+  IMU.readRegister(&accelerometerAvailable, LSM6DS3_ACC_GYRO_STATUS_REG);
+  if ((accelerometerAvailable & 0x01) != 0x00) {
+    x = IMU.readFloatAccelX();
+    y = IMU.readFloatAccelY();
+    z = IMU.readFloatAccelZ();
     //WE CAN FIX THE X AXIS
     Serial.print(0);
     Serial.print('\t');
