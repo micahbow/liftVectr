@@ -26,13 +26,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LiftVectr">
         <activity
-            android:name=".ViewExerciseTest"
-            android:exported="false" />
-        <activity
-            android:name=".ChartDisplay"
+            android:name=".activities.AddExerciseActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.CropExerciseActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.ExerciseStatisticsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.ExerciseHistoryActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,6 +43,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.AllTimeStatisticsActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

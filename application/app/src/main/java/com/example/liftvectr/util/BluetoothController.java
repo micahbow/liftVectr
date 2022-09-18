@@ -16,7 +16,7 @@ import androidx.annotation.RequiresApi;
 import com.ederdoski.simpleble.interfaces.BleCallback;
 import com.ederdoski.simpleble.models.BluetoothLE;
 import com.ederdoski.simpleble.utils.BluetoothLEHelper;
-import com.example.liftvectr.MainActivity;
+import com.example.liftvectr.activities.AddExerciseActivity;
 import com.example.liftvectr.data.IMUData;
 
 import java.util.Arrays;
@@ -53,7 +53,7 @@ public class BluetoothController {
 
     public void setPairedStatus(boolean value) {
         this.paired = value;
-        ((MainActivity)(this.parentActivity)).setBluetoothConnected(value);
+        ((AddExerciseActivity)(this.parentActivity)).setBluetoothConnected(value);
     }
 
     public boolean getPairedStatus() {
@@ -105,11 +105,8 @@ public class BluetoothController {
 
     public void scanDevices() throws Exception {
         // Wait for ready to scan
-        if(ble.isConnected()) {
-            this.disconnect();
-        }
-        ((MainActivity)(parentActivity)).setToastText("Scanning for devices.");
-        ((MainActivity)(parentActivity)).setListDevices(null);
+        ((AddExerciseActivity)(parentActivity)).setToastText("Scanning for devices.");
+        ((AddExerciseActivity)(parentActivity)).setListDevices(null);
         Log.i("scanDevices", "Waiting for ready to scan.");
         int retries = 0;
         while(!ble.isReadyForScan()) {
@@ -120,27 +117,27 @@ public class BluetoothController {
         }
         Log.i("scanDevices","Enabling scan!");
         // Clear old devices list before scanning
-        ((MainActivity)(parentActivity)).setListDevices(null);
+        ((AddExerciseActivity)(parentActivity)).setListDevices(null);
         Handler mHandler = new Handler();
         ble.scanLeDevice(true);
         mHandler.postDelayed(() -> {
             //--The scan is over, you should recover the found devices.
             ArrayList<BluetoothLE> listDevices = ble.getListDevices();
             Log.v("Devices found: ", String.valueOf(listDevices));
-            ((MainActivity)(parentActivity)).setToastText("Scan complete.");
-            ((MainActivity)(parentActivity)).setListDevices(listDevices);
+            ((AddExerciseActivity)(parentActivity)).setToastText("Scan complete.");
+            ((AddExerciseActivity)(parentActivity)).setListDevices(listDevices);
         }, ble.getScanPeriod());
 
     }
 
     public void childParentToastText(String text) {
-        ((MainActivity)(this.parentActivity)).setToastText(text);
+        ((AddExerciseActivity)(this.parentActivity)).setToastText(text);
     }
 
     public void findAndPairMatchingDevice(String name) {
         boolean match = false;
         this.setPairedStatus(false);
-        ((MainActivity)(this.parentActivity)).setToastText("Not Connected");
+        ((AddExerciseActivity)(this.parentActivity)).setToastText("Not Connected");
         Log.i("findAndPairMatchDev","BEGIN FINDING MATCH");
         if (!ble.getListDevices().isEmpty()) {
             for (BluetoothLE item : ble.getListDevices()) {
@@ -176,14 +173,14 @@ public class BluetoothController {
                     BLEController.setPairedStatus(true);
 
                     // Notify main activity of change
-                    ((MainActivity)(BLEController.parentActivity)).setToastText("Connected to GATT server.");
+                    ((AddExerciseActivity)(BLEController.parentActivity)).setToastText("Connected to GATT server.");
                 }
 
                 if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                     BLEController.setPairedStatus(false);
 
                     // Notify main activity of change
-                    ((MainActivity)(BLEController.parentActivity)).setToastText("Disconnected from GATT server.");
+                    ((AddExerciseActivity)(BLEController.parentActivity)).setToastText("Disconnected from GATT server.");
                 }
             }
 
@@ -322,8 +319,8 @@ public class BluetoothController {
                     // If so, add data to exercise object and display
                     if (values != null && values.length == 7 && valid) {
                         IMUData parsed_data = new IMUData(values);
-                        ((MainActivity)(BLEController.parentActivity)).addDataToExercise(parsed_data);
-                        ((MainActivity)(BLEController.parentActivity)).displayData(parsed_data);
+                        ((AddExerciseActivity)(BLEController.parentActivity)).addDataToExercise(parsed_data);
+                        ((AddExerciseActivity)(BLEController.parentActivity)).displayData(parsed_data);
                     }
                     else {
                         Log.e("onBleRead", "Invalid transmission!");

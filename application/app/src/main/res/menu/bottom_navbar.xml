@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/create_exercise_page"
+        android:icon="@drawable/add_48px"
+        android:title="" />
 
-    <item android:title="@string/create_exercise"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:id="@+id/create"/>
+    <item
+        android:id="@+id/exercise_history_page"
+        android:icon="@drawable/fitness_center_48px"
+        android:title="" />
 
-    <item android:title="@string/view_exercise"
-        android:icon="@drawable/ic_baseline_scatter_plot_24"
-        android:id="@+id/view"/>
+    <item
+        android:id="@+id/all_time_statistics_page"
+        android:icon="@drawable/insights_48px"
+        android:title="" />
 </menu>
