@@ -3,8 +3,6 @@ package com.example.liftvectr.util;
 import android.app.Activity;
 import android.widget.Button;
 
-import com.example.liftvectr.MainActivity;
-
 public class ReadRunnable implements Runnable {
     BluetoothController controller;
     Button button;
