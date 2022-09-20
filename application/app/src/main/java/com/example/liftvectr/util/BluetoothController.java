@@ -3,12 +3,17 @@ package com.example.liftvectr.util;
 import android.app.Activity;
 import android.Manifest;
 import android.bluetooth.BluetoothGattDescriptor;
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Build;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothProfile;
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
@@ -52,6 +57,26 @@ public class BluetoothController {
     }
 
     public void setPairedStatus(boolean value) {
+        ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+        if(value) {
+            for(int i = 0; i < 3; i++) {
+                toneG.startTone(ToneGenerator.TONE_SUP_CONFIRM, 250);
+                try {
+                    Thread.sleep(250);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            for(int i = 0; i < 3; i++) {
+                toneG.startTone(ToneGenerator.TONE_SUP_ERROR, 250);
+                try {
+                    Thread.sleep(250);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         this.paired = value;
         ((AddExerciseActivity)(this.parentActivity)).setBluetoothConnected(value);
     }
@@ -72,7 +97,7 @@ public class BluetoothController {
     public void writeBLE() {
         // Confirmation handshake to sync with hardware
         if (ble.isConnected()) {
-            ble.write(SERVICE_UUID,CHAR_UUID,"");
+            ble.write(SERVICE_UUID,CHAR_UUID,"S");
             Log.i("writeBLE","");
         }
         else {
@@ -341,6 +366,19 @@ public class BluetoothController {
                 Log.i("onBleWrite", "Write callback called.");
                 if(!notifSet) {
                     notifSet = true;
+
+                    // Countdown to data collection
+                    try {
+                        Thread.sleep(5000);
+                        ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+                        for(int i = 0; i < 3; i++) {
+                            toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 250);
+                            Thread.sleep(250);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
                     gatt.setCharacteristicNotification(characteristic,true);
 
                     UUID charUUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
