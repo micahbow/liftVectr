@@ -1,0 +1,28 @@
+Tasks
+
+Software
+
+0) Foundational TO-DOs
+	- Add weight to exercise db object
+	- Create extra exercises
+
+1) Implement Chart Library (Cole)
+	- Create Chart Library utility class
+        - Call within CropExerciseActivity (Showing the data for the user to crop)
+	- Call within ExerciseStatisticsActivity  (Show force plot)
+
+2) Implement Stats Library (Antoine)
+	- Create Stats library  utility class
+		- Mandatory stats: (F/T , avg Force (single #), peak force (single #)) -- for the F/T plot, generate array with x/y coords
+	- Call within CropExerciseActivity(generating statics, adding them to Exercise object, save to database)
+	- Within ExerciseStatisticsActivity, access statistics from DB exercise object and display them
+
+3) Exercise Cropping: (Tim)
+	- Taking arraylist, crop it down to upper limit x-value, add that to exercise
+	- Call Chart helper functions to rerender on slider
+
+Hardware:
+4) CAD Design for watch (Micah & Praveen)
+5) Assemble watch and program motor/battery (Micah & Praveen)
+
+
