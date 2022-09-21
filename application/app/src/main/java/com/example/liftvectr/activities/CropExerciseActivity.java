@@ -1,6 +1,8 @@
 package com.example.liftvectr.activities;
 
 import static com.example.liftvectr.util.ChartDisplay.displayIMUDataChart;
+import static com.example.liftvectr.util.StatisticsLib.getForceValues;
+import static com.example.liftvectr.util.StatisticsLib.getTimeValues;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -54,6 +56,9 @@ public class CropExerciseActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // calculate stats from the adjustedExercise W/ StatLib
+                adjustedExercise.setForceVsTimeXValues(getTimeValues(exercise));
+                adjustedExercise.setForceVsTimeYValues(getForceValues(exercise));
                 exerciseViewModel.saveExercise(adjustedExercise);
                 transitionToExerciseHistoryActivity();
             }

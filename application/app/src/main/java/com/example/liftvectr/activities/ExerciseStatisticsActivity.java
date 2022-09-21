@@ -45,8 +45,8 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
         fakeExercise.setForceVsTimeXValues(new ArrayList<>(Arrays.asList(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f, 10f)));
         fakeExercise.setForceVsTimeYValues(new ArrayList<>(Arrays.asList(0.1f, 0.2f, 0.3f, 5.92f, 21.1f, 23.3f, 16.0f, 4.0f, 2.39f, 0.5f)));
         displaySingleLineChart(forceVsTimeChart,
-                fakeExercise.getForceVsTimeXValues(),
-                fakeExercise.getForceVsTimeYValues(),
+                exercise.getForceVsTimeXValues(),
+                exercise.getForceVsTimeYValues(),
                 "Force (N)", "Force vs Time");
 
         returnBtn.setOnClickListener(new View.OnClickListener() {
