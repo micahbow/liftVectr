@@ -15,6 +15,10 @@ unsigned long t;
 float initialData[7] = {ax, ay, az, gx, gy, gz, (float)t};
 String initialDataString = "";
 unsigned long offset;
+unsigned long lastMillis = 0;
+unsigned long lastBuzz = 0;
+bool flashRed = false;
+bool needToBuzz = false;
 
 //function prototypes
 void calibrateGyro(double & offsetx, double & offsety, double & offsetz);
@@ -30,6 +34,10 @@ void setup() {
   calibrateIMU();
 
   calibrateBLE();
+
+  buzz(3, 100);
+
+  setRed();
 }
 
 void loop() {
@@ -39,39 +47,38 @@ void loop() {
 
   // if a central is connected to the peripheral:
   if (central) {
+    setGreen();
     Serial.print("Connected to central: ");
     // print the central's BT address:
     Serial.println(central.address());
     offset = millis();
-    // turn on the LED to indicate the connection:
-    digitalWrite(LED_BUILTIN, HIGH);
+
+    buzz(2, 100);
 
     while (central.connected()) {
-        readIMU(); //read IMU data and time
-        updateIMUDataArr();
+      if(IMUDataArr.written()){
+        lastBuzz = millis();
+        needToBuzz = true;
+      }
+      if(needToBuzz){
+        unsigned long currentTime = millis();
+        if(currentTime - lastBuzz >= 5000){
+          needToBuzz = false;
+          buzz(3,250);
+        }
+      }
+      readIMU(); //read IMU data and time
+      updateIMUDataArr();
       
     }
-    // when the central disconnects, turn off the LED:
-    digitalWrite(LED_BUILTIN, LOW);
     Serial.print("Disconnected from central: ");
     Serial.println(central.address());
+
+    buzz(2, 100);
   }
-/*
-  //print data to serial
-  Serial.print(t);
-  Serial.print(',');
-  Serial.print(ax);
-  Serial.print(',');
-  Serial.print(ay);
-  Serial.print(',');
-  Serial.print(az);
-  Serial.print(',');
-  Serial.print(gx);
-  Serial.print(',');
-  Serial.print(gy);
-  Serial.print(',');
-  Serial.print(gz);
- */
+  else{
+    flashBlueRed();
+  }
 }
 
 //PROTOTYPED FUNCTIONS BELOW
@@ -152,10 +159,54 @@ void calibrateBLE() {
     Serial.println("Bluetooth® device active, waiting for connections...");
 }
 
+void buzz(int times, int delayms){
+  pinMode(10, OUTPUT);
+  for(int i = 0; i < times; i++){
+      digitalWrite(10, HIGH);
+      delay(delayms);
+      digitalWrite(10, LOW);
+      delay(delayms);
+  }
+}
+
+void flashBlueRed(){
+  unsigned long currentTime = millis();
+  if(currentTime - lastMillis >= 250){
+    lastMillis = currentTime;
+    if(flashRed){
+      setRed();
+      flashRed = false;
+    }
+    else{
+      setBlue();
+      flashRed = true;
+    }
+  }
+}
+
+void setRed(){
+  digitalWrite(LEDG, HIGH);
+  digitalWrite(LEDB, HIGH);
+  digitalWrite(LEDR, LOW);
+}
+
+void setGreen(){
+  digitalWrite(LEDR, HIGH);
+  digitalWrite(LEDB, HIGH);
+  digitalWrite(LEDG, LOW);
+}
+
+void setBlue(){
+  digitalWrite(LEDR, HIGH);
+  digitalWrite(LEDG, HIGH);
+  digitalWrite(LEDB, LOW);
+}
+
+
 void calibrateSerial() {
   //SETUP USB SERIAL COMM
   Serial.begin(9600);
-  while (!Serial);
+  //while (!Serial);
   Serial.println("Started");  
 }
 
