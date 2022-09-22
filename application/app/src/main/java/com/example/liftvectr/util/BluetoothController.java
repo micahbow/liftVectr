@@ -322,6 +322,14 @@ public class BluetoothController {
                 }
                 /*
                 super.onBleRead(gatt, characteristic, status);
+
+                    UUID charUUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+                    BluetoothGattDescriptor descriptor = characteristic.getDescriptor(charUUID);
+                    descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                    gatt.writeDescriptor(descriptor);
+                }
+                /*
+                super.onBleRead(gatt, characteristic, status);
                 if (status == BluetoothGatt.GATT_SUCCESS) {
                     Log.i("onBleRead STATUS", "SUCCESS");
                     byte[] raw_data = characteristic.getValue();
