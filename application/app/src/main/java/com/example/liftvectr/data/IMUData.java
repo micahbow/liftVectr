@@ -10,7 +10,8 @@ public class IMUData implements Serializable {
     public float micros;
 
     public IMUData(float x_a, float y_a, float z_a,
-                   float x_g, float y_g, float z_g, float ms) {
+                   float x_g, float y_g, float z_g,
+                   float ms) {
         this.x_lin_acc = x_a;
         this.y_lin_acc = y_a;
         this.z_lin_acc = z_a;
@@ -27,7 +28,7 @@ public class IMUData implements Serializable {
         this.x_ang_vel = Float.parseFloat(raw_data[3]);
         this.y_ang_vel = Float.parseFloat(raw_data[4]);
         this.z_ang_vel = Float.parseFloat(raw_data[5]);
-        this.micros = Float.parseFloat(raw_data[9]);
+        this.micros = Float.parseFloat(raw_data[6]);
     }
 
     @Override

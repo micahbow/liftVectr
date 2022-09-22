@@ -28,7 +28,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class AddExerciseActivity extends AppCompatActivity {
 
@@ -240,6 +239,7 @@ public class AddExerciseActivity extends AppCompatActivity {
 
     public void transitionToCropExerciseActivity()
     {
+        BLEController.disconnect();
         Intent intent = new Intent(this, CropExerciseActivity.class);
         intent.putExtra("exercise", newExercise);
         startActivity(intent);
@@ -256,6 +256,7 @@ public class AddExerciseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        BLEController.disconnect();
         super.onDestroy();
     }
 

@@ -12,6 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="Exercise Statistics"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -53,5 +56,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/peakForceTextbox"
+        android:layout_width="171dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="36dp"
+        android:textAlignment="viewStart"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.225"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_chart" />
+
+    <TextView
+        android:id="@+id/averageForceTextbox"
+        android:layout_width="171dp"
+        android:layout_height="30dp"
+        android:textAlignment="viewStart"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.225"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/peakForceTextbox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

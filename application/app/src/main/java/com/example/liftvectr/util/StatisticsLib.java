@@ -1,13 +1,15 @@
 package com.example.liftvectr.util;
 
+import android.util.Log;
+
 import com.example.liftvectr.data.Exercise;
 import com.example.liftvectr.data.IMUData;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class StatisticsLib {
-    // takes the raw IMU data from the exercise and calculates stats
-
+    // takes the raw IMU data from an exercise and calculates stats
 
     public static ArrayList<Float> getForceValues(Exercise exercise) {
         ArrayList<IMUData> data = exercise.getData();
@@ -22,12 +24,10 @@ public class StatisticsLib {
                     Math.pow(data.get(i).z_lin_acc,2) );
             forceData.add(magAccel * mass);
         }
-
         return forceData;
     }
 
-    public static ArrayList<Float> getTimeValues(Exercise exercise) {
-        ArrayList<IMUData> data = exercise.getData();
+    public static ArrayList<Float> getTimeValues(ArrayList<IMUData> data) {
         ArrayList<Float> timeValues = new ArrayList<Float>();
 
         for (int i =0; i<data.size(); i++) {
@@ -36,17 +36,19 @@ public class StatisticsLib {
         return timeValues;
     }
 
-    public static float averageForce(Exercise exercise) {
-        // pass in array of float forces
-        ArrayList<IMUData> data = exercise.getData();
-        ArrayList<Float> forceValues = exercise.getForceVsTimeYValues();
+    public static float averageForce(ArrayList<IMUData> data, ArrayList<Float> forceValues) {
+        // caller must calc force values w/ getForceValues prior to calling this function
         float averageForce = 0;
-        float deltaTime = 0;
 
         for (int i=0; i<data.size(); i++) {
             averageForce+= forceValues.get(i);
         }
             averageForce /= data.size();
         return averageForce;
+    }
+    public static float peakForce(ArrayList<Float> forceValues) {
+        float max = Collections.max(forceValues);
+        Log.i("StatisticsLib", String.format("Peak force: %.4f", max));
+        return max;
     }
 }
