@@ -55,7 +55,7 @@ public class AddExerciseActivity extends AppCompatActivity {
     // For emulating ONLY
     // MODIFY this to true to allow start/stop exercise to be pressed, creating a fake exercise and transitioning
     // to CropExerciseActivity during emulation
-    private boolean emulationMode = true;
+    private boolean emulationMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
