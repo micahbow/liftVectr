@@ -165,16 +165,23 @@ public class AddExerciseActivity extends AppCompatActivity {
                         setToastText("Need to pair to IMU first!");
                         return;
                     }
+
                     if (weightInput.getText().toString().isEmpty()) {
                         setToastText("Please enter your exercise weight.");
+                        return;
+                    }
+
+                    float weight = Float.parseFloat(weightInput.getText().toString());
+                    if (weight < 0 || weight > 1500) {
+                        setToastText("We wouldn't advise lifting this much");
+                        return;
                     }
 
                     exerciseBtn.setText("Stop Exercise");
 
                     newExercise = new Exercise(
                             exerciseSpinner.getSelectedItem().toString(),
-                            Float.parseFloat(weightInput.getText().toString()),
-                            Calendar.getInstance().getTime());
+                            weight, Calendar.getInstance().getTime());
 
                     Runnable r = new ReadRunnable(BLEController, exerciseBtn);
                     Thread t = new Thread(r);
