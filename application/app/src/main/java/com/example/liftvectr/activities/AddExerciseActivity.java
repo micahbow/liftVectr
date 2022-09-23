@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class AddExerciseActivity extends AppCompatActivity {
     private TextView x_accel, y_accel, z_accel;
     private TextView x_gyro, y_gyro, z_gyro;
     private TextView bluetoothConnected;
+    private EditText weightInput;
 
     private ArrayList<BluetoothLE> listDevices;
     private BluetoothController BLEController;
@@ -53,7 +55,7 @@ public class AddExerciseActivity extends AppCompatActivity {
     // For emulating ONLY
     // MODIFY this to true to allow start/stop exercise to be pressed, creating a fake exercise and transitioning
     // to CropExerciseActivity during emulation
-    private boolean emulationMode = false;
+    private boolean emulationMode = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,8 @@ public class AddExerciseActivity extends AppCompatActivity {
         y_gyro = (TextView) findViewById(R.id.y_g);
         z_gyro = (TextView) findViewById(R.id.z_g);
         bluetoothConnected = (TextView) findViewById(R.id.bluetooth_status);
+
+        weightInput = (EditText) findViewById(R.id.editTextNumberDecimal);
 
         exerciseSpinner = (Spinner) findViewById(R.id.spinner);
         deviceListSpinner = (Spinner) findViewById(R.id.spinner2);
@@ -157,13 +161,20 @@ public class AddExerciseActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(exerciseBtn.getText().equals("Start Exercise")) {
-                    if(!emulationMode && !BLEController.getPairedStatus()) {
+                    if (!emulationMode && !BLEController.getPairedStatus()) {
                         setToastText("Need to pair to IMU first!");
                         return;
                     }
+                    if (weightInput.getText().toString().isEmpty()) {
+                        setToastText("Please enter your exercise weight.");
+                    }
+
                     exerciseBtn.setText("Stop Exercise");
 
-                    newExercise = new Exercise(exerciseSpinner.getSelectedItem().toString(), 150, Calendar.getInstance().getTime());
+                    newExercise = new Exercise(
+                            exerciseSpinner.getSelectedItem().toString(),
+                            Float.parseFloat(weightInput.getText().toString()),
+                            Calendar.getInstance().getTime());
 
                     Runnable r = new ReadRunnable(BLEController, exerciseBtn);
                     Thread t = new Thread(r);

@@ -61,9 +61,10 @@ public class ChartDisplay {
 
     public static void displayIMUDataChart(Exercise exercise,
                                                 LineChart chart,
+                                                String config,
                                                 String chartDescription) {
         setChartStyling(chart, chartDescription);
-        List<ILineDataSet> lines = createMultipleLinesFromIMUData(exercise);
+        List<ILineDataSet> lines = createMultipleLinesFromIMUData(exercise, config);
 
         LineData data = new LineData(lines);
         chart.setData(data);
@@ -102,7 +103,7 @@ public class ChartDisplay {
         return lines;
     }
 
-    private static List<ILineDataSet> createMultipleLinesFromIMUData(Exercise exercise) {
+    private static List<ILineDataSet> createMultipleLinesFromIMUData(Exercise exercise, String config) {
         List<Entry> xLinAcc_ms = new ArrayList<>();
         List<Entry> yLinAcc_ms = new ArrayList<>();
         List<Entry> zLinAcc_ms = new ArrayList<>();
@@ -121,12 +122,16 @@ public class ChartDisplay {
         }
 
         List<ILineDataSet> lines = new ArrayList<>();
-        lines.add(createLineWithCoords(xLinAcc_ms, "X_A", Color.rgb(153, 0, 0)));
-        lines.add(createLineWithCoords(yLinAcc_ms, "Y_A", Color.rgb(255, 0, 0)));
-        lines.add(createLineWithCoords(zLinAcc_ms, "Z_A", Color.rgb(255, 102, 102)));
-        lines.add(createLineWithCoords(xAngVel_ms, "X_G", Color.rgb(0, 153, 0)));
-        lines.add(createLineWithCoords(yAngVel_ms, "Y_G", Color.rgb(0, 255, 0)));
-        lines.add(createLineWithCoords(zAngVel_ms, "Z_G", Color.rgb(102, 255, 102)));
+        if (config == "a_only" || config == "both") {
+            lines.add(createLineWithCoords(xLinAcc_ms, "X", Color.rgb(153, 0, 0)));
+            lines.add(createLineWithCoords(yLinAcc_ms, "Y", Color.rgb(255, 0, 0)));
+            lines.add(createLineWithCoords(zLinAcc_ms, "Z", Color.rgb(255, 102, 102)));
+        }
+        if (config == "g_only" || config == "both") {
+            lines.add(createLineWithCoords(xAngVel_ms, "X", Color.rgb(0, 153, 0)));
+            lines.add(createLineWithCoords(yAngVel_ms, "Y", Color.rgb(0, 255, 0)));
+            lines.add(createLineWithCoords(zAngVel_ms, "Z", Color.rgb(102, 255, 102)));
+        }
 
         return lines;
     }
