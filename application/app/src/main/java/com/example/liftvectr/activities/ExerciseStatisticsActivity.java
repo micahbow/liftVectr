@@ -1,5 +1,6 @@
 package com.example.liftvectr.activities;
 
+import static com.example.liftvectr.util.ChartDisplay.displayIMUDataChart;
 import static com.example.liftvectr.util.ChartDisplay.displaySingleLineChart;
 
 import android.content.Intent;
@@ -17,11 +18,15 @@ import com.github.mikephil.charting.charts.LineChart;
 public class ExerciseStatisticsActivity extends AppCompatActivity {
 
     private Button returnBtn;
+
     private TextView exerciseType;
-    private TextView weight;
+    private TextView exerciseWeight;
+    private TextView exerciseDate;
     private TextView peakForceTextbox;
     private TextView averageForceTextbox;
 
+    private LineChart IMUAccLineChart;
+    private LineChart IMUGyroLineChart;
     private LineChart forceVsTimeChart;
 
     @Override
@@ -31,7 +36,12 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
 
         returnBtn = (Button) findViewById(R.id.return_button);
         exerciseType = (TextView) findViewById(R.id.exercise_type);
-        forceVsTimeChart = (LineChart) findViewById(R.id.line_chart);
+        exerciseDate = (TextView) findViewById(R.id.exercise_date);
+        exerciseWeight = (TextView) findViewById(R.id.exercise_weight);
+
+        IMUAccLineChart = (LineChart) findViewById(R.id.acc_line_chart);
+        IMUGyroLineChart = (LineChart) findViewById(R.id.gyro_line_chart);
+        forceVsTimeChart = (LineChart) findViewById(R.id.FvT_line_chart);
         peakForceTextbox = (TextView) findViewById(R.id.peakForceTextbox);
         averageForceTextbox = (TextView) findViewById(R.id.averageForceTextbox);
 
@@ -39,12 +49,21 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Exercise exercise = (Exercise) intent.getSerializableExtra("exercise");
 
+        // Display text boxes
+        exerciseType.setText("Exercise Type: " + exercise.getType());
+        exerciseDate.setText("Date: " + exercise.getDate().toString());
+        exerciseWeight.setText("Weight: " + exercise.getWeight());
+        peakForceTextbox.setText(String.format("Peak Force: %.2f", exercise.getPeakForce()));
+        averageForceTextbox.setText(String.format("Average Force: %.2f", exercise.getAvgForce()));
+
+        // Display charts
+        displayIMUDataChart(exercise, IMUAccLineChart, "a_only", "Linear Acceleration vs Time");
+        displayIMUDataChart(exercise, IMUGyroLineChart, "g_only", "Angular Velocity vs Time");
         displaySingleLineChart(forceVsTimeChart,
                 exercise.getForceVsTimeXValues(),
                 exercise.getForceVsTimeYValues(),
                 "Force (N)", "Force vs Time");
-        peakForceTextbox.setText(String.format("Peak Force: %.2f", exercise.getPeakForce()));
-        averageForceTextbox.setText(String.format("Average Force: %.2f", exercise.getAvgForce()));
+
         returnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

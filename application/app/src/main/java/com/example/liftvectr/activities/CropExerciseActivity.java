@@ -26,22 +26,18 @@ import java.util.ArrayList;
 
 public class CropExerciseActivity extends AppCompatActivity {
 
-    private LineChart IMULineChart;
+    private LineChart IMUAccLineChart;
     private Button cancelButton;
     private Button saveButton;
-    private Button cropButton;
 
     private ExerciseViewModel exerciseViewModel;
     private Exercise exercise;
 
     private Highlight[] highlighted;
     private float highlightedX;
-    private float highlightedY;
 
     private ArrayList<IMUData> exerciseData;
     private ArrayList<IMUData> adjustedExerciseData;
-
-    // private HighLight highlighted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +46,7 @@ public class CropExerciseActivity extends AppCompatActivity {
 
         cancelButton = (Button) findViewById(R.id.cancel_button);
         saveButton = (Button) findViewById(R.id.save_button);
-        IMULineChart = (LineChart) findViewById(R.id.line_chart);
+        IMUAccLineChart = (LineChart) findViewById(R.id.line_chart);
 
         exerciseViewModel = new ViewModelProvider(this).get(ExerciseViewModel.class);
 
@@ -58,20 +54,18 @@ public class CropExerciseActivity extends AppCompatActivity {
         Intent intent = getIntent();
         exercise = (Exercise) intent.getSerializableExtra("exercise");
 
-        displayIMUDataChart(exercise, IMULineChart, "Recorded IMU Data");
-
+        displayIMUDataChart(exercise, IMUAccLineChart, "a_only", "Recorded IMU Data");
         // User needs to be able to adjust the exercise passed in from the intent
-        IMULineChart.setOnClickListener(new View.OnClickListener() {
+        IMUAccLineChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                highlighted = IMULineChart.getHighlighted();
+                highlighted = IMUAccLineChart.getHighlighted();
                 if(highlighted != null)
                 {
                     cropExercise();
                 }
             }
         });
-
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +77,6 @@ public class CropExerciseActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // calculate stats from the adjustedExercise W/ StatLib
                 exercise.setForceVsTimeXValues(getTimeValues(exercise.getData()));
                 exercise.setForceVsTimeYValues(getForceValues(exercise));
@@ -111,15 +104,13 @@ public class CropExerciseActivity extends AppCompatActivity {
 
     public void cropExercise()
     {
-            highlightedX = highlighted[0].getX();
-            highlightedY = highlighted[0].getY();
-            exerciseData = exercise.getData();
-            adjustedExerciseData = new ArrayList<>();
-            for(int i = 0; i < (int) highlightedX; i++)
-            {
-                adjustedExerciseData.add(exerciseData.get(i));
-            }
-            exercise.setData(adjustedExerciseData);
+        highlightedX = highlighted[0].getX();
+        exerciseData = exercise.getData();
+        adjustedExerciseData = new ArrayList<>();
+        for(int i = 0; i < (int) highlightedX; i++)
+        {
+            adjustedExerciseData.add(exerciseData.get(i));
+        }
+        exercise.setData(adjustedExerciseData);
     }
-
 }
