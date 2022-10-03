@@ -62,6 +62,7 @@ public class CropExerciseActivity extends AppCompatActivity {
                 highlighted = IMUAccLineChart.getHighlighted();
                 if(highlighted != null)
                 {
+                    Log.i("CropExercise","Point Selected!");
                     cropExercise();
                 }
             }
@@ -104,12 +105,17 @@ public class CropExerciseActivity extends AppCompatActivity {
 
     public void cropExercise()
     {
+        // Time value
         highlightedX = highlighted[0].getX();
         exerciseData = exercise.getData();
         adjustedExerciseData = new ArrayList<>();
-        for(int i = 0; i < (int) highlightedX; i++)
+
+        for(int i = 0; i < exerciseData.size(); i++)
         {
-            adjustedExerciseData.add(exerciseData.get(i));
+            if(exerciseData.get(i).micros <= highlightedX) {
+                adjustedExerciseData.add(exerciseData.get(i));
+            }
+            else { break; }
         }
         exercise.setData(adjustedExerciseData);
     }
