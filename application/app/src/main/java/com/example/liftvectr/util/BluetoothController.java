@@ -38,6 +38,7 @@ public class BluetoothController {
     private BluetoothLEHelper ble;
     private boolean paired = false;
     private int count;
+    private String delayCountdown;
     private String[] rawDataBuffer;
     private boolean notifSet = false;
     private Activity parentActivity;
@@ -49,6 +50,7 @@ public class BluetoothController {
         this.ble.setScanPeriod(1000);
         this.rawDataBuffer = new String[7];
         this.count = 0;
+        this.delayCountdown = "5";
         parentActivity = activity;
     }
 
@@ -97,7 +99,7 @@ public class BluetoothController {
     public void writeBLE() {
         // Confirmation handshake to sync with hardware
         if (ble.isConnected()) {
-            ble.write(SERVICE_UUID,CHAR_UUID,"S");
+            ble.write(SERVICE_UUID,CHAR_UUID,this.delayCountdown);
             Log.i("writeBLE","");
         }
         else {
@@ -157,6 +159,10 @@ public class BluetoothController {
 
     public void childParentToastText(String text) {
         ((AddExerciseActivity)(this.parentActivity)).setToastText(text);
+    }
+
+    public void setDelayCountdown(String delay){
+        this.delayCountdown = delay;
     }
 
     public void findAndPairMatchingDevice(String name) {
