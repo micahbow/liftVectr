@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 public class AllTimeStatisticsActivity extends AppCompatActivity {
     private ExerciseViewModel exerciseViewModel;
@@ -106,6 +104,7 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
                     avgForceVWeight.setVisibility(View.INVISIBLE);
                 }
                 else if (availableExercises.getItemAtPosition(position) == initString){
+                    setToastText("Select an available exercise type.");
                     avgForceVWeight.setVisibility(View.INVISIBLE);
                 }
                 else {
@@ -115,8 +114,7 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
                     Exercise currExercise;
 
                     // Map: [Weight, (sum of avgForce, # of same weight entries)]
-                    Map<Float, ArrayList<Float>> dataMap = new TreeMap<Float, ArrayList<Float>>() {
-                    };
+                    Map<Float, ArrayList<Float>> dataMap = new HashMap<Float, ArrayList<Float>>();
 
                     for (int i=0; i < savedExercises.size(); i++) {
                         currExercise = savedExercises.get(i);
