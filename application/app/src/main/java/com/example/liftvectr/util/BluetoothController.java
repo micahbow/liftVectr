@@ -378,12 +378,19 @@ public class BluetoothController {
             public void onBleWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
                 super.onBleWrite(gatt, characteristic, status);
                 Log.i("onBleWrite", "Write callback called.");
+                int delayInt;
+                try {
+                    delayInt = Integer.parseInt(delayCountdown) * 1000;
+                }
+                catch (NumberFormatException e) {
+                    delayInt = 5 * 1000;
+                }
                 if(!notifSet) {
                     notifSet = true;
 
                     // Countdown to data collection
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(delayInt);
                         ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
                         for(int i = 0; i < 3; i++) {
                             toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 250);
