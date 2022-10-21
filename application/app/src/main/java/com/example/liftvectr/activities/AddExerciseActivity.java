@@ -1,5 +1,8 @@
 package com.example.liftvectr.activities;
 
+import static com.example.liftvectr.database.Converters.IMUDataArrayListToJson;
+import static com.example.liftvectr.database.Converters.jsonToIMUDataArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +20,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
 import com.ederdoski.simpleble.models.BluetoothLE;
 import com.example.liftvectr.R;
 import com.example.liftvectr.data.Exercise;
@@ -55,6 +61,9 @@ public class AddExerciseActivity extends AppCompatActivity {
     // For emulating ONLY: MODIFY this to true to allow start/stop exercise to be pressed, creating
     // a fake exercise and transitioning to CropExerciseActivity during emulation
     public static boolean emulationMode = false;
+
+    // Global PyObject instance
+    PyObject pyObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +123,14 @@ public class AddExerciseActivity extends AppCompatActivity {
         // Apply the adapter to the spinners
 
         exerciseSpinner.setAdapter(adapter);
+
+        if(!Python.isStarted()) {
+            Python.start(new AndroidPlatform(this));
+        }
+
+        // Specify the python file we want to use functions from
+        Python py = Python.getInstance();
+        pyObj = py.getModule("data_analysis");
 
         bluetoothConnected.setText("Not Connected");
 
@@ -198,6 +215,13 @@ public class AddExerciseActivity extends AppCompatActivity {
                         newExercise.addDataSample(new IMUData(0.21f, 1.03f, 0.42f, 0.3f, 0.0f, 2.1f, 8));
                         newExercise.addDataSample(new IMUData(0.24f, 0.94f, 0.40f, 0.0f, 0.1f, 1.2f, 9));
                         newExercise.addDataSample(new IMUData(0.26f, 0.99f, 0.43f, 0.3f, 0.2f, 0.4f, 10));
+
+                        // Emulator Mode Python demo - taking in an IMUData array and performing operations on it with numpy
+                        PyObject fakePositionDataJson = pyObj.callAttr("imu_data_to_position", IMUDataArrayListToJson(newExercise.getData()));
+                        newExercise.setData(jsonToIMUDataArrayList(fakePositionDataJson.toString()));
+
+                        // We can call multiple functions from the same python file
+                        PyObject hello = pyObj.callAttr("hello"); // Take a look at the console!
                     }
                 }
                 else {
