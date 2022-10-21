@@ -89,4 +89,18 @@ Praveen Anbu	      [9/17/22]: Meeting with Micah complete successful bluetooth t
 Micah Bowonthamachakr [9/17/22]: Meeting with Praveen complete successful bluetooth transmission with parity checking from 6:00pm-10:00pm
 Cole Fisher           [9/17/22]: Created 5 Activity app architecture, updated navbar, persist additional exercise attributes to database with unit tests
 Cole Fisher           [9/17/22]: Created ChartDisplay utility class, implemented within CropExerciseActivity and ExerciseStatisticsActivity
-
+WHOLE TEAM	      [9/20/22]: Team meeting to verify bluetooth transmission success alongside other software features from 6:00pm-8:00pm
+Praveen Anbu [9/21/22]: Trip to Walmart for purchasing tools and materials for watch prototype
+Micah Bowonthamachakr [9/21/22]: Trip to Walmart for purchasing tools and materials for watch prototype
+Micah Bowonthamachakr [9/21/22]: Worked on setting up 3D printed chassy with accessories
+Micah Bowonthamachakr [9/21/22]: Worked on soldering watch components and completing Beta Prototype with some in-lab testing from 1:00pm-3:00pm
+Praveen Anbu [9/22/22]: Worked on soldering watch components and completing Beta Prototype with some in-lab testing from 1:00pm-3:00pm
+WHOLE TEAM	      [9/22/22]: Team meeting to assign Beta Test Plan document duties and brainstorm next tasks from 3:00pm-4:00pm
+Praveen Anbu	[9/27/22]: Worked on Hardware Features and SEEED BLE Data Collection/Transmission sections of Beta Test Plan
+WHOLE TEAM	[9/27/22]: Team meeting to discuss and submit Beta Test Plan from 9:00pm-10:00pm
+Praveen Anbu [10/3/22]: Added Hardware Features section to Beta Build Presentation
+WHOLE TEAM	[10/3/22]: Team meeting to discuss and submit Beta Build Presentation slides from 7:00pm-8:30pm
+WHOLE TEAM	[10/6/22]: Team meeting to practice and present Beta Build from 10:00am-10:40pm
+WHOLE TEAM	[10/10/22]: Team meeting to brainstorm and assign RC Build tasks from 8:00am-8:30pm
+WHOLE TEAM	[10/18/22]: Team meeting to discuss progress on RC Build individual tasks from 8:00am-8:30pm
+WHOLE TEAM	[10/21/22]: Team meeting to implement and test RC Build tasks on watch prototype from 11:30am-2:00pm

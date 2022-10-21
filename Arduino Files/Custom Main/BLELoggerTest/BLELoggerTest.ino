@@ -19,6 +19,7 @@ unsigned long lastMillis = 0;
 unsigned long lastBuzz = 0;
 bool flashRed = false;
 bool needToBuzz = false;
+int buzzDelay = 5000;
 
 //function prototypes
 void calibrateGyro(double & offsetx, double & offsety, double & offsetz);
@@ -57,12 +58,13 @@ void loop() {
 
     while (central.connected()) {
       if(IMUDataArr.written()){
+        buzzDelay = IMUDataArr.value().toInt() * 1000;
         lastBuzz = millis();
         needToBuzz = true;
       }
       if(needToBuzz){
         unsigned long currentTime = millis();
-        if(currentTime - lastBuzz >= 5000){
+        if(currentTime - lastBuzz >= buzzDelay){
           needToBuzz = false;
           buzz(3,250);
         }
