@@ -146,7 +146,7 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
                         ArrayList<Float> value= entry.getValue();
                         weights.add(key);
                         avgForces.add(value.get(0) / value.get(1));
-                        Log.i("AllTimeStats", String.format("Weight: %f, Avg Force: %f", key, value.get(0) / value.get(1)));
+                        Log.i("AllTimeStats", String.format("Type: %s, Weight: %f, Avg Force: %f", selectedType, key, value.get(0) / value.get(1)));
                     };
 
                     //Plot avg force vs weight for all exercises of selected type
