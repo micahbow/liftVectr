@@ -34,7 +34,6 @@ jobs:
       - name: Set up Gradle
         run: chmod +x ./application/gradlew 
         
-      - run: touch /application/local.properties
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
         with:
@@ -59,7 +58,6 @@ jobs:
       - name: Set up Gradle
         run: chmod +x ./application/gradlew 
         
-      - run: touch /application/local.properties
       - name: Run Unit Tests
         uses: gradle/gradle-build-action@v2
         with:
