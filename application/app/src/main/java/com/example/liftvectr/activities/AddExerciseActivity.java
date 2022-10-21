@@ -44,6 +44,7 @@ public class AddExerciseActivity extends AppCompatActivity {
     private Button exerciseBtn;
     private Spinner exerciseSpinner;
     private Spinner deviceListSpinner;
+    private Spinner delaySpinner;
     private TextView x_accel, y_accel, z_accel;
     private TextView x_gyro, y_gyro, z_gyro;
     private TextView bluetoothConnected;
@@ -114,6 +115,7 @@ public class AddExerciseActivity extends AppCompatActivity {
 
         exerciseSpinner = (Spinner) findViewById(R.id.spinner);
         deviceListSpinner = (Spinner) findViewById(R.id.spinner2);
+        delaySpinner = (Spinner) findViewById(R.id.spinner3);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -122,7 +124,16 @@ public class AddExerciseActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinners
 
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter_delay = ArrayAdapter.createFromResource(this,
+                R.array.delay_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter_delay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinners
+
         exerciseSpinner.setAdapter(adapter);
+        delaySpinner.setAdapter(adapter_delay);
 
         if(!Python.isStarted()) {
             Python.start(new AndroidPlatform(this));
@@ -169,6 +180,20 @@ public class AddExerciseActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 Log.i("deviceListSpinner", "Nothing selected.");
+            }
+        });
+
+        delaySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i("Countdown Delay: ", delaySpinner.getSelectedItem().toString());
+
+                BLEController.setDelayCountdown(delaySpinner.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Log.i("Countdown Delay: ", "Nothing selected.");
             }
         });
 
