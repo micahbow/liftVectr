@@ -35,7 +35,7 @@ jobs:
         run: chmod +x ./application/gradlew 
         
       - name: Touch local properties
-        run: touch local.properties
+        run: touch application/local.properties
   
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
@@ -63,7 +63,7 @@ jobs:
         run: chmod +x ./application/gradlew 
       
       - name: Touch local properties 
-        run: touch local.properties
+        run: touch applicaiton/local.properties
         
       - name: Run Unit Tests
         uses: gradle/gradle-build-action@v2
