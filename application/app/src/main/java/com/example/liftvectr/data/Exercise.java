@@ -26,6 +26,45 @@ public class Exercise implements Serializable {
     private ArrayList<Float> forceVsTimeXValues;
     private ArrayList<Float> forceVsTimeYValues;
 
+    // Python-processed data
+    private ArrayList<Float> timeArray; // In seconds starting from 0
+
+    public ArrayList<Float> getTimeArray() {
+        return timeArray;
+    }
+
+    public void setTimeArray(ArrayList<Float> timeArray) {
+        this.timeArray = timeArray;
+    }
+
+    public ArrayList<Float[]> getXyzAngles() {
+        return xyzAngles;
+    }
+
+    public void setXyzAngles(ArrayList<Float[]> xyzAngles) {
+        this.xyzAngles = xyzAngles;
+    }
+
+    public ArrayList<Float[]> getXyzVelocity() {
+        return xyzVelocity;
+    }
+
+    public void setXyzVelocity(ArrayList<Float[]> xyzVelocity) {
+        this.xyzVelocity = xyzVelocity;
+    }
+
+    public ArrayList<Float[]> getXyzPosition() {
+        return xyzPosition;
+    }
+
+    public void setXyzPosition(ArrayList<Float[]> xyzPosition) {
+        this.xyzPosition = xyzPosition;
+    }
+
+    private ArrayList<Float[]> xyzAngles;
+    private ArrayList<Float[]> xyzVelocity;
+    private ArrayList<Float[]> xyzPosition;
+
     public Exercise(String type, float weight, Date date) {
         this.id = UUID.randomUUID();
         this.type = type;
