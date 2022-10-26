@@ -71,4 +71,24 @@ public class Converters {
         Type listType = new TypeToken<ArrayList<Float>>() {}.getType();
         return gson.toJson(list, listType);
     }
+
+    @TypeConverter
+    public static ArrayList<ArrayList<Float>> jsonToFloatArrayArrayList(String json) {
+        if (json == null) {
+            return null;
+        }
+        Type listType = new TypeToken<ArrayList<ArrayList<Float>>>() {}.getType();
+        return new Gson().fromJson(json, listType);
+    }
+
+    @TypeConverter
+    public static String floatArrayArrayListToJson(ArrayList<ArrayList<Float>> list) {
+        if (list == null) {
+            return null;
+        }
+        Gson gson = new Gson();
+        Type listType = new TypeToken<ArrayList<ArrayList<Float>>>() {}.getType();
+        return gson.toJson(list, listType);
+    }
+
 }

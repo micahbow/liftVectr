@@ -26,6 +26,55 @@ public class Exercise implements Serializable {
     private ArrayList<Float> forceVsTimeXValues;
     private ArrayList<Float> forceVsTimeYValues;
 
+    // Python-processed data
+    private ArrayList<Float> timeArray; // In seconds starting from 0
+
+    public ArrayList<Float> getTimeArray() {
+        return timeArray;
+    }
+
+    public void setTimeArray(ArrayList<Float> timeArray) {
+        this.timeArray = timeArray;
+    }
+
+    public ArrayList<ArrayList<Float>> getXyzAngles() {
+        return xyzAngles;
+    }
+
+    public void setXyzAngles(ArrayList<ArrayList<Float>> xyzAngles) {
+        this.xyzAngles = xyzAngles;
+    }
+
+    public ArrayList<ArrayList<Float>> getXyzVelocity() {
+        return xyzVelocity;
+    }
+
+    public void setXyzVelocity(ArrayList<ArrayList<Float>> xyzVelocity) {
+        this.xyzVelocity = xyzVelocity;
+    }
+
+    public ArrayList<ArrayList<Float>> getXyzPosition() {
+        return xyzPosition;
+    }
+
+    public void setXyzPosition(ArrayList<ArrayList<Float>> xyzPosition) {
+        this.xyzPosition = xyzPosition;
+    }
+
+    private ArrayList<ArrayList<Float>> xyzAngles;
+    private ArrayList<ArrayList<Float>> xyzVelocity;
+    private ArrayList<ArrayList<Float>> xyzPosition;
+
+    public boolean isAccurateFlag() {
+        return accurateFlag;
+    }
+
+    public void setAccurateFlag(boolean accurateFlag) {
+        this.accurateFlag = accurateFlag;
+    }
+
+    private boolean accurateFlag;
+
     public Exercise(String type, float weight, Date date) {
         this.id = UUID.randomUUID();
         this.type = type;
