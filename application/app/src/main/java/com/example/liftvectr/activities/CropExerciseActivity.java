@@ -34,6 +34,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CropExerciseActivity extends AppCompatActivity {
@@ -116,22 +117,23 @@ public class CropExerciseActivity extends AppCompatActivity {
                     Type listType = new TypeToken<ArrayList<ArrayList<Float>>>(){}.getType();
                     System.out.println(dataObjectJson.toString());
                     ArrayList<ArrayList<Float>> dObj = new Gson().fromJson(dataObjectJson.toString(),listType);
-                    ArrayList<Float[]> xyzAng = new ArrayList<Float[]>();
-                    ArrayList<Float[]> xyzVel = new ArrayList<Float[]>();
-                    ArrayList<Float[]> xyzDisp = new ArrayList<Float[]>();
-                    xyzAng.add(dObj.get(0).toArray(new Float[] {}));
-                    xyzAng.add(dObj.get(1).toArray(new Float[] {}));
-                    xyzAng.add(dObj.get(2).toArray(new Float[] {}));
+                    ArrayList<ArrayList<Float>> xyzAng = new ArrayList<ArrayList<Float>>();
+                    ArrayList<ArrayList<Float>> xyzVel = new ArrayList<ArrayList<Float>>();
+                    ArrayList<ArrayList<Float>> xyzDisp = new ArrayList<ArrayList<Float>>();
+                    for(int i = 0; i < 3; i++) {
+                        xyzAng.add(new ArrayList<Float>(Arrays.asList(dObj.get(i).toArray(new Float[] {}))));
+                    }
                     exercise.setXyzAngles(xyzAng);
-                    xyzVel.add(dObj.get(3).toArray(new Float[] {}));
-                    xyzVel.add(dObj.get(4).toArray(new Float[] {}));
-                    xyzVel.add(dObj.get(5).toArray(new Float[] {}));
+                    for(int i = 3; i < 6; i++) {
+                        xyzVel.add(new ArrayList<Float>(Arrays.asList(dObj.get(i).toArray(new Float[] {}))));
+                    }
                     exercise.setXyzVelocity(xyzVel);
-                    xyzDisp.add(dObj.get(6).toArray(new Float[] {}));
-                    xyzDisp.add(dObj.get(7).toArray(new Float[] {}));
-                    xyzDisp.add(dObj.get(8).toArray(new Float[] {}));
+                    for(int i = 6; i < 9; i++) {
+                        xyzDisp.add(new ArrayList<Float>(Arrays.asList(dObj.get(i).toArray(new Float[] {}))));
+                    }
                     exercise.setXyzPosition(xyzDisp);
                     exercise.setTimeArray(dObj.get(9));
+                    exercise.setAccurateFlag(dObj.get(10).get(0) == 0.0? true:false);
                 }
                 else {
                     System.out.println("False Start Detected!");

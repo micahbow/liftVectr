@@ -37,33 +37,43 @@ public class Exercise implements Serializable {
         this.timeArray = timeArray;
     }
 
-    public ArrayList<Float[]> getXyzAngles() {
+    public ArrayList<ArrayList<Float>> getXyzAngles() {
         return xyzAngles;
     }
 
-    public void setXyzAngles(ArrayList<Float[]> xyzAngles) {
+    public void setXyzAngles(ArrayList<ArrayList<Float>> xyzAngles) {
         this.xyzAngles = xyzAngles;
     }
 
-    public ArrayList<Float[]> getXyzVelocity() {
+    public ArrayList<ArrayList<Float>> getXyzVelocity() {
         return xyzVelocity;
     }
 
-    public void setXyzVelocity(ArrayList<Float[]> xyzVelocity) {
+    public void setXyzVelocity(ArrayList<ArrayList<Float>> xyzVelocity) {
         this.xyzVelocity = xyzVelocity;
     }
 
-    public ArrayList<Float[]> getXyzPosition() {
+    public ArrayList<ArrayList<Float>> getXyzPosition() {
         return xyzPosition;
     }
 
-    public void setXyzPosition(ArrayList<Float[]> xyzPosition) {
+    public void setXyzPosition(ArrayList<ArrayList<Float>> xyzPosition) {
         this.xyzPosition = xyzPosition;
     }
 
-    private ArrayList<Float[]> xyzAngles;
-    private ArrayList<Float[]> xyzVelocity;
-    private ArrayList<Float[]> xyzPosition;
+    private ArrayList<ArrayList<Float>> xyzAngles;
+    private ArrayList<ArrayList<Float>> xyzVelocity;
+    private ArrayList<ArrayList<Float>> xyzPosition;
+
+    public boolean isAccurateFlag() {
+        return accurateFlag;
+    }
+
+    public void setAccurateFlag(boolean accurateFlag) {
+        this.accurateFlag = accurateFlag;
+    }
+
+    private boolean accurateFlag;
 
     public Exercise(String type, float weight, Date date) {
         this.id = UUID.randomUUID();

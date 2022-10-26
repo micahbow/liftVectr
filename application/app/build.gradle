@@ -13,6 +13,8 @@ android {
             pip {
                 // Install python modules here... Syntax: "install "<lib>"
                 install "numpy"
+                install "pandas"
+                install "ahrs"
             }
         }
 

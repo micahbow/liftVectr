@@ -56,10 +56,11 @@ def process_imu_data(imuDataJson):
     avg_dt = np.average(df['dt'].to_numpy())
 
     # Validate first data sample is stationary for calibration of global axes
+    notStill = 0.0 # Flag if we want to let user know calculations may not be accurate
     magnitude = np.sqrt(df.loc[0]['aX']**2 + df.loc[0]['aY']**2 + df.loc[0]['aZ']**2)
     if (magnitude > 9.85 or magnitude < 9.76):
         print("Must stay still at beginning of data collection! Measured force: ", magnitude)
-        return;
+        notStill = 1.0
     else:
         print("Data calibration valid, gravitational force measured at: ", magnitude)
 
@@ -142,6 +143,6 @@ def process_imu_data(imuDataJson):
         yPos += [yPos[i-1] + yVel[i-1] * df['dt'][i]]
         zPos += [zPos[i-1] + zVel[i-1] * df['dt'][i]]
 
-    bigList = [xAngles,yAngles,zAngles,xVel,yVel,zVel,xPos,yPos,zPos,df['t'].tolist()]
+    bigList = [xAngles,yAngles,zAngles,xVel,yVel,zVel,xPos,yPos,zPos,df['t'].tolist(),[notStill]]
 
     return json.dumps(bigList)
