@@ -100,15 +100,6 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
         });
 
 
-//        // Create an ArrayAdapter using the string array and a default spinner layout
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                R.array.exercises_array, android.R.layout.simple_spinner_item);
-//        // Specify the layout to use when the list of choices appears
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        // Apply the adapter to the spinners
-//
-//        exerciseSpinner.setAdapter(adapter);
-
         //Populating Exercises
         exerciseViewModel = new ViewModelProvider(this).get(ExerciseViewModel.class);
         exerciseViewModel.getAllExercises().observe(this, exercises -> {
@@ -147,7 +138,7 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
                     String exerciseType = exerciseSpinner.getSelectedItem().toString();
 
                     // If database contains saved exercises, look for any matching input criteria
-                    if(!savedExercises.isEmpty()) {
+                    if (!savedExercises.isEmpty()) {
                         int numMatches = 0;
                         List<Exercise> exerciseMatches = new ArrayList<Exercise>();
                         List<Float> avgForces = new ArrayList<Float>();
@@ -155,35 +146,31 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
 
                         List<Float> tempPlotting = new ArrayList<Float>();
 
-                        for(int i = 0; i < savedExercises.size(); i++) {
-                            if(savedExercises.get(i).getType().equals(exerciseType) &&
+                        for (int i = 0; i < savedExercises.size(); i++) {
+                            if (savedExercises.get(i).getType().equals(exerciseType) &&
                                     savedExercises.get(i).getWeight() == weight) {
                                 exerciseMatches.add(savedExercises.get(i));
                                 numMatches++;
                             }
                         }
 
-                        if(numMatches != 0) {
-                            for(int i = exerciseMatches.size()-1; i >= 0; i--) {
+                        if (numMatches != 0) {
+                            for (int i = exerciseMatches.size() - 1; i >= 0; i--) {
                                 Float force = new Float(exerciseMatches.get(i).getAvgForce());
                                 avgForces.add(force);
                                 dates.add(exerciseMatches.get(i).getDate());
                             }
 
-                            for(int i = 0; i < exerciseMatches.size(); i++) {
+                            for (int i = 0; i < exerciseMatches.size(); i++) {
                                 Float temp = new Float(i);
                                 tempPlotting.add(temp);
                             }
 
-                            //avgForceTimeChart = (LineChart) findViewById(R.id.avgForceTime);
-
-//                            Log.i("displaySingleChart", "Tim's chart");
                             displaySingleLineChart(avgForceTimeChart,
                                     tempPlotting,
                                     avgForces,
                                     "Date", "Average Force");
-                        }
-                        else {
+                        } else {
                             setToastText("No exercises matching this criteria were found!");
                             return;
                         }
@@ -197,7 +184,7 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
                         Map<Float, ArrayList<Float>> dataMap = new TreeMap<Float, ArrayList<Float>>() {
                         };
 
-                        for (int i=0; i < savedExercises.size(); i++) {
+                        for (int i = 0; i < savedExercises.size(); i++) {
                             currExercise = savedExercises.get(i);
                             ArrayList<Float> avgForceEntry = new ArrayList<Float>();    // 0: sum of avgForce, 1: # of entries
                             avgForceEntry.add(0f);
@@ -205,16 +192,15 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
 
                             if (exerciseType.equals(currExercise.getType())) {
                                 if (!dataMap.containsKey(currExercise.getWeight())) {
-                                    avgForceEntry.set(0,currExercise.getAvgForce());
+                                    avgForceEntry.set(0, currExercise.getAvgForce());
                                     avgForceEntry.set(1, 1f);
-                                    dataMap.put(currExercise.getWeight(),avgForceEntry);
-                                }
-                                else {
+                                    dataMap.put(currExercise.getWeight(), avgForceEntry);
+                                } else {
                                     Float currWeight = currExercise.getWeight();
                                     Float currSum = dataMap.get(currWeight).get(0);
                                     Float currEntries = dataMap.get(currWeight).get(1);
 
-                                    avgForceEntry.set(0,currExercise.getAvgForce() + currSum);
+                                    avgForceEntry.set(0, currExercise.getAvgForce() + currSum);
                                     avgForceEntry.set(1, currEntries + 1);
                                     dataMap.put(currWeight, avgForceEntry);
                                 }
@@ -222,141 +208,21 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
                         }
                         for (Map.Entry<Float, ArrayList<Float>> entry : dataMap.entrySet()) {
                             Float key = entry.getKey();
-                            ArrayList<Float> value= entry.getValue();
+                            ArrayList<Float> value = entry.getValue();
                             weightsTotal.add(key);
                             avgForcesTotal.add(value.get(0) / value.get(1));
                             Log.i("AllTimeStats", String.format("Type: %s, Weight: %f, Avg Force: %f", exerciseType, key, value.get(0) / value.get(1)));
-                        };
+                        }
 
-                        Log.i("displaySingleLine", "Antoine's chart");
                         //Plot avg force vs weight for all exercises of selected type
                         displaySingleLineChart(avgForceVWeight, weightsTotal, avgForcesTotal,
                                 "Average Force (N)", "Average Force vs Weight");
 
                     }
                 }
-
-//                String selectedType = exerciseSpinner.getSelectedItem().toString();
-//                if (exerciseSpinner.getCount() == 1) {
-//                    setToastText("No available exercises. Go exercise.");
-//                    avgForceVWeight.setVisibility(View.INVISIBLE);
-//                }
-//                else if (exerciseSpinner.getItemAtPosition(position) == initString){
-//                    avgForceVWeight.setVisibility(View.INVISIBLE);
-//                }
-//                else {
-//                    avgForceVWeight.setVisibility(View.VISIBLE);
-//                    ArrayList<Float> weights = new ArrayList<Float>();
-//                    ArrayList<Float> avgForces = new ArrayList<Float>();
-//                    Exercise currExercise;
-//
-//                    // Map: [Weight, (sum of avgForce, # of same weight entries)]
-//                    Map<Float, ArrayList<Float>> dataMap = new TreeMap<Float, ArrayList<Float>>() {
-//                    };
-//
-//                    for (int i=0; i < savedExercises.size(); i++) {
-//                        currExercise = savedExercises.get(i);
-//                        ArrayList<Float> avgForceEntry = new ArrayList<Float>();    // 0: sum of avgForce, 1: # of entries
-//                        avgForceEntry.add(0f);
-//                        avgForceEntry.add(0f);
-//
-//                        if (selectedType.equals(currExercise.getType())) {
-//                            if (!dataMap.containsKey(currExercise.getWeight())) {
-//                                avgForceEntry.set(0,currExercise.getAvgForce());
-//                                avgForceEntry.set(1, 1f);
-//                                dataMap.put(currExercise.getWeight(),avgForceEntry);
-//                            }
-//                            else {
-//                                Float currWeight = currExercise.getWeight();
-//                                Float currSum = dataMap.get(currWeight).get(0);
-//                                Float currEntries = dataMap.get(currWeight).get(1);
-//
-//                                avgForceEntry.set(0,currExercise.getAvgForce() + currSum);
-//                                avgForceEntry.set(1, currEntries + 1);
-//                                dataMap.put(currWeight, avgForceEntry);
-//                            }
-//                        }
-//                    }
-//                    for (Map.Entry<Float, ArrayList<Float>> entry : dataMap.entrySet()) {
-//                        Float key = entry.getKey();
-//                        ArrayList<Float> value= entry.getValue();
-//                        weights.add(key);
-//                        avgForces.add(value.get(0) / value.get(1));
-//                        Log.i("AllTimeStats", String.format("Type: %s, Weight: %f, Avg Force: %f", selectedType, key, value.get(0) / value.get(1)));
-//                    };
-//
-//                    //Plot avg force vs weight for all exercises of selected type
-//                    displaySingleLineChart(avgForceVWeight, weights, avgForces,
-//                            "Average Force (N)", "Average Force vs Weight");
-//                }
             }
-            });
-        }
-
-
-//        exerciseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-//                String selectedType = exerciseSpinner.getSelectedItem().toString();
-//                if (exerciseSpinner.getCount() == 1) {
-//                    setToastText("No available exercises. Go exercise.");
-//                    avgForceVWeight.setVisibility(View.INVISIBLE);
-//                }
-//                else if (exerciseSpinner.getItemAtPosition(position) == initString){
-//                    avgForceVWeight.setVisibility(View.INVISIBLE);
-//                }
-//                else {
-//                    avgForceVWeight.setVisibility(View.VISIBLE);
-//                    ArrayList<Float> weights = new ArrayList<Float>();
-//                    ArrayList<Float> avgForces = new ArrayList<Float>();
-//                    Exercise currExercise;
-//
-//                    // Map: [Weight, (sum of avgForce, # of same weight entries)]
-//                    Map<Float, ArrayList<Float>> dataMap = new TreeMap<Float, ArrayList<Float>>() {
-//                    };
-//
-//                    for (int i=0; i < savedExercises.size(); i++) {
-//                        currExercise = savedExercises.get(i);
-//                        ArrayList<Float> avgForceEntry = new ArrayList<Float>();    // 0: sum of avgForce, 1: # of entries
-//                        avgForceEntry.add(0f);
-//                        avgForceEntry.add(0f);
-//
-//                        if (selectedType.equals(currExercise.getType())) {
-//                            if (!dataMap.containsKey(currExercise.getWeight())) {
-//                                avgForceEntry.set(0,currExercise.getAvgForce());
-//                                avgForceEntry.set(1, 1f);
-//                                dataMap.put(currExercise.getWeight(),avgForceEntry);
-//                            }
-//                            else {
-//                                Float currWeight = currExercise.getWeight();
-//                                Float currSum = dataMap.get(currWeight).get(0);
-//                                Float currEntries = dataMap.get(currWeight).get(1);
-//
-//                                avgForceEntry.set(0,currExercise.getAvgForce() + currSum);
-//                                avgForceEntry.set(1, currEntries + 1);
-//                                dataMap.put(currWeight, avgForceEntry);
-//                            }
-//                        }
-//                    }
-//                    for (Map.Entry<Float, ArrayList<Float>> entry : dataMap.entrySet()) {
-//                        Float key = entry.getKey();
-//                        ArrayList<Float> value= entry.getValue();
-//                        weights.add(key);
-//                        avgForces.add(value.get(0) / value.get(1));
-//                        Log.i("AllTimeStats", String.format("Type: %s, Weight: %f, Avg Force: %f", selectedType, key, value.get(0) / value.get(1)));
-//                    };
-//
-//                    //Plot avg force vs weight for all exercises of selected type
-//                    displaySingleLineChart(avgForceVWeight, weights, avgForces,
-//                            "Average Force (N)", "Average Force vs Weight");
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {Log.i("deviceListSpinner", "Nothing selected.");
-//            }
-//        });
-    //}
+        });
+    }
 
     private ArrayList<String> getAvailableTypes(List<Exercise> exercises) {
         ArrayList<String> types = new ArrayList<String>();
