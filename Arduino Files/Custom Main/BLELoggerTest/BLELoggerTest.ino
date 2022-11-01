@@ -52,7 +52,6 @@ void loop() {
     Serial.print("Connected to central: ");
     // print the central's BT address:
     Serial.println(central.address());
-    offset = millis();
 
     buzz(2, 100);
 
@@ -67,6 +66,7 @@ void loop() {
         if(currentTime - lastBuzz >= buzzDelay){
           needToBuzz = false;
           buzz(3,250);
+          offset = millis();
         }
       }
       readIMU(); //read IMU data and time
@@ -95,7 +95,7 @@ void updateIMUDataArr() {
   for(int i = 0; i < 4; i++){
     IMUDataArr.writeValue(newDataString[i]);
     Serial.println(IMUDataArr.value());
-    delay(25);
+    delay(35);
   }
 }
 
