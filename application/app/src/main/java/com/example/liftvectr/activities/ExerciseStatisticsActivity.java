@@ -75,8 +75,8 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
         accuracyWarningTextbox.setText(exercise.isAccurateFlag()?"":"Calculations below may not be accurate due to movement at start of recording.");
 
         // Display charts
-        displayIMUDataChart(exercise, IMUAccLineChart, "a_only", "Linear Acceleration vs Time");
-        displayIMUDataChart(exercise, IMUGyroLineChart, "g_only", "Angular Velocity vs Time");
+        displayIMUDataChart(exercise, IMUAccLineChart, "a_only", "Linear Acceleration vs Time", false);
+        displayIMUDataChart(exercise, IMUGyroLineChart, "g_only", "Angular Velocity vs Time", false);
         displaySingleLineChart(forceVsTimeChart,
                 exercise.getForceVsTimeXValues(),
                 exercise.getForceVsTimeYValues(),
