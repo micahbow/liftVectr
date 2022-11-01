@@ -2,6 +2,7 @@ package com.example.liftvectr.activities;
 
 import static com.example.liftvectr.database.Converters.IMUDataArrayListToJson;
 import static com.example.liftvectr.database.Converters.jsonToIMUDataArrayList;
+import static com.example.liftvectr.util.ChartDisplay.displayIMUDataChart;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import com.example.liftvectr.database.ExerciseViewModel;
 import com.example.liftvectr.util.BluetoothController;
 import com.example.liftvectr.util.PermissionsHandler;
 import com.example.liftvectr.util.ReadRunnable;
+import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ public class AddExerciseActivity extends AppCompatActivity {
     private TextView x_gyro, y_gyro, z_gyro;
     private TextView bluetoothConnected;
     private EditText weightInput;
+    private LineChart liveDataChart;
 
     private ArrayList<BluetoothLE> listDevices;
     private BluetoothController BLEController;
@@ -103,13 +106,8 @@ public class AddExerciseActivity extends AppCompatActivity {
         //exerciseViewModel.deleteAllExercises();
 
         exerciseBtn = (Button) findViewById(R.id.button);
-        x_accel = (TextView) findViewById(R.id.x_a);
-        y_accel = (TextView) findViewById(R.id.y_a);
-        z_accel = (TextView) findViewById(R.id.z_a);
-        x_gyro = (TextView) findViewById(R.id.x_g);
-        y_gyro = (TextView) findViewById(R.id.y_g);
-        z_gyro = (TextView) findViewById(R.id.z_g);
         bluetoothConnected = (TextView) findViewById(R.id.bluetooth_status);
+        liveDataChart = (LineChart) findViewById(R.id.live_data_chart);
 
         weightInput = (EditText) findViewById(R.id.editTextNumberDecimal);
 
@@ -251,7 +249,9 @@ public class AddExerciseActivity extends AppCompatActivity {
                 }
                 else {
                     exerciseBtn.setText("Start Exercise");
-                    transitionToCropExerciseActivity();
+                    if (newExercise.getData().size() != 0) {
+                        transitionToCropExerciseActivity();
+                    }
                 }
             }
         });
@@ -269,6 +269,7 @@ public class AddExerciseActivity extends AppCompatActivity {
     public void addDataToExercise(IMUData data) {
         if(this.newExercise != null) {
             newExercise.addDataSample(data);
+            displayIMUDataChart(newExercise, liveDataChart, "a_only", "Acceleration vs Time", true);
         }
         else {
             Log.e("addDataToExercise", "Null newExercise.");

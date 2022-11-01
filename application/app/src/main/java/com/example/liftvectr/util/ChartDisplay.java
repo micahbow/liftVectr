@@ -62,15 +62,15 @@ public class ChartDisplay {
     public static void displayIMUDataChart(Exercise exercise,
                                                 LineChart chart,
                                                 String config,
-                                                String chartDescription) {
+                                                String chartDescription,
+                                                boolean live) {
         setChartStyling(chart, chartDescription);
-        List<ILineDataSet> lines = createMultipleLinesFromIMUData(exercise, config);
+        List<ILineDataSet> lines = createMultipleLinesFromIMUData(exercise, config, live);
 
         LineData data = new LineData(lines);
         chart.setData(data);
         chart.invalidate();
     }
-
 
     // -------------------- Private Helpers - Do not use --------------------
 
@@ -103,7 +103,7 @@ public class ChartDisplay {
         return lines;
     }
 
-    private static List<ILineDataSet> createMultipleLinesFromIMUData(Exercise exercise, String config) {
+    private static List<ILineDataSet> createMultipleLinesFromIMUData(Exercise exercise, String config, boolean live) {
         List<Entry> xLinAcc_ms = new ArrayList<>();
         List<Entry> yLinAcc_ms = new ArrayList<>();
         List<Entry> zLinAcc_ms = new ArrayList<>();
@@ -112,7 +112,13 @@ public class ChartDisplay {
         List<Entry> zAngVel_ms = new ArrayList<>();
 
         List<IMUData> data = exercise.getData();
-        for (int i = 0; i < data.size(); i++) {
+        int startingIndex = 0;
+        int chartWidth = 20;
+        if (live && data.size() > chartWidth) {
+            startingIndex = data.size()-20;
+        }
+
+        for (int i = startingIndex; i < data.size(); i++) {
             xLinAcc_ms.add(new Entry(data.get(i).micros, data.get(i).x_lin_acc));
             yLinAcc_ms.add(new Entry(data.get(i).micros, data.get(i).y_lin_acc));
             zLinAcc_ms.add(new Entry(data.get(i).micros, data.get(i).z_lin_acc));
@@ -145,8 +151,8 @@ public class ChartDisplay {
     }
 
     private static void setLineStyling(LineDataSet line, int color) {
-        line.setDrawCircles(true);
-        line.setDrawValues(true);
+        line.setDrawCircles(false);
+        line.setDrawValues(false);
         line.setColor(color);
     }
 
