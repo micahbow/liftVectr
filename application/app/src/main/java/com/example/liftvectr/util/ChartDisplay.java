@@ -17,6 +17,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Date;
 
 public class ChartDisplay {
 
@@ -38,6 +39,25 @@ public class ChartDisplay {
         chart.setData(data);
         chart.invalidate();
     }
+
+//    public static void displaySingleLineChart(LineChart chart, List<Date> xValues, List<Float> yValues,
+//                                              String lineLabel, String chartDescription) {
+//        if (chart == null) {
+//            throw new IllegalArgumentException("Error: LineChart is null");
+//        }
+//        if (xValues.size() == 0 || yValues.size() == 0) {
+//            throw new IllegalArgumentException("An inputted coordinate array is empty");
+//        }
+//
+//        setChartStyling(chart, chartDescription);
+//        LineDataSet line = createLine(xValues, yValues, lineLabel, Color.BLUE);
+//
+//        LineData data = new LineData(line);
+//        chart.setData(data);
+//        chart.invalidate();
+//
+
+
 
     public static void displayMultiLineChart(LineChart chart,
                                              List<Float> xValues,
