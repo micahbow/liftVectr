@@ -78,7 +78,7 @@ public class CropExerciseActivity extends AppCompatActivity {
         Intent intent = getIntent();
         exercise = (Exercise) intent.getSerializableExtra("exercise");
 
-        displayIMUDataChart(exercise, IMUAccLineChart, "a_only", "Recorded IMU Data");
+        displayIMUDataChart(exercise, IMUAccLineChart, "a_only", "Recorded IMU Data", false);
         // User needs to be able to adjust the exercise passed in from the intent
         IMUAccLineChart.setOnClickListener(new View.OnClickListener() {
             @Override
