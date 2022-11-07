@@ -82,7 +82,7 @@ public class ExerciseHistoryActivity extends AppCompatActivity {
         List<String> exerciseListHeaders = new ArrayList<String>();
         for (int i =0; i < exercises.size(); i++) {
             exerciseListHeaders.add( (String) exercises.get(i).getType()
-                    + " " + (String) exercises.get(i).getDate().toString());
+                    + "\n" + (String) exercises.get(i).getDate().toString());
         }
         return exerciseListHeaders;
     }
