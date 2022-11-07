@@ -107,7 +107,7 @@ public class CropExerciseActivity extends AppCompatActivity {
                 exercise.setForceVsTimeYValues(getForceValues(exercise));
                 exercise.setAvgForce(averageForce(exercise.getData(), exercise.getForceVsTimeYValues()
                 ));
-                exercise.setPeakForce(peakForce(exercise.getForceVsTimeYValues()));
+                exercise.setPeakForce(peakForce(exercise.getForceVsTimeYValues(), exercise.getType()));
 
                 // calculate stats from python magdwick script
                 PyObject dataObjectJson = pyObj.callAttr("process_imu_data", IMUDataArrayListToJson(exercise.getData()));
