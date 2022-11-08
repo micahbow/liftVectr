@@ -33,16 +33,17 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="67dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="24dp"
         android:text="Select Exercise: "
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <Spinner
         android:id="@+id/availableExercises"
-        android:layout_width="183dp"
-        android:layout_height="20dp"
+        android:layout_width="173dp"
+        android:layout_height="27dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@+id/editWeight"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -51,32 +52,35 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="25dp"
         android:text="Select Weight:"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/textView11"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <EditText
         android:id="@+id/editWeight"
-        android:layout_width="77dp"
+        android:layout_width="64dp"
         android:layout_height="40dp"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="24dp"
         android:ems="10"
         android:inputType="numberDecimal"
-        app:layout_constraintStart_toEndOf="@+id/textView12"
-        app:layout_constraintTop_toBottomOf="@+id/availableExercises" />
-
+        android:text="1234"
+        app:layout_constraintBottom_toBottomOf="@+id/unitSelect"
+        app:layout_constraintStart_toEndOf="@+id/textView12" />
+    <!--
     <TextView
         android:id="@+id/lbs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
+        android:layout_marginEnd="128dp"
         android:layout_marginBottom="8dp"
         android:text="lbs"
         app:layout_constraintBottom_toBottomOf="@+id/editWeight"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editWeight" />
-
+-->
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -128,6 +132,22 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <Spinner
+        android:id="@+id/unitSelect"
+        android:layout_width="94dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="12dp"
+        android:entries="@array/units_array"
+        app:layout_constraintEnd_toEndOf="@+id/availableExercises"
+        app:layout_constraintTop_toBottomOf="@+id/availableExercises" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="185dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

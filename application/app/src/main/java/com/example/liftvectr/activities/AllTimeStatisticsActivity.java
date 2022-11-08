@@ -45,10 +45,11 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
     private Button exerciseBtn;
     private ArrayList<String> availableTypes = new ArrayList<String>();
     private ArrayList<String> exerciseTypes = new ArrayList<String>();
-    private String initString = "Please select an available exercise type.";
+    private String initString = "Select an exercise type.";
     private LineChart avgForceVWeight;
     private LineChart avgForceTimeChart;
     private boolean updatedData;
+    private Spinner unitsSelect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
         exerciseBtn = (Button) findViewById(R.id.button);
         avgForceTimeChart = (LineChart) findViewById(R.id.avgForceTime);
         updatedData = false;
+        unitsSelect = findViewById(R.id.unitSelect);
 
         exerciseTypes.add(initString);
         exerciseTypes.add("Bench Press");
