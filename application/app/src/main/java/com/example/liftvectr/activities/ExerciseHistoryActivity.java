@@ -17,7 +17,9 @@ import com.example.liftvectr.data.Exercise;
 import com.example.liftvectr.database.ExerciseViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ExerciseHistoryActivity extends AppCompatActivity {
@@ -63,8 +65,8 @@ public class ExerciseHistoryActivity extends AppCompatActivity {
 
         exerciseViewModel.getAllExercises().observe(this, exercises -> {
             savedExercises = exerciseViewModel.getAllExercises().getValue();
-            ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1
-                    , generateExerciseHistoryListHeaders(savedExercises));
+            ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, R.layout.row
+                    , generateExerciseList(savedExercises));
             exerciseList.setAdapter(adapter2);
         });
 
@@ -78,11 +80,15 @@ public class ExerciseHistoryActivity extends AppCompatActivity {
         });
     }
 
-    public List<String> generateExerciseHistoryListHeaders(List<Exercise> exercises) {
+    public List<String> generateExerciseList(List<Exercise> exercises) {
         List<String> exerciseListHeaders = new ArrayList<String>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
         for (int i =0; i < exercises.size(); i++) {
-            exerciseListHeaders.add( (String) exercises.get(i).getType()
-                    + "\n" + (String) exercises.get(i).getDate().toString());
+            Exercise currExercise = exercises.get(i);
+            String currDate = dateFormat.format(currExercise.getDate()).toString();
+            exerciseListHeaders.add( String.format("%s: %s - %s",currExercise.getType(),
+                    currExercise.getWeight(), currDate) );
         }
         return exerciseListHeaders;
     }
