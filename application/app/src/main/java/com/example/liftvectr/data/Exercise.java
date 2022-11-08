@@ -27,7 +27,42 @@ public class Exercise implements Serializable {
     private ArrayList<Float> forceVsTimeYValues;
 
     // Python-processed data
+    //    bigList = [xAngles, yAngles, zAngles, CHECK
+    //    vertVel, horzVel, bulkVel, CHECK
+    //    vertPos, horzPos, bulkPos, CHECK
+    //    posDeviation, CHECK
+    //    df['t'].tolist(), CHECK
+    //    [averagePError], [integratedPE], CHECK
+    //    [notStill]]
     private ArrayList<Float> timeArray; // In seconds starting from 0
+
+    private ArrayList<Float> posDeviation; // In seconds starting from 0
+
+    public ArrayList<Float> getPosDeviation() {
+        return posDeviation;
+    }
+
+    public void setPosDeviation(ArrayList<Float> posDeviation) {
+        this.posDeviation = posDeviation;
+    }
+
+    public float getAveragePError() {
+        return averagePError;
+    }
+
+    public void setAveragePError(float averagePError) {
+        this.averagePError = averagePError;
+    }
+
+    public float getIntegratedPE() {
+        return integratedPE;
+    }
+
+    public void setIntegratedPE(float integratedPE) {
+        this.integratedPE = integratedPE;
+    }
+
+    private float averagePError, integratedPE;
 
     public ArrayList<Float> getTimeArray() {
         return timeArray;
@@ -45,25 +80,25 @@ public class Exercise implements Serializable {
         this.xyzAngles = xyzAngles;
     }
 
-    public ArrayList<ArrayList<Float>> getXyzVelocity() {
-        return xyzVelocity;
+    public ArrayList<ArrayList<Float>> getVhbVelocity() {
+        return vhbVelocity;
     }
 
-    public void setXyzVelocity(ArrayList<ArrayList<Float>> xyzVelocity) {
-        this.xyzVelocity = xyzVelocity;
+    public void setVhbVelocity(ArrayList<ArrayList<Float>> vhbVelocity) {
+        this.vhbVelocity = vhbVelocity;
     }
 
-    public ArrayList<ArrayList<Float>> getXyzPosition() {
-        return xyzPosition;
+    public ArrayList<ArrayList<Float>> getVhbPosition() {
+        return vhbPosition;
     }
 
-    public void setXyzPosition(ArrayList<ArrayList<Float>> xyzPosition) {
-        this.xyzPosition = xyzPosition;
+    public void setVhbPosition(ArrayList<ArrayList<Float>> vhbPosition) {
+        this.vhbPosition = vhbPosition;
     }
 
     private ArrayList<ArrayList<Float>> xyzAngles;
-    private ArrayList<ArrayList<Float>> xyzVelocity;
-    private ArrayList<ArrayList<Float>> xyzPosition;
+    private ArrayList<ArrayList<Float>> vhbVelocity;
+    private ArrayList<ArrayList<Float>> vhbPosition;
 
     public boolean isAccurateFlag() {
         return accurateFlag;
