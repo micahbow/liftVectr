@@ -26,6 +26,8 @@ public class Exercise implements Serializable {
     private ArrayList<Float> forceVsTimeXValues;
     private ArrayList<Float> forceVsTimeYValues;
 
+    private float calories;
+
     // Python-processed data
     //    bigList = [xAngles, yAngles, zAngles, CHECK
     //    vertVel, horzVel, bulkVel, CHECK
@@ -110,6 +112,13 @@ public class Exercise implements Serializable {
 
     private boolean accurateFlag;
 
+    public float getCalories() {
+        return calories;
+    }
+
+    public void setCalories(float calories) {
+        this.calories = calories;
+    }
     public Exercise(String type, float weight, Date date) {
         this.id = UUID.randomUUID();
         this.type = type;

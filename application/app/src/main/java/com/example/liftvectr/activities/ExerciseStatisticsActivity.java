@@ -34,6 +34,7 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
     private TextView accuracyWarningTextbox;
     private TextView averagePETextbox;
     private TextView integratedPETextbox;
+    private TextView caloriesTextbox;
 
     private LineChart IMUAccLineChart;
     private LineChart IMUGyroLineChart;
@@ -68,6 +69,7 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
         ResidualChart = (LineChart) findViewById(R.id.residual_line_chart);
         averagePETextbox = (TextView) findViewById(R.id.averagePETextbox);
         integratedPETextbox = (TextView) findViewById(R.id.integratedPETextbox);
+        caloriesTextbox = (TextView) findViewById(R.id.caloriesTextbox);
 
         // Accessing the exercise/config data sent over from ExerciseHistoryActivity
         Intent intent = getIntent();
@@ -82,6 +84,7 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
         accuracyWarningTextbox.setText(exercise.isAccurateFlag()?"":"Calculations below may not be accurate due to movement at start of recording.");
         averagePETextbox.setText(String.format("PE M: %.2f", exercise.getAveragePError()));
         integratedPETextbox.setText(String.format("PE P: %.2f", exercise.getIntegratedPE()));
+        caloriesTextbox.setText(String.format("Calories Burned: %.2f", exercise.getCalories()));
 
         // Display charts
         displayIMUDataChart(exercise, IMUAccLineChart, "a_only", "Linear Acceleration vs Time", false);

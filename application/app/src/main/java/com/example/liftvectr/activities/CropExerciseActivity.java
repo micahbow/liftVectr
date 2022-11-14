@@ -137,6 +137,12 @@ public class CropExerciseActivity extends AppCompatActivity {
                     exercise.setAveragePError(dObj.get(11).get(0));
                     exercise.setIntegratedPE(dObj.get(12).get(0));
                     exercise.setAccurateFlag(dObj.get(13).get(0) == 0.0? true:false);
+                    float totalBulkVelocity = 0;
+                    for(int i = 0; i<vhbVel.get(2).size(); i++){
+                        totalBulkVelocity += vhbVel.get(2).get(i);
+                    }
+                    float averageVelocity = totalBulkVelocity / vhbVel.get(2).size();
+                    exercise.setCalories(exercise.getAvgForce() * averageVelocity / exercise.getTimeArray().get(exercise.getTimeArray().size() -1));
                 }
                 else {
                     System.out.println("False Start Detected!");

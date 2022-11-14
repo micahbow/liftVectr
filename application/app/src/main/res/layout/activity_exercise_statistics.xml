@@ -231,6 +231,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/residual_line_chart"
                 app:layout_constraintVertical_bias="5" />
 
+            <TextView
+                android:id="@+id/caloriesTextbox"
+                android:layout_width="171dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textAlignment="viewStart"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.225"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/residual_line_chart"
+                app:layout_constraintVertical_bias="5" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
