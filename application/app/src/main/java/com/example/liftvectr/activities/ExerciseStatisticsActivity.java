@@ -41,6 +41,13 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
     private LineChart VelocityChart;
     private LineChart DisplacementChart;
 
+    private TextView bwRatio;
+    private TextView skillLevel;
+    private TextView percentile;
+    private TextView wilks;
+    private TextView wilks2;
+    private TextView dots;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +69,13 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
         DisplacementChart = (LineChart) findViewById(R.id.displacement_line_chart);
         accuracyWarningTextbox = (TextView) findViewById(R.id.accuracyWarningText);
 
+        bwRatio = (TextView) findViewById(R.id.bwRatio);
+        skillLevel = (TextView) findViewById(R.id.skillLevel);
+        percentile = (TextView) findViewById(R.id.percentile);
+        wilks = (TextView) findViewById(R.id.wilks);
+        wilks2 = (TextView) findViewById(R.id.wilks2);
+        dots = (TextView) findViewById(R.id.dots);
+
         // Accessing the exercise/config data sent over from ExerciseHistoryActivity
         Intent intent = getIntent();
         Exercise exercise = (Exercise) intent.getSerializableExtra("exercise");
@@ -73,6 +87,12 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
         peakForceTextbox.setText(String.format("Peak Force: %.2f", exercise.getPeakForce()));
         averageForceTextbox.setText(String.format("Average Force: %.2f", exercise.getAvgForce()));
         accuracyWarningTextbox.setText(exercise.isAccurateFlag()?"":"Calculations below may not be accurate due to movement at start of recording.");
+        bwRatio.setText("Bodyweight Ratio: " + exercise.getBwRatio());
+        skillLevel.setText("Skill Level: " + exercise.getSkillLevel());
+        percentile.setText("Percentile: " + exercise.getPercentile());
+        wilks.setText("WILKS Score: " + exercise.getWilksScore());
+        wilks2.setText("WILKS2 Score: " + exercise.getWilks2Score());
+        dots.setText("DOTS Score: " + exercise.getDotsScore());
 
         // Display charts
         displayIMUDataChart(exercise, IMUAccLineChart, "a_only", "Linear Acceleration vs Time", false);

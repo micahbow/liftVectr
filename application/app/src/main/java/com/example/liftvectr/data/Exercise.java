@@ -26,7 +26,63 @@ public class Exercise implements Serializable {
     private ArrayList<Float> forceVsTimeXValues;
     private ArrayList<Float> forceVsTimeYValues;
 
-    // Python-processed data
+    public float getWilksScore() {
+        return wilksScore;
+    }
+
+    public void setWilksScore(float wilksScore) {
+        this.wilksScore = wilksScore;
+    }
+
+    public float getWilks2Score() {
+        return wilks2Score;
+    }
+
+    public void setWilks2Score(float wilks2Score) {
+        this.wilks2Score = wilks2Score;
+    }
+
+    public float getDotsScore() {
+        return dotsScore;
+    }
+
+    public void setDotsScore(float dotsScore) {
+        this.dotsScore = dotsScore;
+    }
+
+    public float getBwRatio() {
+        return bwRatio;
+    }
+
+    public void setBwRatio(float bwRatio) {
+        this.bwRatio = bwRatio;
+    }
+
+    public String getSkillLevel() {
+        return skillLevel;
+    }
+
+    public void setSkillLevel(String skillLevel) {
+        this.skillLevel = skillLevel;
+    }
+
+    public String getPercentile() {
+        return percentile;
+    }
+
+    public void setPercentile(String percentile) {
+        this.percentile = percentile;
+    }
+
+    // Weight Standard Python-processed data
+    private float wilksScore;
+    private float wilks2Score;
+    private float dotsScore;
+    private float bwRatio;
+    private String skillLevel;
+    private String percentile;
+
+    // Madgwick Python-processed data
     private ArrayList<Float> timeArray; // In seconds starting from 0
 
     public ArrayList<Float> getTimeArray() {
