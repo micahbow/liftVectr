@@ -95,7 +95,6 @@ def process_imu_data(imuDataJson):
     zAngles = []
 
     for i in range(df.shape[0]):
-      print(len(xAngles))
       euler = euler_from_quaternion(Q[i][1],Q[i][2],Q[i][3],Q[i][0])
       xAngles += [initial_roll_x + euler[0]]
       yAngles += [initial_pitch_y + euler[1]]

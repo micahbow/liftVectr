@@ -7,6 +7,7 @@ import static com.example.liftvectr.util.ChartDisplay.displayIMUDataChart;
 import static com.example.liftvectr.util.StatisticsLib.averageForce;
 import static com.example.liftvectr.util.StatisticsLib.getForceValues;
 import static com.example.liftvectr.util.StatisticsLib.getTimeValues;
+import static com.example.liftvectr.util.StatisticsLib.zeroOutliers;
 import static com.example.liftvectr.util.StatisticsLib.peakForce;
 
 import com.chaquo.python.PyObject;
@@ -127,11 +128,11 @@ public class CropExerciseActivity extends AppCompatActivity {
                     for(int i = 3; i < 6; i++) {
                         vhbVel.add(new ArrayList<Float>(Arrays.asList(dObj.get(i).toArray(new Float[] {}))));
                     }
-                    exercise.setVhbVelocity(vhbVel);
+                    exercise.setVhbVelocity(zeroOutliers(vhbVel,100));
                     for(int i = 6; i < 9; i++) {
                         vhbDisp.add(new ArrayList<Float>(Arrays.asList(dObj.get(i).toArray(new Float[] {}))));
                     }
-                    exercise.setVhbPosition(vhbDisp);
+                    exercise.setVhbPosition(zeroOutliers(vhbDisp,5));
                     exercise.setPosDeviation(dObj.get(9));
                     exercise.setTimeArray(dObj.get(10));
                     exercise.setAveragePError(dObj.get(11).get(0));
