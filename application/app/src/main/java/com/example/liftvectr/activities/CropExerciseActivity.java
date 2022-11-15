@@ -7,6 +7,7 @@ import static com.example.liftvectr.util.ChartDisplay.displayIMUDataChart;
 import static com.example.liftvectr.util.StatisticsLib.averageForce;
 import static com.example.liftvectr.util.StatisticsLib.getForceValues;
 import static com.example.liftvectr.util.StatisticsLib.getTimeValues;
+import static com.example.liftvectr.util.StatisticsLib.zeroOutliers;
 import static com.example.liftvectr.util.StatisticsLib.peakForce;
 
 import com.chaquo.python.PyObject;
@@ -118,22 +119,31 @@ public class CropExerciseActivity extends AppCompatActivity {
                     System.out.println(dataObjectJson.toString());
                     ArrayList<ArrayList<Float>> dObj = new Gson().fromJson(dataObjectJson.toString(),listType);
                     ArrayList<ArrayList<Float>> xyzAng = new ArrayList<ArrayList<Float>>();
-                    ArrayList<ArrayList<Float>> xyzVel = new ArrayList<ArrayList<Float>>();
-                    ArrayList<ArrayList<Float>> xyzDisp = new ArrayList<ArrayList<Float>>();
+                    ArrayList<ArrayList<Float>> vhbVel = new ArrayList<ArrayList<Float>>();
+                    ArrayList<ArrayList<Float>> vhbDisp = new ArrayList<ArrayList<Float>>();
                     for(int i = 0; i < 3; i++) {
                         xyzAng.add(new ArrayList<Float>(Arrays.asList(dObj.get(i).toArray(new Float[] {}))));
                     }
                     exercise.setXyzAngles(xyzAng);
                     for(int i = 3; i < 6; i++) {
-                        xyzVel.add(new ArrayList<Float>(Arrays.asList(dObj.get(i).toArray(new Float[] {}))));
+                        vhbVel.add(new ArrayList<Float>(Arrays.asList(dObj.get(i).toArray(new Float[] {}))));
                     }
-                    exercise.setXyzVelocity(xyzVel);
+                    exercise.setVhbVelocity(zeroOutliers(vhbVel,100));
                     for(int i = 6; i < 9; i++) {
-                        xyzDisp.add(new ArrayList<Float>(Arrays.asList(dObj.get(i).toArray(new Float[] {}))));
+                        vhbDisp.add(new ArrayList<Float>(Arrays.asList(dObj.get(i).toArray(new Float[] {}))));
                     }
-                    exercise.setXyzPosition(xyzDisp);
-                    exercise.setTimeArray(dObj.get(9));
-                    exercise.setAccurateFlag(dObj.get(10).get(0) == 0.0? true:false);
+                    exercise.setVhbPosition(zeroOutliers(vhbDisp,5));
+                    exercise.setPosDeviation(dObj.get(9));
+                    exercise.setTimeArray(dObj.get(10));
+                    exercise.setAveragePError(dObj.get(11).get(0));
+                    exercise.setIntegratedPE(dObj.get(12).get(0));
+                    exercise.setAccurateFlag(dObj.get(13).get(0) == 0.0? true:false);
+                    float totalBulkVelocity = 0;
+                    for(int i = 0; i<vhbVel.get(2).size(); i++){
+                        totalBulkVelocity += vhbVel.get(2).get(i);
+                    }
+                    float averageVelocity = totalBulkVelocity / vhbVel.get(2).size();
+                    exercise.setCalories(exercise.getAvgForce() * averageVelocity / exercise.getTimeArray().get(exercise.getTimeArray().size() -1));
                 }
                 else {
                     System.out.println("False Start Detected!");

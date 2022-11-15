@@ -32,6 +32,9 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
     private TextView peakForceTextbox;
     private TextView averageForceTextbox;
     private TextView accuracyWarningTextbox;
+    private TextView averagePETextbox;
+    private TextView integratedPETextbox;
+    private TextView caloriesTextbox;
 
     private LineChart IMUAccLineChart;
     private LineChart IMUGyroLineChart;
@@ -40,6 +43,7 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
     private LineChart AngleChart;
     private LineChart VelocityChart;
     private LineChart DisplacementChart;
+    private LineChart ResidualChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,11 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
         DisplacementChart = (LineChart) findViewById(R.id.displacement_line_chart);
         accuracyWarningTextbox = (TextView) findViewById(R.id.accuracyWarningText);
 
+        ResidualChart = (LineChart) findViewById(R.id.residual_line_chart);
+        averagePETextbox = (TextView) findViewById(R.id.averagePETextbox);
+        integratedPETextbox = (TextView) findViewById(R.id.integratedPETextbox);
+        caloriesTextbox = (TextView) findViewById(R.id.caloriesTextbox);
+
         // Accessing the exercise/config data sent over from ExerciseHistoryActivity
         Intent intent = getIntent();
         Exercise exercise = (Exercise) intent.getSerializableExtra("exercise");
@@ -73,6 +82,9 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
         peakForceTextbox.setText(String.format("Peak Force: %.2f", exercise.getPeakForce()));
         averageForceTextbox.setText(String.format("Average Force: %.2f", exercise.getAvgForce()));
         accuracyWarningTextbox.setText(exercise.isAccurateFlag()?"":"Calculations below may not be accurate due to movement at start of recording.");
+        averagePETextbox.setText(String.format("PE M: %.2f", exercise.getAveragePError()));
+        integratedPETextbox.setText(String.format("PE P: %.2f", exercise.getIntegratedPE()));
+        caloriesTextbox.setText(String.format("Calories Burned: %.2f", exercise.getCalories()));
 
         // Display charts
         displayIMUDataChart(exercise, IMUAccLineChart, "a_only", "Linear Acceleration vs Time", false);
@@ -87,12 +99,16 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
                 Arrays.asList("Roll","Pitch","Yaw"),"Angular Displacement vs Time");
         displayMultiLineChart(VelocityChart,
                 exercise.getTimeArray(),
-                (List)exercise.getXyzVelocity(),
-                Arrays.asList("x Vel","y Vel","z Vel"),"Linear Velocity vs Time");
+                (List)exercise.getVhbVelocity(),
+                Arrays.asList("vertVel","horzVel","bulkVel"),"Linear Velocity vs Time");
         displayMultiLineChart(DisplacementChart,
                 exercise.getTimeArray(),
-                (List)exercise.getXyzPosition(),
-                Arrays.asList("x","y","z"),"Linear Displacement vs Time");
+                (List)exercise.getVhbPosition(),
+                Arrays.asList("vertPos","horzPos","bulkPos"),"Linear Displacement vs Time");
+        displaySingleLineChart(ResidualChart,
+                exercise.getTimeArray(),
+                (List)exercise.getPosDeviation(),
+                "Residual","Bulk - Actual Residual vs Time");
 
         returnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
