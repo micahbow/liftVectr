@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/dark_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AllTimeStatisticsActivity"
-    android:background="@color/cardview_dark_background"
-    >
+    android:theme="@style/dark_background"
+    tools:context=".activities.AllTimeStatisticsActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -18,39 +19,42 @@
         app:menu="@menu/bottom_navbar" />
 
     <TextView
-        android:textColor="@color/cardview_light_background"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="All Time Statistics"
         android:textAlignment="center"
+        android:textColor="@color/cardview_light_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.054" />
-
     <Spinner
         android:id="@+id/availableExercises"
         android:layout_width="173dp"
         android:layout_height="27dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/editWeight"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="31dp"
+        app:layout_constraintStart_toEndOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <TextView
-        android:textColor="@color/cardview_light_background"
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="6dp"
         android:text="Select Exercise: "
-        android:textSize="14sp"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/availableExercises"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline2" />
 
     <Spinner
         android:id="@+id/unitSelect"
@@ -62,26 +66,24 @@
         app:layout_constraintTop_toBottomOf="@+id/availableExercises" />
 
     <EditText
-        android:textColor="@color/cardview_light_background"
         android:id="@+id/editWeight"
         android:layout_width="64dp"
         android:layout_height="40dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="4dp"
         android:ems="10"
         android:inputType="numberDecimal"
-        app:layout_constraintBottom_toBottomOf="@+id/unitSelect"
-        app:layout_constraintStart_toEndOf="@+id/textView12" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/unitSelect"
+        app:layout_constraintStart_toStartOf="@+id/availableExercises" />
 
     <TextView
-        android:textColor="@color/cardview_light_background"
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="Select Weight:"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        android:textColor="@color/cardview_light_background"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/editWeight"
+        app:layout_constraintStart_toStartOf="@+id/textView11" />
 
     <!--
     <TextView
@@ -98,9 +100,10 @@
 -->
     <Button
         android:id="@+id/button"
+        style="@style/buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:text="Find Exercises"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,6 +111,7 @@
 
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
 
@@ -133,6 +137,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
+                android:background="@color/cardview_light_background"
                 app:layout_constraintVertical_bias="5" />
 
             <com.github.mikephil.charting.charts.LineChart
@@ -143,10 +148,18 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
+                android:background="@color/cardview_light_background"
                 app:layout_constraintVertical_bias="5" />
 
         </LinearLayout>
     </ScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="54dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

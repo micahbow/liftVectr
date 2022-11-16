@@ -16,10 +16,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
 
 
 import com.example.liftvectr.R;
@@ -46,21 +48,24 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
     private ArrayList<String> availableTypes = new ArrayList<String>();
     private ArrayList<String> exerciseTypes = new ArrayList<String>();
     private String initString = "Select an exercise type.";
-    private LineChart avgForceVWeight;
+    private LineChart avgForceWeightChart;
     private LineChart avgForceTimeChart;
     private boolean updatedData;
     private Spinner unitsSelect;
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_time_statistics);
         exerciseSpinner = findViewById(R.id.availableExercises);
-        avgForceVWeight = findViewById(R.id.AvgForceVWeight_chart);
-        avgForceVWeight.setVisibility(View.INVISIBLE);
-        weightInput = (EditText) findViewById(R.id.editWeight);
-        exerciseBtn = (Button) findViewById(R.id.button);
+        avgForceWeightChart = findViewById(R.id.AvgForceVWeight_chart);
         avgForceTimeChart = (LineChart) findViewById(R.id.avgForceTime);
+        weightInput = (EditText) findViewById(R.id.editWeight);
+        exerciseBtn = findViewById(R.id.button);
+        scrollView = findViewById(R.id.scrollView);
+        scrollView.setVisibility(View.INVISIBLE);
+
         updatedData = false;
         unitsSelect = findViewById(R.id.unitSelect);
 
@@ -123,7 +128,6 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
                 if(exerciseBtn.getText().equals("Find Exercises")) {
                     if (exerciseSpinner.getCount() == 1) {
                         setToastText("No available exercises. Go exercise.");
-                        //avgForceVWeight.setVisibility(View.INVISIBLE);
                     }
 
                     if (weightInput.getText().toString().isEmpty()) {
@@ -172,12 +176,14 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
                                     tempPlotting,
                                     avgForces,
                                     "Date", "Average Force");
+                            scrollView.setVisibility(View.VISIBLE);
+
                         } else {
                             setToastText("No exercises matching this criteria were found!");
+                            scrollView.setVisibility(View.INVISIBLE);
                             return;
                         }
 
-                        avgForceVWeight.setVisibility(View.VISIBLE);
                         ArrayList<Float> weightsTotal = new ArrayList<Float>();
                         ArrayList<Float> avgForcesTotal = new ArrayList<Float>();
                         Exercise currExercise;
@@ -217,8 +223,9 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
                         }
 
                         //Plot avg force vs weight for all exercises of selected type
-                        displaySingleLineChart(avgForceVWeight, weightsTotal, avgForcesTotal,
+                        displaySingleLineChart(avgForceWeightChart, weightsTotal, avgForcesTotal,
                                 "Average Force (N)", "Average Force vs Weight");
+                        scrollView.setVisibility(View.VISIBLE);
 
                     }
                 }
