@@ -11,7 +11,6 @@ void calibrateGyro(double & offsetx, double & offsety, double & offsetz);
 void setup() {
   Serial.begin(9600);
   while (!Serial);
-  Serial.println("Started");
 
   if (IMU.begin() != 0) {
     Serial.println("Failed to initialize IMU!");
@@ -24,7 +23,7 @@ void setup() {
   IMU.writeRegister(LSM6DS3_ACC_GYRO_CTRL1_XL, gModification);
 
   calibrateGyro(xOff,yOff,zOff);
-  Serial.println("t,aX,aY,aZ,gX,gY,gZ,mX,mY,mZ");
+  Serial.println("t,aX,aY,aZ,gX,gY,gZ");
 }
 
 void loop() {
@@ -32,7 +31,7 @@ void loop() {
   uint8_t accelerometerAvailable;
   IMU.readRegister(&gyroscopeAvailable, LSM6DS3_ACC_GYRO_STATUS_REG);
   IMU.readRegister(&accelerometerAvailable, LSM6DS3_ACC_GYRO_STATUS_REG);
-  while((gyroscopeAvailable & 0x02) == 0x00 || (accelerometerAvailable & 0x01) == 0x00) {}
+  //while((gyroscopeAvailable & 0x02) == 0x00 || (accelerometerAvailable & 0x01) == 0x00) {}
   t=micros();
   gx = IMU.readFloatGyroX();
   gy = IMU.readFloatGyroY();
@@ -56,7 +55,7 @@ void loop() {
   Serial.print(',');
   Serial.print(gy);
   Serial.print(',');
-  Serial.print(gz);
+  Serial.println(gz);
   /*
   Serial.print(',');
   Serial.print(mx);
@@ -73,18 +72,12 @@ void calibrateGyro(float & offsetx, float & offsety, float & offsetz) {
   double sumZ = 0;
   //disregard the first 100 points, highly inaccurate!
   for(int i = 0; i < 100; i++) {
-    uint8_t gyroscopeAvailable;
-    IMU.readRegister(&gyroscopeAvailable, LSM6DS3_ACC_GYRO_STATUS_REG);
-    while((gyroscopeAvailable & 0x02) == 0x00) {}
     float xd, yd, zd;
     xd = IMU.readFloatGyroX();
     yd = IMU.readFloatGyroY();
     zd = IMU.readFloatGyroZ();
   }
   for(int i = 0; i < 100; i++) {
-    uint8_t gyroscopeAvailable;
-    IMU.readRegister(&gyroscopeAvailable, LSM6DS3_ACC_GYRO_STATUS_REG);
-    while((gyroscopeAvailable & 0x02) == 0x00) {}
     float xc, yc, zc;
     xc = IMU.readFloatGyroX();
     yc = IMU.readFloatGyroY();

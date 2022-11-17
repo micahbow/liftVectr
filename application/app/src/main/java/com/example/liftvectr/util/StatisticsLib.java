@@ -69,4 +69,15 @@ public class StatisticsLib {
         Log.i("StatisticsLib", String.format("1st Peak force: %.4f. 2nd Peak force: %.4f, Peak: %.4f", firstPeak, secondPeak, peakForce));
         return peakForce;
     }
+
+    public static ArrayList<ArrayList<Float>> zeroOutliers(ArrayList<ArrayList<Float>> input, float absoluteMax) {
+        ArrayList<ArrayList<Float>> output = input;
+        for(int i = 0; i < output.size(); i++) {
+            for(int j = 0; j < output.get(i).size(); j++) {
+                output.get(i).set(j,Math.abs(output.get(i).get(j)) > absoluteMax?0:output.get(i).get(j));
+            }
+        }
+        return output;
+    }
+
 }
