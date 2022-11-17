@@ -13,7 +13,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.liftvectr.data.Exercise;
 
 // Contains database instance, the main access point to the database
-@Database(entities = {Exercise.class}, version = 4)
+@Database(entities = {Exercise.class}, version = 5)
 @TypeConverters({Converters.class})
 public abstract class ExerciseDatabase extends RoomDatabase {
 
