@@ -10,5 +10,6 @@
         <item name="android:background">#303030</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/cardview_light_background</item>
     </style>
 </resources>
