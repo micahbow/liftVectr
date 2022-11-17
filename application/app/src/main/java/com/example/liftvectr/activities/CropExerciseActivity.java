@@ -136,10 +136,10 @@ public class CropExerciseActivity extends AppCompatActivity {
                         System.out.println(weightStandardsJson.toString());
                         try {
                             JSONObject dObj = new JSONObject(weightStandardsJson.toString());
-                            exercise.setWilksScore(dObj.getLong("wilksScore"));
-                            exercise.setWilks2Score(dObj.getLong("wilks2Score"));
-                            exercise.setDotsScore(dObj.getLong("dotsScore"));
-                            exercise.setBwRatio(dObj.getLong("bwRatio"));
+                            exercise.setWilksScore(Float.parseFloat(dObj.getString("wilksScore")));
+                            exercise.setWilks2Score(Float.parseFloat(dObj.getString("wilks2Score")));
+                            exercise.setDotsScore(Float.parseFloat(dObj.getString("dotsScore")));
+                            exercise.setBwRatio(Float.parseFloat(dObj.getString("bwRatio")));
                             exercise.setSkillLevel(dObj.getString("skillLevel"));
                             exercise.setPercentile(dObj.getString("percentile"));
                         } catch (JSONException e) {

@@ -87,12 +87,12 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
         peakForceTextbox.setText(String.format("Peak Force: %.2f", exercise.getPeakForce()));
         averageForceTextbox.setText(String.format("Average Force: %.2f", exercise.getAvgForce()));
         accuracyWarningTextbox.setText(exercise.isAccurateFlag()?"":"Calculations below may not be accurate due to movement at start of recording.");
-        bwRatio.setText("Bodyweight Ratio: " + exercise.getBwRatio());
+        bwRatio.setText("Bodyweight Ratio: " + round(exercise.getBwRatio(), 2));
         skillLevel.setText("Skill Level: " + exercise.getSkillLevel());
         percentile.setText("Percentile: " + exercise.getPercentile());
-        wilks.setText("WILKS Score: " + exercise.getWilksScore());
-        wilks2.setText("WILKS2 Score: " + exercise.getWilks2Score());
-        dots.setText("DOTS Score: " + exercise.getDotsScore());
+        wilks.setText("WILKS Score: " + round(exercise.getWilksScore(), 2));
+        wilks2.setText("WILKS2 Score: " + round(exercise.getWilks2Score(), 2));
+        dots.setText("DOTS Score: " + round(exercise.getDotsScore(), 2));
 
         // Display charts
         displayIMUDataChart(exercise, IMUAccLineChart, "a_only", "Linear Acceleration vs Time", false);
@@ -126,5 +126,10 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(this, ExerciseHistoryActivity.class);
         startActivity(intent);
+    }
+
+    public double round(double number, int numDecimalPlaces) {
+        double scale = Math.pow(10, numDecimalPlaces);
+        return Math.round(number * scale) / scale;
     }
 }
