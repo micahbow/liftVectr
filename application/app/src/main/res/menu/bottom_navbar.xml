@@ -3,15 +3,15 @@
     <item
         android:id="@+id/create_exercise_page"
         android:icon="@drawable/add_48px"
-        android:title="" />
+        android:title="Create Exercise" />
 
     <item
         android:id="@+id/exercise_history_page"
         android:icon="@drawable/fitness_center_48px"
-        android:title="" />
+        android:title="Exercise History" />
 
     <item
         android:id="@+id/all_time_statistics_page"
         android:icon="@drawable/insights_48px"
-        android:title="" />
+        android:title="All Time Statistics" />
 </menu>

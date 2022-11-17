@@ -117,7 +117,7 @@ public class AddExerciseActivity extends AppCompatActivity {
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.exercises_array, android.R.layout.simple_spinner_item);
+                R.array.exercises_array, R.layout.spinner_text);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinners
@@ -125,7 +125,7 @@ public class AddExerciseActivity extends AppCompatActivity {
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter_delay = ArrayAdapter.createFromResource(this,
-                R.array.delay_array, android.R.layout.simple_spinner_item);
+                R.array.delay_array, R.layout.spinner_text);
         // Specify the layout to use when the list of choices appears
         adapter_delay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinners
@@ -282,7 +282,7 @@ public class AddExerciseActivity extends AppCompatActivity {
 
     public void setListDevices(ArrayList<BluetoothLE> list) {
         // This function should only be used by the BLE controller to maintain sync.
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, android.R.id.text1);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.spinner_text, android.R.id.text1);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         deviceListSpinner.setAdapter(spinnerAdapter);
 
