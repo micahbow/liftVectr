@@ -40,7 +40,7 @@ jobs:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: 7.2.0
+          gradle-version: 7.3.3
           arguments: build
           build-root-directory: application
     
@@ -68,7 +68,7 @@ jobs:
       - name: Run Unit Tests
         uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: 7.2.0
+          gradle-version: 7.3.3
           arguments: testDebugUnitTest
           build-root-directory: application
         
