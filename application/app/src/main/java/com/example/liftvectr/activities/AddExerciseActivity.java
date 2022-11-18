@@ -47,8 +47,6 @@ public class AddExerciseActivity extends AppCompatActivity {
     private Spinner exerciseSpinner;
     private Spinner deviceListSpinner;
     private Spinner delaySpinner;
-    private TextView x_accel, y_accel, z_accel;
-    private TextView x_gyro, y_gyro, z_gyro;
     private TextView bluetoothConnected;
     private EditText weightInput;
     private LineChart liveDataChart;
@@ -108,6 +106,7 @@ public class AddExerciseActivity extends AppCompatActivity {
         exerciseBtn = (Button) findViewById(R.id.button);
         bluetoothConnected = (TextView) findViewById(R.id.bluetooth_status);
         liveDataChart = (LineChart) findViewById(R.id.live_data_chart);
+        liveDataChart.setVisibility(View.INVISIBLE);
 
         weightInput = (EditText) findViewById(R.id.editTextNumberDecimal);
 
@@ -216,6 +215,8 @@ public class AddExerciseActivity extends AppCompatActivity {
                         return;
                     }
 
+                    liveDataChart.setVisibility(View.VISIBLE);
+
                     exerciseBtn.setText("Stop Exercise");
 
                     newExercise = new Exercise(
@@ -312,19 +313,9 @@ public class AddExerciseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void displayData(IMUData sample) {
-        x_accel.setText(Float.toString(sample.x_lin_acc));
-        y_accel.setText(Float.toString(sample.y_lin_acc));
-        z_accel.setText(Float.toString(sample.z_lin_acc));
-        x_gyro.setText(Float.toString(sample.x_ang_vel));
-        y_gyro.setText(Float.toString(sample.y_ang_vel));
-        z_gyro.setText(Float.toString(sample.z_ang_vel));
-    }
-
     @Override
     protected void onDestroy() {
         BLEController.disconnect();
         super.onDestroy();
     }
-
 }

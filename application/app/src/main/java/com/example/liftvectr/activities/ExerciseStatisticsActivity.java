@@ -45,6 +45,13 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
     private LineChart DisplacementChart;
     private LineChart ResidualChart;
 
+    private TextView bwRatio;
+    private TextView skillLevel;
+    private TextView percentile;
+    private TextView wilks;
+    private TextView wilks2;
+    private TextView dots;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +73,13 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
         DisplacementChart = (LineChart) findViewById(R.id.displacement_line_chart);
         accuracyWarningTextbox = (TextView) findViewById(R.id.accuracyWarningText);
 
+        bwRatio = (TextView) findViewById(R.id.bwRatio);
+        skillLevel = (TextView) findViewById(R.id.skillLevel);
+        percentile = (TextView) findViewById(R.id.percentile);
+        wilks = (TextView) findViewById(R.id.wilks);
+        wilks2 = (TextView) findViewById(R.id.wilks2);
+        dots = (TextView) findViewById(R.id.dots);
+
         ResidualChart = (LineChart) findViewById(R.id.residual_line_chart);
         averagePETextbox = (TextView) findViewById(R.id.averagePETextbox);
         integratedPETextbox = (TextView) findViewById(R.id.integratedPETextbox);
@@ -82,6 +96,14 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
         peakForceTextbox.setText(String.format("Peak Force: %.2f", exercise.getPeakForce()));
         averageForceTextbox.setText(String.format("Average Force: %.2f", exercise.getAvgForce()));
         accuracyWarningTextbox.setText(exercise.isAccurateFlag()?"":"Calculations below may not be accurate due to movement at start of recording.");
+        
+        bwRatio.setText("Bodyweight Ratio: " + round(exercise.getBwRatio(), 2));
+        skillLevel.setText("Skill Level: " + exercise.getSkillLevel());
+        percentile.setText("Percentile: " + exercise.getPercentile());
+        wilks.setText("WILKS Score: " + round(exercise.getWilksScore(), 2));
+        wilks2.setText("WILKS2 Score: " + round(exercise.getWilks2Score(), 2));
+        dots.setText("DOTS Score: " + round(exercise.getDotsScore(), 2));
+        
         averagePETextbox.setText(String.format("PE M: %.2f", exercise.getAveragePError()));
         integratedPETextbox.setText(String.format("PE P: %.2f", exercise.getIntegratedPE()));
         caloriesTextbox.setText(String.format("Calories Burned: %.2f", exercise.getCalories()));
@@ -122,5 +144,10 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(this, ExerciseHistoryActivity.class);
         startActivity(intent);
+    }
+
+    public double round(double number, int numDecimalPlaces) {
+        double scale = Math.pow(10, numDecimalPlaces);
+        return Math.round(number * scale) / scale;
     }
 }

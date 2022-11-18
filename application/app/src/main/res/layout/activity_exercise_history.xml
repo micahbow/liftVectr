@@ -41,4 +41,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navbar" />
 
+    <View
+        android:id="@+id/popup_view"
+        android:layout_width="331dp"
+        android:layout_height="508dp"
+        app:layout_constraintBottom_toBottomOf="@+id/exerciseList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
