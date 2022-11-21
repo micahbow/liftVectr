@@ -7,7 +7,10 @@ import static com.example.liftvectr.util.StatisticsLib.averageForce;
 import static com.example.liftvectr.util.StatisticsLib.getForceValues;
 import static com.example.liftvectr.util.StatisticsLib.getTimeValues;
 import static com.example.liftvectr.util.StatisticsLib.zeroOutliers;
+import static com.example.liftvectr.util.StatisticsLib.isolatePeak;
 import static com.example.liftvectr.util.StatisticsLib.peakForce;
+import static com.example.liftvectr.util.StatisticsLib.pravError;
+import static com.example.liftvectr.util.StatisticsLib.micError;
 
 import com.chaquo.python.PyObject;
 import com.chaquo.python.Python;
@@ -171,11 +174,11 @@ public class CropExerciseActivity extends AppCompatActivity {
                     for(int i = 6; i < 9; i++) {
                         vhbDisp.add(new ArrayList<Float>(Arrays.asList(dObj.get(i).toArray(new Float[] {}))));
                     }
-                    exercise.setVhbPosition(zeroOutliers(vhbDisp,5));
+                    exercise.setVhbPosition(isolatePeak(vhbDisp));
                     exercise.setPosDeviation(dObj.get(9));
                     exercise.setTimeArray(dObj.get(10));
-                    exercise.setAveragePError(dObj.get(11).get(0));
-                    exercise.setIntegratedPE(dObj.get(12).get(0));
+                    exercise.setAveragePError(micError(exercise.getVhbPosition()));
+                    exercise.setIntegratedPE(pravError(exercise.getVhbPosition()));
                     exercise.setAccurateFlag(dObj.get(13).get(0) == 0.0? true:false);
                     float totalBulkVelocity = 0;
                     for(int i = 0; i<vhbVel.get(2).size(); i++){
