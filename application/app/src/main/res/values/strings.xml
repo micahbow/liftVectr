@@ -7,6 +7,10 @@
         <item>Squat</item>
         <item>Deadlift</item>
     </string-array>
+    <string-array name="sex">
+        <item>Female</item>
+        <item>Male</item>
+    </string-array>
     <string-array name="delay_array">
         <item>5</item>
         <item>10</item>

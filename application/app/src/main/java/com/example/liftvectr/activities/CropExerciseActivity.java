@@ -1,7 +1,6 @@
 package com.example.liftvectr.activities;
 
 import static com.example.liftvectr.database.Converters.IMUDataArrayListToJson;
-import static com.example.liftvectr.database.Converters.jsonToIMUDataArrayList;
 
 import static com.example.liftvectr.util.ChartDisplay.displayIMUDataChart;
 import static com.example.liftvectr.util.StatisticsLib.averageForce;
@@ -14,7 +13,9 @@ import com.chaquo.python.PyObject;
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +24,6 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.chaquo.python.PyObject;
 import com.example.liftvectr.R;
 import com.example.liftvectr.data.Exercise;
 import com.example.liftvectr.data.IMUData;
@@ -33,10 +33,12 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class CropExerciseActivity extends AppCompatActivity {
 
@@ -54,7 +56,8 @@ public class CropExerciseActivity extends AppCompatActivity {
     private ArrayList<IMUData> adjustedExerciseData;
 
     // Global PyObject instance
-    PyObject pyObj;
+    PyObject pyObjMadgwick;
+    PyObject pyObjWeightStandards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +70,8 @@ public class CropExerciseActivity extends AppCompatActivity {
         }
         // Specify the python file we want to use functions from
         Python py = Python.getInstance();
-        pyObj = py.getModule("madgwick_filtering");
+        pyObjMadgwick = py.getModule("madgwick_filtering");
+        pyObjWeightStandards = py.getModule("weight_standards");
 
         cancelButton = (Button) findViewById(R.id.cancel_button);
         saveButton = (Button) findViewById(R.id.save_button);
@@ -110,8 +114,43 @@ public class CropExerciseActivity extends AppCompatActivity {
                 ));
                 exercise.setPeakForce(peakForce(exercise.getForceVsTimeYValues(), exercise.getType()));
 
+
+                SharedPreferences sharedPref =
+                        getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+
+                if (sharedPref.getString("userSex", null) == null ||
+                        sharedPref.getInt("userWeight", -1) == -1) {
+                    System.out.println("Do not have user's sex/weight data, can't calculate weight " +
+                            "standard stats");
+                } else {
+                    String userSex = sharedPref.getString("userSex", null);
+                    int userWeight = sharedPref.getInt("userWeight", -1);
+
+                    PyObject weightStandardsJson = pyObjWeightStandards.callAttr(
+                            "calc_all_weight_standards",
+                            exercise.getType(),
+                            userSex.toLowerCase(),
+                            userWeight, // body weight
+                            exercise.getWeight()); // lift weight
+
+                    if (weightStandardsJson != null) {
+                        System.out.println(weightStandardsJson.toString());
+                        try {
+                            JSONObject dObj = new JSONObject(weightStandardsJson.toString());
+                            exercise.setWilksScore(Float.parseFloat(dObj.getString("wilksScore")));
+                            exercise.setWilks2Score(Float.parseFloat(dObj.getString("wilks2Score")));
+                            exercise.setDotsScore(Float.parseFloat(dObj.getString("dotsScore")));
+                            exercise.setBwRatio(Float.parseFloat(dObj.getString("bwRatio")));
+                            exercise.setSkillLevel(dObj.getString("skillLevel"));
+                            exercise.setPercentile(dObj.getString("percentile"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
                 // calculate stats from python magdwick script
-                PyObject dataObjectJson = pyObj.callAttr("process_imu_data", IMUDataArrayListToJson(exercise.getData()));
+                PyObject dataObjectJson = pyObjMadgwick.callAttr("process_imu_data", IMUDataArrayListToJson(exercise.getData()));
 
                 // null if we can't get reference frame (user must not move at the start)
                 if (!(dataObjectJson == null)) {
