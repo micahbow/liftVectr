@@ -19,28 +19,25 @@
         app:menu="@menu/bottom_navbar" />
 
     <TextView
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:id="@+id/textView10"
+        style="@style/main_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:text="All Time Statistics"
-        android:textAlignment="center"
         android:textColor="@color/cardview_light_background"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/headerGuildline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.054" />
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Spinner
         android:id="@+id/availableExercises"
-        android:layout_width="173dp"
-        android:layout_height="27dp"
+        android:layout_width="160dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintStart_toEndOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@id/guideline2" />
+        app:layout_constraintTop_toBottomOf="@id/headerGuildline" />
 
     <TextView
         android:id="@+id/textView11"
@@ -54,50 +51,54 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/availableExercises"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline2" />
-
+        app:layout_constraintTop_toBottomOf="@+id/headerGuildline" />
+    <!--
     <Spinner
         android:id="@+id/unitSelect"
         android:layout_width="94dp"
         android:layout_height="38dp"
-        android:layout_marginTop="12dp"
         android:entries="@array/units_array"
-        app:layout_constraintEnd_toEndOf="@+id/availableExercises"
-        app:layout_constraintTop_toBottomOf="@+id/availableExercises" />
-
+        tools:layout_editor_absoluteX="263dp"
+        tools:layout_editor_absoluteY="138dp" />
+-->
     <EditText
         android:id="@+id/editWeight"
         android:layout_width="64dp"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/cardview_light_background"
         android:ems="10"
         android:inputType="numberDecimal"
-        app:layout_constraintBaseline_toBaselineOf="@+id/unitSelect"
-        app:layout_constraintStart_toStartOf="@+id/availableExercises" />
+        android:textColor="@color/cardview_light_background"
+        app:layout_constraintBaseline_toBottomOf="@id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/availableExercises"
+        app:layout_constraintTop_toBottomOf="@+id/availableExercises" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="22dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="34dp"
         android:text="Select Weight:"
         android:textColor="@color/cardview_light_background"
         android:textSize="16sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editWeight"
-        app:layout_constraintStart_toStartOf="@+id/textView11" />
+        app:layout_constraintBaseline_toBottomOf="@id/guideline3"
+        app:layout_constraintEnd_toStartOf="@+id/editWeight"
+        app:layout_constraintStart_toStartOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-    <!--
     <TextView
         android:id="@+id/lbs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="128dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
         android:text="lbs"
-        app:layout_constraintBottom_toBottomOf="@+id/editWeight"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/guideline3"
         app:layout_constraintStart_toEndOf="@+id/editWeight" />
--->
+
     <Button
         android:id="@+id/button"
         style="@style/buttons"
@@ -155,11 +156,19 @@
     </ScrollView>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
+        android:id="@+id/headerGuildline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="54dp" />
+        app:layout_constraintGuide_begin="70dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBaseline_toBaselineOf="@+id/lbs"
+        app:layout_constraintGuide_begin="179dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

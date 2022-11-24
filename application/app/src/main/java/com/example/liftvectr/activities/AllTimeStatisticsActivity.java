@@ -51,7 +51,6 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
     private LineChart avgForceWeightChart;
     private LineChart avgForceTimeChart;
     private boolean updatedData;
-    private Spinner unitsSelect;
     private ScrollView scrollView;
 
     @Override
@@ -67,7 +66,6 @@ public class AllTimeStatisticsActivity extends AppCompatActivity {
         scrollView.setVisibility(View.INVISIBLE);
 
         updatedData = false;
-        unitsSelect = findViewById(R.id.unitSelect);
 
         exerciseTypes.add(initString);
         exerciseTypes.add("Bench Press");

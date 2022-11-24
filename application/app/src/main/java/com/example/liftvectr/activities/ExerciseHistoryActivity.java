@@ -33,7 +33,6 @@ public class ExerciseHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercise_history);
 
         exerciseList = (ListView) findViewById(R.id.exerciseList);
-
         // Initialize and Assign Variable
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
