@@ -2,18 +2,22 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="buttons" parent="@style/Widget.Material3.Button.ElevatedButton" >
         <item name="android:backgroundTint">@android:color/holo_blue_light</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Button</item>
         <item name="android:textColor">@color/cardview_light_background</item>
         <item name="rippleColor">@android:color/black</item>
     </style>
     <style name="dark_background" parent="@style/Theme.Material3.Dark.NoActionBar">
-        <item name="android:background">#303030</item>
         <item name="android:textColor">@color/cardview_light_background</item>
-        <item name="colorPrimaryDark">@color/black</item>
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="colorPrimaryDark">@color/cardview_light_background</item>
         <item name="colorAccent">@color/cardview_light_background</item>
     </style>
     <style name="main_header">
         <item name="android:textAlignment">center</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+    </style>
+    <style name="nav_bar" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 </resources>

@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_dark_background"
     tools:context=".activities.CropExerciseActivity">
 
     <TextView
         android:id="@+id/textView10"
+        style="@style/main_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -37,6 +37,7 @@
         app:layout_constraintVertical_bias="0.145" />
 
     <Button
+        style="@style/buttons"
         android:id="@+id/cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,6 +48,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        style="@style/buttons"
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
