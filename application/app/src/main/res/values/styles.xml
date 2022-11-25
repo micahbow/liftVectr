@@ -15,10 +15,9 @@
         <item name="android:textAlignment">center</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
     </style>
-    <style name="nav_bar" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <item name="colorPrimary">@color/cardview_light_background</item>
+    <style name="nav_bar" parent="Widget.MaterialComponents.BottomAppBar">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">75dp</item>
     </style>
     <style name="chart_background">
         <item name="android:background">@color/material_dynamic_neutral50</item>
