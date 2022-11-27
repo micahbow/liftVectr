@@ -33,7 +33,6 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
     private TextView averageForceTextbox;
     private TextView accuracyWarningTextbox;
     private TextView averagePETextbox;
-    private TextView integratedPETextbox;
     private TextView caloriesTextbox;
 
     private LineChart IMUAccLineChart;
@@ -82,7 +81,6 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
 
         ResidualChart = (LineChart) findViewById(R.id.residual_line_chart);
         averagePETextbox = (TextView) findViewById(R.id.averagePETextbox);
-        integratedPETextbox = (TextView) findViewById(R.id.integratedPETextbox);
         caloriesTextbox = (TextView) findViewById(R.id.caloriesTextbox);
 
         // Accessing the exercise/config data sent over from ExerciseHistoryActivity
@@ -104,8 +102,7 @@ public class ExerciseStatisticsActivity extends AppCompatActivity {
         wilks2.setText("WILKS2 Score: " + round(exercise.getWilks2Score(), 2));
         dots.setText("DOTS Score: " + round(exercise.getDotsScore(), 2));
         
-        averagePETextbox.setText(String.format("PE M: %.2f", exercise.getAveragePError()));
-        integratedPETextbox.setText(String.format("PE P: %.2f", exercise.getIntegratedPE()));
+        averagePETextbox.setText(String.format("Error: %.2f", exercise.getAveragePError()));
         caloriesTextbox.setText(String.format("Calories Burned: %.2f", exercise.getCalories()));
 
         // Display charts

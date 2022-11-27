@@ -161,20 +161,7 @@ def process_imu_data(imuDataJson):
 
     posDeviation = np.abs(np.array(bulkPos)-np.array(vertPos))
 
-    SAE = []
-    PE_DIFF = 0
-    PE_BULK = 0
-    for i in range((df.shape[0])):
-        if(bulkPos[i] == 0):
-            SAE += [np.abs((vertPos[i]-bulkPos[i])/1)]
-        else:
-            SAE += [np.abs((vertPos[i]-bulkPos[i])/bulkPos[i])]
-        PE_DIFF += posDeviation[i]
-        PE_BULK += bulkPos[i]
-    averagePError = np.average(SAE)
-    integratedPE = PE_DIFF * 100 / PE_BULK
-
-    bigList = [xAngles, yAngles, zAngles, vertVel, horzVel, bulkVel, vertPos, horzPos, bulkPos, posDeviation.tolist(), df['t'].tolist(), [averagePError], [integratedPE], [notStill]]
+    bigList = [xAngles, yAngles, zAngles, vertVel, horzVel, bulkVel, vertPos, horzPos, bulkPos, posDeviation.tolist(), df['t'].tolist(), [0], [0], [notStill]]
 
     return json.dumps(bigList)
 
