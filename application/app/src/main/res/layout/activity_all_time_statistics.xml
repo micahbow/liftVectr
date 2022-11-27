@@ -134,16 +134,17 @@
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/AvgForceVWeight_chart"
+                style="@style/chart_background"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/cardview_light_background"
                 app:layout_constraintVertical_bias="5" />
 
             <com.github.mikephil.charting.charts.LineChart
+                style="@style/chart_background"
                 android:id="@+id/avgForceTime"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
@@ -151,7 +152,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/cardview_light_background"
                 app:layout_constraintVertical_bias="5" />
 
         </LinearLayout>

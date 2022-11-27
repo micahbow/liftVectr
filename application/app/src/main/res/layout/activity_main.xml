@@ -181,6 +181,7 @@
         app:layout_constraintTop_toBottomOf="@+id/live_data_chart" />
 
     <com.github.mikephil.charting.charts.LineChart
+        style="@style/chart_background"
         android:id="@+id/live_data_chart"
         android:layout_width="300dp"
         android:layout_height="200dp"
