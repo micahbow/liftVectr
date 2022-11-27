@@ -62,4 +62,46 @@ public class StatisticsLib {
         return output;
     }
 
+    public static ArrayList<ArrayList<Float>> isolatePeak(ArrayList<ArrayList<Float>> input) {
+        ArrayList<ArrayList<Float>> output = input;
+
+        for(int i = 0; i < output.size(); i++) {
+            int lastValid = output.get(i).size()-1;
+            for (int j = output.get(i).size() - 1; j > 0; j--) {
+                //Find crossover of 0
+                float product = output.get(i).get(j) * output.get(i).get(j-1);
+                if (product <= 0.0f) {
+                    lastValid = j;
+                    j = 0;
+                }
+            }
+            for (int k = lastValid+1; k < output.get(i).size(); k++) {
+                output.get(i).set(k,0.0f);
+            }
+        }
+
+        return output;
+    }
+
+    public static float pravError(ArrayList<ArrayList<Float>> input) {
+        ArrayList<ArrayList<Float>> output = input;
+        float positionDeviationSum = 0;
+        float bulkPosSum = 0.001f;
+        for (int i = 0; i < input.get(0).size(); i++) {
+            positionDeviationSum += Math.abs(input.get(2).get(i) - input.get(0).get(i));
+            bulkPosSum += Math.abs(input.get(2).get(i));
+        }
+        return positionDeviationSum / bulkPosSum;
+    }
+
+    public static float micError(ArrayList<ArrayList<Float>> input) {
+        ArrayList<ArrayList<Float>> output = input;
+        float sumAbsoluteError = 0;
+        // Input is a VHB, so we only care about get(0) and get(2)
+        for(int i = 0; i < input.get(0).size(); i++) {
+            sumAbsoluteError += Math.abs((input.get(0).get(i)-input.get(2).get(i))/(input.get(2).get(i)!=0.0f?input.get(2).get(i):1));
+        }
+        return sumAbsoluteError/input.get(0).size();
+    }
+
 }
