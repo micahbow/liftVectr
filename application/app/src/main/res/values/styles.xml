@@ -18,6 +18,6 @@
     </style>
     <style name="nav_bar" parent="">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">75dp</item>
     </style>
 </resources>
