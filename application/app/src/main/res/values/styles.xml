@@ -21,6 +21,6 @@
         <item name="android:layout_height">75dp</item>
     </style>
     <style name="chart_background">
-        <item name="android:background">@color/material_dynamic_neutral50</item>
+        <item name="android:background">#747679</item>
     </style>
 </resources>
