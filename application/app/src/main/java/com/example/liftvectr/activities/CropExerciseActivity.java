@@ -115,7 +115,7 @@ public class CropExerciseActivity extends AppCompatActivity {
                 exercise.setForceVsTimeYValues(getForceValues(exercise));
                 exercise.setAvgForce(averageForce(exercise.getData(), exercise.getForceVsTimeYValues()
                 ));
-                exercise.setPeakForce(peakForce(exercise.getForceVsTimeYValues()));
+                exercise.setPeakForce(peakForce(exercise.getForceVsTimeYValues(), exercise.getType()));
 
 
                 SharedPreferences sharedPref =

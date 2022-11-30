@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.LiftVectr">
+        android:theme="@style/dark_background">
         <activity
             android:name=".activities.AddExerciseActivity"
             android:exported="true" />

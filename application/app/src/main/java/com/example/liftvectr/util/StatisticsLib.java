@@ -46,10 +46,28 @@ public class StatisticsLib {
             averageForce /= data.size();
         return averageForce;
     }
-    public static float peakForce(ArrayList<Float> forceValues) {
-        float max = Collections.max(forceValues);
-        Log.i("StatisticsLib", String.format("Peak force: %.4f", max));
-        return max;
+    public static float peakForce(ArrayList<Float> forceValues, String exerciseType) {
+        float peakForce = 0f;
+
+        float firstPeak = Collections.max(forceValues);
+        int firstPeakIndex = Collections.indexOfSubList(forceValues, Collections.singletonList(firstPeak));
+        forceValues.set(firstPeakIndex, 0f);
+        float secondPeak = Collections.max(forceValues);
+        int secondPeakIndex = Collections.indexOfSubList(forceValues, Collections.singletonList(secondPeak));
+        forceValues.set(firstPeakIndex, firstPeak);
+
+        switch (exerciseType) {
+            case "Bench Press":
+            case "Squat":
+                peakForce = (secondPeakIndex > firstPeakIndex) ? secondPeak : firstPeak;
+                break;
+            case "Deadlift":
+                peakForce = (secondPeakIndex > firstPeakIndex) ? firstPeak : secondPeak;
+                break;
+        }
+
+        Log.i("StatisticsLib", String.format("1st Peak force: %.4f. 2nd Peak force: %.4f, Peak: %.4f", firstPeak, secondPeak, peakForce));
+        return peakForce;
     }
 
     public static ArrayList<ArrayList<Float>> zeroOutliers(ArrayList<ArrayList<Float>> input, float absoluteMax) {

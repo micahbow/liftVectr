@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.liftvectr.R;
@@ -29,7 +31,9 @@ import com.example.liftvectr.data.Exercise;
 import com.example.liftvectr.database.ExerciseViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ExerciseHistoryActivity extends AppCompatActivity {
@@ -51,7 +55,6 @@ public class ExerciseHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercise_history);
 
         exerciseList = (ListView) findViewById(R.id.exerciseList);
-
         // Initialize and Assign Variable
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
@@ -83,8 +86,8 @@ public class ExerciseHistoryActivity extends AppCompatActivity {
 
         exerciseViewModel.getAllExercises().observe(this, exercises -> {
             savedExercises = exerciseViewModel.getAllExercises().getValue();
-            ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1
-                    , generateExerciseHistoryListHeaders(savedExercises));
+            ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, R.layout.row
+                    , generateExerciseList(savedExercises));
             exerciseList.setAdapter(adapter2);
         });
 
@@ -100,11 +103,15 @@ public class ExerciseHistoryActivity extends AppCompatActivity {
         checkForUserDetails();
     }
 
-    public List<String> generateExerciseHistoryListHeaders(List<Exercise> exercises) {
+    public List<String> generateExerciseList(List<Exercise> exercises) {
         List<String> exerciseListHeaders = new ArrayList<String>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
         for (int i =0; i < exercises.size(); i++) {
-            exerciseListHeaders.add( (String) exercises.get(i).getType()
-                    + " " + (String) exercises.get(i).getDate().toString());
+            Exercise currExercise = exercises.get(i);
+            String currDate = dateFormat.format(currExercise.getDate()).toString();
+            exerciseListHeaders.add( String.format("%s: %s - %s",currExercise.getType(),
+                    currExercise.getWeight(), currDate) );
         }
         return exerciseListHeaders;
     }
@@ -128,9 +135,14 @@ public class ExerciseHistoryActivity extends AppCompatActivity {
     public void createNewUserDetailsDialog() {
         dialogBuilder = new AlertDialog.Builder(this);
         final View userDetailsPopupView = getLayoutInflater().inflate(R.layout.popup, null);
+        userDetailsPopupView.setBackgroundColor(ContextCompat.getColor(this,R.color.background));
 
         userWeightEditText = (EditText) userDetailsPopupView.findViewById(R.id.userWeight);
         submitButton = (Button) userDetailsPopupView.findViewById(R.id.submit);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            submitButton.setBackgroundColor(ContextCompat.getColor(this,R.color.light_blue));
+            submitButton.setTextAppearance(R.style.buttons);
+        }
         popupDescription = (TextView) userDetailsPopupView.findViewById(R.id.popupDescription);
         popupDescription.setText("We ask that you provide some starting information to allow the app " +
                 "to better analyze your weightlifting.");

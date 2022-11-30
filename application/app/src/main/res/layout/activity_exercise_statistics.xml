@@ -7,14 +7,13 @@
     tools:context=".activities.ExerciseStatisticsActivity">
 
     <TextView
+        style="@style/main_header"
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="Exercise Statistics"
         android:textAlignment="center"
-        android:textSize="16sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -23,6 +22,7 @@
         app:layout_constraintVertical_bias="0.054" />
 
     <Button
+        style="@style/buttons"
         android:id="@+id/return_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,6 +89,7 @@
                 app:layout_constraintVertical_bias="2" />
 
             <com.github.mikephil.charting.charts.LineChart
+                style="@style/chart_background"
                 android:id="@+id/acc_line_chart"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
@@ -100,6 +101,7 @@
                 app:layout_constraintVertical_bias="50" />
 
             <com.github.mikephil.charting.charts.LineChart
+                style="@style/chart_background"
                 android:id="@+id/gyro_line_chart"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
@@ -113,6 +115,7 @@
             </com.github.mikephil.charting.charts.LineChart>
 
             <com.github.mikephil.charting.charts.LineChart
+                style="@style/chart_background"
                 android:id="@+id/FvT_line_chart"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
@@ -158,6 +161,7 @@
                 android:layout_height="wrap_content" />
 
             <com.github.mikephil.charting.charts.LineChart
+                style="@style/chart_background"
                 android:id="@+id/angle_line_chart"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
@@ -169,6 +173,7 @@
                 app:layout_constraintVertical_bias="5" />
 
             <com.github.mikephil.charting.charts.LineChart
+                style="@style/chart_background"
                 android:id="@+id/velocity_line_chart"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
@@ -180,6 +185,7 @@
                 app:layout_constraintVertical_bias="5" />
 
             <com.github.mikephil.charting.charts.LineChart
+                style="@style/chart_background"
                 android:id="@+id/displacement_line_chart"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
@@ -248,6 +254,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/wilks2" />
 
             <com.github.mikephil.charting.charts.LineChart
+                style="@style/chart_background"
                 android:id="@+id/residual_line_chart"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
