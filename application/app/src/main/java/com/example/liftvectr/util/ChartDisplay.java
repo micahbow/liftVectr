@@ -8,7 +8,9 @@ import com.example.liftvectr.data.Exercise;
 import com.example.liftvectr.data.IMUData;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -21,6 +23,7 @@ import java.util.Date;
 
 public class ChartDisplay {
 
+    private static int colors[] = {Color.RED, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA, Color.YELLOW};
     // -------------------- Public Utility Functions --------------------
 
     public static void displaySingleLineChart(LineChart chart, List<Float> xValues, List<Float> yValues,
@@ -33,7 +36,7 @@ public class ChartDisplay {
         }
 
         setChartStyling(chart, chartDescription);
-        LineDataSet line = createLine(xValues, yValues, lineLabel, Color.BLUE);
+        LineDataSet line = createLine(xValues, yValues, lineLabel, Color.YELLOW);
 
         LineData data = new LineData(line);
         chart.setData(data);
@@ -118,7 +121,7 @@ public class ChartDisplay {
     private static List<ILineDataSet> createMultipleLines(List<Float> xValues, List<List<Float>> yValues, List<String> lineLabels) {
         List<ILineDataSet> lines = new ArrayList<>();
         for(int i = 0; i < yValues.size(); i++) {
-            lines.add(createLine(xValues, yValues.get(i), lineLabels.get(i), getRandomColor()));
+            lines.add(createLine(xValues, yValues.get(i), lineLabels.get(i), colors[i]));
         }
         return lines;
     }
@@ -149,14 +152,14 @@ public class ChartDisplay {
 
         List<ILineDataSet> lines = new ArrayList<>();
         if (config == "a_only" || config == "both") {
-            lines.add(createLineWithCoords(xLinAcc_ms, "X", Color.rgb(153, 0, 0)));
-            lines.add(createLineWithCoords(yLinAcc_ms, "Y", Color.rgb(255, 0, 0)));
-            lines.add(createLineWithCoords(zLinAcc_ms, "Z", Color.rgb(255, 102, 102)));
+            lines.add(createLineWithCoords(xLinAcc_ms, "X", colors[0]));
+            lines.add(createLineWithCoords(yLinAcc_ms, "Y", colors[1]));
+            lines.add(createLineWithCoords(zLinAcc_ms, "Z", colors[2]));
         }
         if (config == "g_only" || config == "both") {
-            lines.add(createLineWithCoords(xAngVel_ms, "X", Color.rgb(0, 153, 0)));
-            lines.add(createLineWithCoords(yAngVel_ms, "Y", Color.rgb(0, 255, 0)));
-            lines.add(createLineWithCoords(zAngVel_ms, "Z", Color.rgb(102, 255, 102)));
+            lines.add(createLineWithCoords(xAngVel_ms, "X", colors[0]));
+            lines.add(createLineWithCoords(yAngVel_ms, "Y", colors[1]));
+            lines.add(createLineWithCoords(zAngVel_ms, "Z", colors[2]));
         }
 
         return lines;
@@ -177,11 +180,24 @@ public class ChartDisplay {
     }
 
     private static void setChartStyling(LineChart chart, String description) {
-        chart.getAxisRight().setDrawGridLines(false);
-        chart.getAxisRight().setEnabled(false);
-        chart.getAxisLeft().setDrawGridLines(false);
-        chart.getXAxis().setDrawGridLines(false);
+        XAxis xAxis = chart.getXAxis();
+        YAxis yAxis = chart.getAxisLeft();
+        chart.getAxisRight().setEnabled(false); // Disable right y axis
+
+        xAxis.setDrawGridLines(false);
+        yAxis.setDrawGridLines(false);
+
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        chart.setBackgroundColor(Color.BLACK);
+        xAxis.setTextColor(Color.WHITE);
+        xAxis.setAxisLineColor(Color.WHITE);
+        xAxis.setDrawLabels(true);
+        yAxis.setTextColor(Color.WHITE);
+        yAxis.setAxisLineColor(Color.WHITE);
+
+        Legend l = chart.getLegend();
+        l.setTextColor(Color.WHITE);
 
         Description desc = new Description();
         desc.setText(description);
