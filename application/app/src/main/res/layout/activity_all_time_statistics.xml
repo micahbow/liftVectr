@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/dark_background"
-    tools:context=".activities.AllTimeStatisticsActivity">
+    tools:context=".activities.AllTimeStatisticsActivity"
+    android:screenOrientation="portrait">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

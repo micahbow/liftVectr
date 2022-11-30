@@ -5,7 +5,8 @@
     style="@style/dark_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ExerciseHistoryActivity">
+    tools:context=".activities.ExerciseHistoryActivity"
+    android:screenOrientation="portrait">
 
     <ListView
         android:id="@+id/exerciseList"
