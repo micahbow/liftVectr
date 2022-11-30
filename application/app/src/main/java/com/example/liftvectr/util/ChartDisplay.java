@@ -8,6 +8,7 @@ import com.example.liftvectr.data.Exercise;
 import com.example.liftvectr.data.IMUData;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -35,7 +36,7 @@ public class ChartDisplay {
         }
 
         setChartStyling(chart, chartDescription);
-        LineDataSet line = createLine(xValues, yValues, lineLabel, Color.BLUE);
+        LineDataSet line = createLine(xValues, yValues, lineLabel, Color.YELLOW);
 
         LineData data = new LineData(line);
         chart.setData(data);
@@ -151,14 +152,14 @@ public class ChartDisplay {
 
         List<ILineDataSet> lines = new ArrayList<>();
         if (config == "a_only" || config == "both") {
-            lines.add(createLineWithCoords(xLinAcc_ms, "X", Color.rgb(153, 0, 0)));
-            lines.add(createLineWithCoords(yLinAcc_ms, "Y", Color.rgb(255, 0, 0)));
-            lines.add(createLineWithCoords(zLinAcc_ms, "Z", Color.rgb(255, 102, 102)));
+            lines.add(createLineWithCoords(xLinAcc_ms, "X", colors[0]));
+            lines.add(createLineWithCoords(yLinAcc_ms, "Y", colors[1]));
+            lines.add(createLineWithCoords(zLinAcc_ms, "Z", colors[2]));
         }
         if (config == "g_only" || config == "both") {
-            lines.add(createLineWithCoords(xAngVel_ms, "X", Color.rgb(0, 153, 0)));
-            lines.add(createLineWithCoords(yAngVel_ms, "Y", Color.rgb(0, 255, 0)));
-            lines.add(createLineWithCoords(zAngVel_ms, "Z", Color.rgb(102, 255, 102)));
+            lines.add(createLineWithCoords(xAngVel_ms, "X", colors[0]));
+            lines.add(createLineWithCoords(yAngVel_ms, "Y", colors[1]));
+            lines.add(createLineWithCoords(zAngVel_ms, "Z", colors[2]));
         }
 
         return lines;
@@ -191,10 +192,12 @@ public class ChartDisplay {
         chart.setBackgroundColor(Color.BLACK);
         xAxis.setTextColor(Color.WHITE);
         xAxis.setAxisLineColor(Color.WHITE);
+        xAxis.setDrawLabels(true);
         yAxis.setTextColor(Color.WHITE);
         yAxis.setAxisLineColor(Color.WHITE);
 
-
+        Legend l = chart.getLegend();
+        l.setTextColor(Color.WHITE);
 
         Description desc = new Description();
         desc.setText(description);
